@@ -4,9 +4,20 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+* Test of Calculator.
+*
+* @author Viacheslav Piliugin (mailto:ephemeralin@gmail.com)
+* @version $Id$
+* @since 0.1
+*/
+
 public class CalculatorTest {
+    /**
+    * Test add.
+    */
     @Test
-    public void whenAddOnePlusOneThenTwo() {
+    public final void whenAddOnePlusOneThenTwo() {
         Calculator calc = new Calculator();
         calc.add(1D, 1D);
         double result = calc.getResult();
@@ -14,8 +25,11 @@ public class CalculatorTest {
         assertThat(result, is(expected));
     }
 
+    /**
+    * Test subtract.
+    */
     @Test
-    public void whenSubtractOneMinusOneThenZero() {
+    public final void whenSubtractOneMinusOneThenZero() {
         Calculator calc = new Calculator();
         calc.subtract(1D, 1D);
         double result = calc.getResult();
@@ -23,21 +37,27 @@ public class CalculatorTest {
         assertThat(result, is(expected));
     }
 
+    /**
+    * Test multiply.
+    */
     @Test
-    public void whenMultiplyTwoAndThreeThenSix() {
+    public final void whenMultiplyTwoAndOneThenTwo() {
         Calculator calc = new Calculator();
-        calc.add(2D, 3D);
+        calc.multiply(2D, 1D);
         double result = calc.getResult();
-        double expected = 6D;
+        double expected = 2D;
         assertThat(result, is(expected));
     }
 
+    /**
+    * Test divide.
+    */
     @Test
-    public void whenDivideSixAndThreeThenTwo() {
+    public final void whenDivideTwoAndTwoThenOne() {
         Calculator calc = new Calculator();
-        calc.add(6D, 3D);
+        calc.divide(2D, 2D);
         double result = calc.getResult();
-        double expected = 2D;
+        double expected = 1D;
         assertThat(result, is(expected));
     }
 }

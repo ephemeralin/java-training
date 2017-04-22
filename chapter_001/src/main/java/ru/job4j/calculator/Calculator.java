@@ -6,6 +6,10 @@ package ru.job4j.calculator;
 * @since 21.04.2017
 */
 public class Calculator {
+  /**
+  * Поля класса.
+  * @param result - сюда записывается результат арифметической операции
+  */
   private double result;
 
   /**
@@ -13,7 +17,7 @@ public class Calculator {
   * @param first  - первое число
   * @param second - второе число
   */
-  public void add(double first, double second) {
+  public final void add(final double first, final double second) {
     this.result = first + second;
   }
 
@@ -22,32 +26,33 @@ public class Calculator {
   * @param first  - первое число
   * @param second - второе число
   */
-  public void subtract(double first, double second) {
+  public final void subtract(final double first, final double second) {
     this.result = first - second;
   }
 
   /**
-  * Метод для умножения двух чисел
+  * Метод для умножения двух чисел.
   * @param first  - первое число
   * @param second - второе число
   */
-  public void multiply(double first, double second) {
+  public final void multiply(final double first, final double second) {
     this.result = first * second;
   }
 
   /**
-  * Метод для деления двух чисел
+  * Метод для деления двух чисел.
   * @param first  - первое число
   * @param second - второе число
   */
-  public void divide(double first, double second) {
+  public final void divide(final double first, final double second) {
     this.result = first / second;
   }
 
   /**
-  * Метод для получения результата
+  * Метод для получения результата.
+  * @return - getter поля result
   */
-  public double getResult() {
+  public final double getResult() {
         return this.result;
     }
 

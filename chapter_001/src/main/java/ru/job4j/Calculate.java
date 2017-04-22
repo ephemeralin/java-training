@@ -5,12 +5,12 @@ package ru.job4j;
 * @author vpiliugin
 * @since 19.04.2017
 */
-public class Calculate {
+abstract class Calculate {
   /**
   * Конструктор, вывод строки в консоль.
   * @param args - аргументы, переданные в программу в виде ключей запуска
   */
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     System.out.println("Hello world!");
   }
 }
