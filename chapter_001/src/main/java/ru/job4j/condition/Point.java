@@ -1,7 +1,7 @@
 package ru.job4j.condition;
 
 /**
-* Class Calculator - класс, описывающий точку в системе координат.
+* Class Point - класс, описывающий точку в системе координат.
 * @author vpiliugin
 * @since 22.04.2017
 */
