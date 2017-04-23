@@ -17,7 +17,7 @@ public class Calculator {
   * @param first  - первое число
   * @param second - второе число
   */
-  public final void add(final double first, final double second) {
+  public  void add(final double first, final double second) {
     this.result = first + second;
   }
 
