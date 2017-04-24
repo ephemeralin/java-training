@@ -44,9 +44,9 @@ public class Triangle {
   public boolean isTrueTriangle() {
     boolean isTrue = true;
 
-    if (this.a.getX() == this.b.getX() & this.a.getY() == this.b.getY()
-        || this.a.getX() == this.c.getX() & this.a.getY() == this.c.getY()
-        || this.b.getX() == this.c.getX() & this.b.getY() == this.c.getY()) {
+    if (this.a.getX() == this.b.getX() && this.a.getY() == this.b.getY()
+        || this.a.getX() == this.c.getX() && this.a.getY() == this.c.getY()
+        || this.b.getX() == this.c.getX() && this.b.getY() == this.c.getY()) {
             isTrue = false;
     }
 
@@ -54,7 +54,6 @@ public class Triangle {
         || this.a.getY() == this.b.getY() & this.a.getY() == this.c.getY()) {
             isTrue = false;
     }
-
     return isTrue;
   }
 
