@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 
 public class MaxTest {
   /**
-  * Test of class Max.
+  * Test 1 of method max with two parameters.
   */
   @Test
   public final void whenFirstZeroSecondOneThenOne() {
@@ -23,7 +23,7 @@ public class MaxTest {
   }
 
   /**
-  * Test of class Max.
+  * Test 2 of method max with two parameters.
   */
   @Test
   public final void whenFirstOneSecondZeroThenOne() {
@@ -31,14 +31,36 @@ public class MaxTest {
       int expected = 1;
       assertThat(result, is(expected));
   }
-  /**
-  * Test of class Max.
-  */
-  @Test
-  public final void whenFirstOneSecondOneThenOne() {
-      int result = Max.max(1, 1);
-      int expected = 1;
-      assertThat(result, is(expected));
-  }
+
+    /**
+    * Test 3 of method max with two parameters.
+    */
+    @Test
+    public final void whenFirstOneSecondOneThenOne() {
+        int result = Max.max(1, 1);
+        int expected = 1;
+        assertThat(result, is(expected));
+    }
+
+
+    /**
+    * Test 4 of method max with three parameters.
+    */
+    @Test
+    public final void whenFirstOneSecondTwoThirdThreeThenThree() {
+        int result = Max.max(1, 2, 3);
+        int expected = 3;
+        assertThat(result, is(expected));
+    }
+
+    /**
+    * Test 5 of method max with three parameters.
+    */
+    @Test
+    public final void whenFirstFiveSecondZeroThirdFiveThenFive() {
+        int result = Max.max(5, 0, 5);
+        int expected = 5;
+        assertThat(result, is(expected));
+    }
 
 }
