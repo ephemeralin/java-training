@@ -24,9 +24,7 @@ abstract class Max {
   * @return - возвращает максимальное число
   */
   public static int max(int first, int second, int third) {
-    int maxvalue = max(first, second);
-    maxvalue = max(maxvalue, third);
-    return maxvalue;
+    return max(third, max(first, second));
   }
 
 
