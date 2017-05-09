@@ -20,7 +20,7 @@ abstract class ArrayDuplicate {
       while (i < endOfArray) {
         int j = i + 1;
         while (j < endOfArray) {
-          if (array[i] == array[j]) {
+          if (array[i].equals(array[j])) {
             //send j item to the end of the array
             numberOfDublicates++;
             for (int k = j; k < array.length - 1; k++) {
@@ -29,6 +29,7 @@ abstract class ArrayDuplicate {
               array[k + 1] = buffer;
             }
             endOfArray--;
+            j--;
           }
           j++;
         }
