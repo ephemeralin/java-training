@@ -46,14 +46,16 @@ public class Client extends Human {
      */
     public void getDamage(int damage) {
         this.levelOfHealth -= damage;
-        System.out.println("Got damage = [" + damage + "] :(");
+        System.out.printf("Got damage = [%s] :(", damage);
+        System.out.println();
     }
 
     /**
      * Check health.
      */
     public void checkHealth() {
-        System.out.println("Level of health = [" + this.levelOfHealth + "]");
+        System.out.printf("Level of health = [%s]", this.levelOfHealth);
+        System.out.println();
     }
 
     /**

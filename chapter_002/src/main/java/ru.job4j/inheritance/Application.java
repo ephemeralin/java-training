@@ -12,11 +12,12 @@ public class Application {
     public static void main(String[] args) {
         Client defaultMan = new Client();
 
-        System.out.println(defaultMan.getName());
+        System.out.printf("Man's name is %s", defaultMan.getName());
+        System.out.println();
 
         defaultMan.getDamage(40);
 
-        Doctor mrDoc = new Doctor("House", 50, "California", "divorsed");
+        Doctor mrDoc = new Doctor("Dr.House", 50, "California", "divorsed");
 
         mrDoc.treat(defaultMan);
 

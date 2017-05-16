@@ -35,7 +35,8 @@ public class Doctor extends Human {
         while (pacient.isIll()) {
             pacient.getMeds(10);
         }
-        System.out.println(this.getName() + " treats " + nameOfPacient);
+        System.out.printf("%s treats %s", this.getName(), nameOfPacient);
+        System.out.println();
     }
 
     /**
