@@ -83,5 +83,8 @@ public class Item {
         return comments;
     }
 
-
+    @Override
+    public String toString() {
+        return "[" + this.getId() + "] " + this.getDesc() + "(" + this.getName() + ")";
+    }
 }

@@ -136,5 +136,8 @@ public class Tracker {
         return foundItem;
     }
 
+    public String getNextID() {
+        return "task" + lastItemIndex;
+    }
 
 }
