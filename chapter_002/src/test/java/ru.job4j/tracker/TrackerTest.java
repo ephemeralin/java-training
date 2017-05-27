@@ -58,6 +58,25 @@ public class TrackerTest {
         assertThat(tracker.findByID("test1"), is(item));
     }
 
+    /**
+     * When update Item then item is updated.
+     * Test for methods: add, update
+     */
+    @Test
+    public void whenUpdateItemThenTrackerReturnsItem() {
+        Tracker tracker = new Tracker();
+
+        Item item1 = new Item("test1", "test item 1", "test description 1");
+        tracker.add(item1);
+
+        Item item2 = new Item("test2", "test item 2", "test description 2");
+        tracker.add(item2);
+
+        Item itemUpdated = new Item("test2", "updated item", "updated description");
+        tracker.update(itemUpdated);
+        //item = itemUpdated;
+        assertThat(tracker.findAll()[1].getName(), is("updated item"));
+    }
 
 
 }

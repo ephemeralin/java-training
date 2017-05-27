@@ -40,8 +40,10 @@ public class Tracker {
      */
     public void update(Item item) {
         Item updatedItem = findByID(item.getId());
-        if (updatedItem != null) {
-            updatedItem = item;
+        for (int i = 0; i < lastItemIndex; i++) {
+            if (this.items[i].equals(updatedItem)) {
+                this.items[i] = item;
+            }
         }
     }
 
