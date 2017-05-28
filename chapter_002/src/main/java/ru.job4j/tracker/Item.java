@@ -85,6 +85,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "[" + this.getId() + "] " + this.getDesc() + "(" + this.getName() + ")";
+        return "[" + this.getId() + "] '" + this.getDesc() + "' (" + this.getName() + ")";
     }
 }
