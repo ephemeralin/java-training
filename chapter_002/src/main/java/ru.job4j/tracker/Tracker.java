@@ -136,5 +136,13 @@ public class Tracker {
         return foundItem;
     }
 
+    /**
+     * Gets next id.
+     *
+     * @return the next id
+     */
+    public String getNextID() {
+        return "task" + lastItemIndex;
+    }
 
 }

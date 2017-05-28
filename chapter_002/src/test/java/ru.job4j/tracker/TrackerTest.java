@@ -74,7 +74,7 @@ public class TrackerTest {
 
         Item itemUpdated = new Item("test2", "updated item", "updated description");
         tracker.update(itemUpdated);
-        //item = itemUpdated;
+
         assertThat(tracker.findAll()[1].getName(), is("updated item"));
     }
 
