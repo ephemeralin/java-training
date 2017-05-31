@@ -19,15 +19,4 @@ public class ConsoleInput implements Input {
     public String ask() {
         return scanner.nextLine();
     }
-
-    /**
-     * Ask string.
-     *
-     * @param question the question
-     * @return the string
-     */
-    public String ask(String question) {
-        System.out.print(question);
-        return scanner.nextLine();
-    }
 }

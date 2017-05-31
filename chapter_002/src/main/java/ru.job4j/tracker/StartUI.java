@@ -5,37 +5,64 @@ package ru.job4j.tracker;
  */
 public class StartUI {
     /**
-     * Add new Item constant.
+     * Tracker system.
      */
-    private static final int ADD = 0;
+    private Tracker tracker;
     /**
-     * Show all items constant.
+     * Input system.
      */
-    private static final int SHOW_ALL = 1;
+    private Input input;
+
     /**
-     * Edit item constant.
+     * Instantiates a new Start ui.
+     *
+     * @param tracker the tracker
+     * @param input   the input
      */
-    private static final int EDIT = 2;
+    public StartUI(Tracker tracker, Input input) {
+        this.input = input;
+        this.tracker = tracker;
+    }
+
     /**
-     * Delete item constant.
+     * Init.
      */
-    private static final int DELETE = 3;
-    /**
-     * Find item by Id constant.
-     */
-    private static final int FIND_BY_ID = 4;
-    /**
-     * Find items by name constant.
-     */
-    private static final int FIND_BY_NAME = 5;
-    /**
-     * Exit Program constant.
-     */
-    private static final int EXIT = 6;
-    /**
-     * Tracker system constant.
-     */
-    private static final Tracker TRACKER = new Tracker();
+    public void init() {
+
+        Item currentItem = null;
+        int menuItem = -1;
+
+        Menu.show();
+
+        escape: while (menuItem != Menu.EXIT) {
+            menuItem = Integer.parseInt(input.ask());
+            if (menuItem == Menu.ADD) {
+                addNewItem(input);
+
+            } else if (menuItem == Menu.SHOW_ALL) {
+                showAllItems();
+
+            } else if (menuItem == Menu.EDIT) {
+                editItem(input, currentItem);
+
+            } else if (menuItem == Menu.DELETE) {
+                deleteItem(currentItem);
+
+            } else if (menuItem == Menu.FIND_BY_ID) {
+                currentItem = findByID(input);
+
+            } else if (menuItem == Menu.FIND_BY_NAME) {
+                findByName(input);
+
+            } else if (menuItem == Menu.EXIT) {
+                exit();
+                break escape;
+            } else {
+                wrongOperation();
+
+            }
+        }
+    }
 
     /**
      * The entry point of application.
@@ -43,84 +70,31 @@ public class StartUI {
      * @param args the input arguments
      */
     public static void main(String[] args) {
+        Tracker tracker = new Tracker();
+        Input input = new ConsoleInput();
+        new StartUI(tracker, input).init();
 
-        ConsoleInput input = new ConsoleInput();
-
-        Item currentItem = null;
-        int menuItem = -1;
-
-        showMenu();
-
-        escape: while (menuItem != EXIT) {
-            menuItem = Integer.parseInt(input.ask());
-            switch (menuItem) {
-                case ADD:
-                    addNewItem();
-                    break;
-
-                case SHOW_ALL:
-                    showAllItems();
-                    break;
-
-                case EDIT:
-                    editItem(currentItem);
-                    break;
-
-                case DELETE:
-                    deleteItem(currentItem);
-                    break;
-
-                case FIND_BY_ID:
-                    currentItem = findByID();
-                    break;
-
-                case FIND_BY_NAME:
-                    findByName();
-                    break;
-
-                case EXIT:
-                    exit();
-                    break escape;
-
-                default:
-                    wrongOperation();
-                    break;
-            }
-        }
-    }
-
-
-    /**
-     * Shows user's menu.
-     */
-    private static void showMenu() {
-        System.out.println("0. Add new Item");
-        System.out.println("1. Show all items");
-        System.out.println("2. Edit item");
-        System.out.println("3. Delete item");
-        System.out.println("4. Find item by Id");
-        System.out.println("5. Find items by name");
-        System.out.println("6. Exit Program");
-        System.out.println("Select:");
     }
 
     /**
      * Add new item.
+     * @param input the input
      */
-    private static void addNewItem() {
-        ConsoleInput input = new ConsoleInput();
-        String name = input.ask("Enter user name: ");
-        String description = input.ask("Enter description: ");
-        String id = TRACKER.getNextID();
-        TRACKER.add(new Item(id, name, description));
+    private void addNewItem(Input input) {
+        System.out.println("Enter user name: ");
+        String name = input.ask();
+        System.out.println("Enter description: ");
+        String description = input.ask();
+        String id = tracker.getNextID();
+        tracker.add(new Item(id, name, description));
         System.out.println("New item has been created with ID: " + id);
     }
 
     /**
      * Show all items.
      */
-    private static void showAllItems() {
-        Item[] items = TRACKER.findAll();
+    private void showAllItems() {
+        Item[] items = tracker.findAll();
         if (items.length == 0) {
             System.out.println("No items.");
         } else {
@@ -133,15 +107,16 @@ public class StartUI {
     /**
      * Edit item.
      *
+     * @param input the input
      * @param item the item
      */
-    private static void editItem(Item item) {
+    private void editItem(Input input, Item item) {
         if (item != null) {
-            ConsoleInput input = new ConsoleInput();
             String id = item.getId();
-            String description = input.ask("Enter new description for item '" + id + "': ");
+            System.out.println("Enter new description for item '" + id + "': ");
+            String description = input.ask();
             Item updatingItem = new Item(item.getId(), item.getName(), description);
-            TRACKER.update(updatingItem);
+            tracker.update(updatingItem);
             System.out.println("Item with id '" + id + "' has been updated.");
         } else {
             System.out.println("You have to choose an item for updating!");
@@ -153,10 +128,10 @@ public class StartUI {
      *
      * @param item the item
      */
-    public static void deleteItem(Item item) {
+    public void deleteItem(Item item) {
         if (item != null) {
             String id = item.getId();
-            TRACKER.delete(item);
+            tracker.delete(item);
             System.out.println("Item '" + id + " has been deleted!");
         } else {
             System.out.println("You have to choose an item for deleting!");
@@ -166,12 +141,13 @@ public class StartUI {
     /**
      * Find by id item.
      *
+     * @param input the input
      * @return the item
      */
-    public static Item findByID() {
-        ConsoleInput input = new ConsoleInput();
-        String id = input.ask("Enter ID of the item: ");
-        Item item = TRACKER.findByID(id);
+    public Item findByID(Input input) {
+        System.out.println("Enter ID of the item: ");
+        String id = input.ask();
+        Item item = tracker.findByID(id);
         if (item == null) {
             System.out.println("The item with id '" + id + "' hasn't been found! :(");
         }
@@ -181,12 +157,13 @@ public class StartUI {
     /**
      * Find by name item [].
      *
+     * @param input the input
      * @return the item []
      */
-    public static Item[] findByName() {
-        ConsoleInput input = new ConsoleInput();
-        String name = input.ask("Enter the name for search: ");
-        Item[] items = TRACKER.findByName(name);
+    public Item[] findByName(Input input) {
+        System.out.println("Enter the name for search: ");
+        String name = input.ask();
+        Item[] items = tracker.findByName(name);
         for (Item item : items) {
             System.out.println(item.toString());
         }
@@ -196,14 +173,14 @@ public class StartUI {
     /**
      * Exit.
      */
-    public static void exit() {
+    public void exit() {
         System.out.println("Bye!");
     }
 
     /**
      * Wrong operation.
      */
-    public static void wrongOperation() {
+    public void wrongOperation() {
         System.out.println("Please, choose a valid menu item!");
     }
 

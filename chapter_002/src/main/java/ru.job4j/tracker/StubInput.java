@@ -1,0 +1,33 @@
+package ru.job4j.tracker;
+
+/**
+ * Created by ephemeralin on 31.05.17.
+ */
+public class StubInput implements Input {
+    /**
+     * Array of Answers.
+     */
+    private String[] answers;
+    /**
+     * Position.
+     */
+    private int position = 0;
+
+    /**
+     * Instantiates a new Stub input.
+     *
+     * @param answers the answers
+     */
+    public StubInput(String[] answers) {
+        this.answers = answers;
+    }
+
+    /**
+     * Ask string.
+     *
+     * @return the string
+     */
+    public String ask() {
+        return answers[position++];
+    }
+}

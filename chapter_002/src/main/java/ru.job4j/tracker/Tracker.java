@@ -95,10 +95,10 @@ public class Tracker {
     }
 
     /**
-     * Find by name item [ ].
+     * Find by name item [].
      *
      * @param name the name
-     * @return the item [ ]
+     * @return the item []
      */
     public Item[] findByName(String name) {
         int numberOfFoundItems = 0;
