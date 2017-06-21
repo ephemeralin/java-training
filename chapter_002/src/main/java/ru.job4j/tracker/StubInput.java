@@ -25,9 +25,10 @@ public class StubInput implements Input {
     /**
      * Ask string.
      *
-     * @return the string
+     * @param question the string of question
+     * @return the position
      */
-    public String ask() {
+    public String ask(String question) {
         return answers[position++];
     }
 }

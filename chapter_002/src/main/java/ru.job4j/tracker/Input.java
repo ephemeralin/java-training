@@ -7,7 +7,8 @@ public interface Input {
     /**
      * Ask string.
      *
+     * @param question the string of question
      * @return the string
      */
-    String ask();
+    String ask(String question);
 }
