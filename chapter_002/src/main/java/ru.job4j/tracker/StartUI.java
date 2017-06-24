@@ -34,6 +34,20 @@ public class StartUI {
         int key;
         do {
             menu.show();
+            key = input.ask("Select: ", menu.getRangeOfActions());
+            menu.select(key);
+        } while (key != 6);
+    }
+
+    /**
+     * Init for tests.
+     */
+    public void initForTests() {
+        Menu menu = new Menu(this.input, this.tracker);
+        menu.createActions();
+        int key;
+        do {
+            menu.show();
             key = Integer.valueOf(input.ask("Select: "));
             menu.select(key);
         } while (key != 6);
@@ -46,7 +60,7 @@ public class StartUI {
      */
     public static void main(String[] args) {
         Tracker tracker = new Tracker();
-        Input input = new ConsoleInput();
+        Input input = new ValidatedInput();
         new StartUI(tracker, input).init();
     }
 

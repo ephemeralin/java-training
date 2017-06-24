@@ -47,6 +47,11 @@ class EditItem implements UserAction {
  * Created by ephemeralin on 31.05.17.
  */
 public class Menu {
+
+    /**
+     * Number of available operations (actions).
+     */
+    private static final int NUMBER_OF_OPERATIONS = 7;
     /**
      * Input object.
      */
@@ -58,7 +63,7 @@ public class Menu {
     /**
      * List of all available actions.
      */
-    private UserAction[] actions = new UserAction[7];
+    private UserAction[] actions = new UserAction[NUMBER_OF_OPERATIONS];
 
     /**
      * Instantiates a new Menu.
@@ -85,14 +90,28 @@ public class Menu {
     }
 
     /**
+     * Returns range of available actions.
+     * @return range
+     */
+    public int[] getRangeOfActions() {
+        int[] range = new int[NUMBER_OF_OPERATIONS];
+        for (int i = 0; i < NUMBER_OF_OPERATIONS; i++) {
+            range[i] = i;
+        }
+        return range;
+    }
+
+    /**
      * Shows user's menu.
      */
     public void show() {
+        System.out.println("----------------");
         for (UserAction action : this.actions) {
             if (action != null) {
                 System.out.println(action.info());
             }
         }
+        System.out.println("----------------");
     }
 
     /**
