@@ -40,20 +40,6 @@ public class StartUI {
     }
 
     /**
-     * Init for tests.
-     */
-    public void initForTests() {
-        Menu menu = new Menu(this.input, this.tracker);
-        menu.createActions();
-        int key;
-        do {
-            menu.show();
-            key = Integer.valueOf(input.ask("Select: "));
-            menu.select(key);
-        } while (key != 6);
-    }
-
-    /**
      * The entry point of application.
      *
      * @param args the input arguments
