@@ -42,7 +42,7 @@ public class StartUI {
     /**
      * Init for tests.
      */
-    public void initForTests() {
+    public void initForTest() {
         Menu menu = new Menu(this.input, this.tracker);
         menu.createActions();
         int key;
