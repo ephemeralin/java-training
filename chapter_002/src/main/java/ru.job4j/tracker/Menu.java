@@ -1,17 +1,15 @@
 package ru.job4j.tracker;
 
-
 /**
  * The class for action EditItem.
  */
-class EditItem implements UserAction {
+class EditItem extends BaseAction {
 
     /**
-     * Return the key.
-     * @return the key of the EditItem action
+     * Constructor of the Action class.
      */
-    public int key() {
-        return 2;
+    EditItem() {
+        super("Add new item", 2);
     }
 
     /**
@@ -22,7 +20,6 @@ class EditItem implements UserAction {
     public void execute(Input input, Tracker tracker) {
         String id = input.ask("Enter task ID: ");
         Item item = tracker.findByID(id);
-
         if (item != null) {
             String description = input.ask("Enter new description for item '" + id + "': ");
             Item updatingItem = new Item(item.getId(), item.getName(), description);
@@ -31,14 +28,6 @@ class EditItem implements UserAction {
         } else {
             System.out.println("You have to choose an item for updating!");
         }
-    }
-
-    /**
-     * Show info about action.
-     * @return string of info
-     */
-    public String info() {
-        return String.format("%s. %s", this.key(), "Add new item");
     }
 }
 
@@ -160,14 +149,13 @@ public class Menu {
     /**
      * The class for action ShowAllItems.
      */
-    private static class ShowAllItems implements UserAction {
+    private static class ShowAllItems extends BaseAction {
 
         /**
-         * Return the key.
-         * @return the key of ShowAllItems action
+         * Constructor of the Action class.
          */
-        public int key() {
-            return 1;
+        ShowAllItems() {
+            super("Show all items", 1);
         }
 
         /**
@@ -186,27 +174,18 @@ public class Menu {
 
             }
         }
-
-        /**
-         * Show info about action.
-         * @return string of info
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Show all items");
-        }
     }
 
     /**
      * The class for action DeleteItem.
      */
-    private class DeleteItem implements UserAction {
+    private class DeleteItem extends BaseAction {
 
         /**
-         * Return the key.
-         * @return the key of the DeleteItem action
+         * Constructor of the Action class.
          */
-        public int key() {
-            return 3;
+        DeleteItem() {
+            super("Delete item", 3);
         }
 
         /**
@@ -225,27 +204,18 @@ public class Menu {
                 System.out.println("You have to choose an item for deleting!");
             }
         }
-
-        /**
-         * Show info about action.
-         * @return string of info
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Delete item");
-        }
     }
 
     /**
      * The class for action FindItemByID.
      */
-    private class FindItemByID implements UserAction {
+    private class FindItemByID extends BaseAction {
 
         /**
-         * Return the key.
-         * @return the key of the FindItemByID action
+         * Constructor of the Action class.
          */
-        public int key() {
-            return 4;
+        FindItemByID() {
+            super("Find item by ID", 4);
         }
 
         /**
@@ -263,27 +233,18 @@ public class Menu {
                 System.out.println("The item has been found: " + item.toString());
             }
         }
-
-        /**
-         * Show info about action.
-         * @return string of info
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find item by ID");
-        }
     }
 
     /**
      * The class for action FindItemsByName.
      */
-    private class FindItemsByName implements UserAction {
+    private class FindItemsByName extends BaseAction {
 
         /**
-         * Return the key.
-         * @return the key of the FindItemsByName action
+         * Constructor of the Action class.
          */
-        public int key() {
-            return 5;
+        FindItemsByName() {
+            super("Find items by name", 5);
         }
 
         /**
@@ -298,27 +259,18 @@ public class Menu {
                 System.out.println(item.toString());
             }
         }
-
-        /**
-         * Show info about action.
-         * @return string of info
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find items by name");
-        }
     }
 
     /**
      * The class for action ExitProgram.
      */
-    private class ExitProgram implements UserAction {
+    private class ExitProgram extends BaseAction {
 
         /**
-         * Return the key.
-         * @return the key of the ExitProgram action
+         * Constructor of the Action class.
          */
-        public int key() {
-            return 6;
+        ExitProgram() {
+            super("Exit programm", 6);
         }
 
         /**
@@ -330,13 +282,5 @@ public class Menu {
             System.out.println("Bye!");
         }
 
-        /**
-         * Show info about action.
-         * @return string of info
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Exit program");
-        }
     }
-
 }
