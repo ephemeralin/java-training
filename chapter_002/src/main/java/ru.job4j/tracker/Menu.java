@@ -171,7 +171,6 @@ public class Menu {
                 for (Item item : items) {
                     System.out.println(item.toString());
                 }
-
             }
         }
     }

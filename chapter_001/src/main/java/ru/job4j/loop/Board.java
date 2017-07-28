@@ -1,7 +1,7 @@
 package ru.job4j.loop;
 
 /**
-* Class Board - класс реализации шахматной доски.
+* Class board - класс реализации шахматной доски.
 * @author vpiliugin
 * @since 30.04.2017
 */
