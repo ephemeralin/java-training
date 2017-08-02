@@ -21,6 +21,5 @@ public class Application {
         } catch (ImpossibleMoveException e) {
             e.printStackTrace();
         }
-
     }
 }
