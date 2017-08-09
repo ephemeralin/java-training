@@ -70,7 +70,7 @@ public class CollectionsPerformanceAnalyzer {
     public double remove(Collection<String> collection, int amount) {
         long startTime = new Date().getTime();
         for (int i = 0; i < amount; i++) {
-            collection.remove(i);
+            collection.remove(0);
         }
         long finishTime = new Date().getTime();
         return finishTime - startTime;
