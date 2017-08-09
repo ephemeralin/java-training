@@ -1,10 +1,10 @@
 package ru.job4j.chessmoves.figures;
 
 import ru.job4j.chessmoves.board.Board;
+import ru.job4j.chessmoves.exceptions.ImpossibleMoveException;
 import ru.job4j.chessmoves.board.Cell;
 import ru.job4j.chessmoves.board.Direction;
 import ru.job4j.chessmoves.exceptions.OccupiedWayException;
-import ru.job4j.chessmoves.exceptions.ImpossibleMoveException;
 
 /**
  * Created by ephemeralin on 05.07.17.
