@@ -20,7 +20,7 @@ public class StubInputTest {
         String[] answers = {"0", "John Doe", "Test description", "6"};
         Input input = new StubInput(answers);
         new StartUI(tracker, input).init();
-        assertThat(tracker.findAll()[0].getDesc(), is("Test description"));
+        assertThat(tracker.findAll().get(0).getDesc(), is("Test description"));
     }
 
     /**
@@ -34,7 +34,7 @@ public class StubInputTest {
                 "War and Peace", "6"};
         Input input = new StubInput(answers);
         new StartUI(tracker, input).init();
-        assertThat(tracker.findAll()[0].getDesc(), is("War and Peace"));
+        assertThat(tracker.findAll().get(0).getDesc(), is("War and Peace"));
     }
 
     /**
@@ -49,7 +49,7 @@ public class StubInputTest {
                 "Bob Marley", "Test description 2", "3", "task0", "6"};
         Input input = new StubInput(answers);
         new StartUI(tracker, input).init();
-        assertThat(tracker.findAll()[0].getDesc(), is("Test description 2"));
+        assertThat(tracker.findAll().get(0).getDesc(), is("Test description 2"));
 
     }
 

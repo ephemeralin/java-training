@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+
 /**
  * The class for action EditItem.
  */
@@ -40,7 +42,7 @@ public class Menu {
     /**
      * Number of available operations (actions).
      */
-    private static final int NUMBER_OF_OPERATIONS = 7;
+    //private static final int NUMBER_OF_OPERATIONS = 7;
     /**
      * Input object.
      */
@@ -52,7 +54,8 @@ public class Menu {
     /**
      * List of all available actions.
      */
-    private UserAction[] actions = new UserAction[NUMBER_OF_OPERATIONS];
+    //private UserAction[] actions = new UserAction[NUMBER_OF_OPERATIONS];
+    private ArrayList<UserAction> actions = new ArrayList<>();
 
     /**
      * Instantiates a new Menu.
@@ -69,13 +72,13 @@ public class Menu {
      * Create list of actions.
      */
     public void createActions() {
-        this.actions[0] = this.new AddItem();
-        this.actions[1] = new Menu.ShowAllItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = this.new DeleteItem();
-        this.actions[4] = this.new FindItemByID();
-        this.actions[5] = this.new FindItemsByName();
-        this.actions[6] = this.new ExitProgram();
+        this.actions.add(this.new AddItem());
+        this.actions.add(new Menu.ShowAllItems());
+        this.actions.add(new EditItem());
+        this.actions.add(this.new DeleteItem());
+        this.actions.add(this.new FindItemByID());
+        this.actions.add(this.new FindItemsByName());
+        this.actions.add(this.new ExitProgram());
     }
 
     /**
@@ -83,8 +86,8 @@ public class Menu {
      * @return range
      */
     public int[] getRangeOfActions() {
-        int[] range = new int[NUMBER_OF_OPERATIONS];
-        for (int i = 0; i < NUMBER_OF_OPERATIONS; i++) {
+        int[] range = new int[this.actions.size()];
+        for (int i = 0; i < this.actions.size(); i++) {
             range[i] = i;
         }
         return range;
@@ -108,7 +111,7 @@ public class Menu {
      * @param key the key
      */
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     /**
@@ -164,8 +167,8 @@ public class Menu {
          * @param tracker the tracker
          */
         public void execute(Input input, Tracker tracker) {
-            Item[] items = tracker.findAll();
-            if (items.length == 0) {
+            ArrayList<Item> items = tracker.findAll();
+            if (items.size() == 0) {
                 System.out.println("No items.");
             } else {
                 for (Item item : items) {
