@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+
 /**
  * Created by ephemeralin on 21.05.17.
  */
@@ -7,19 +9,12 @@ public class Tracker {
     /**
      * Array of Items.
      */
-    private Item[] items;
+    private ArrayList<Item> items = new ArrayList<>();
 
     /**
      * Index of the last Item.
      */
     private int lastItemIndex = 0;
-
-    /**
-     * Instantiates a new Tracker.
-     */
-    public Tracker() {
-        this.items = new Item[100];
-    }
 
     /**
      * Add item.
@@ -28,7 +23,7 @@ public class Tracker {
      * @return the item
      */
     public Item add(Item item) {
-        this.items[lastItemIndex] = item;
+        this.items.add(item);
         lastItemIndex++;
         return item;
     }
@@ -40,9 +35,9 @@ public class Tracker {
      */
     public void update(Item item) {
         Item updatedItem = findByID(item.getId());
-        for (int i = 0; i < lastItemIndex; i++) {
-            if (this.items[i].equals(updatedItem)) {
-                this.items[i] = item;
+        for (int i = 0; i < this.items.size(); i++) {
+            if (this.items.get(i).equals(updatedItem)) {
+                this.items.set(i, item);
             }
         }
     }
@@ -53,41 +48,19 @@ public class Tracker {
      * @param item the item
      */
     public void delete(Item item) {
-        for (int i = 0; i <= lastItemIndex; i++) {
-            if (this.items[i] == item) {
-                for (int j = i; j <= lastItemIndex; j++) {
-                    int nextJ = j + 1;
-                    if (nextJ < this.items.length) {
-                        this.items[j] = items[nextJ];
-                    } else {
-                        this.items[j] = null;
-                    }
-                }
-                break;
-            }
-        }
+        items.remove(item);
+        items.trimToSize();
     }
 
     /**
-     * Find all item [ ].
+     * Find all items.
      *
-     * @return the item [ ]
+     * @return array of all items
      */
-    public Item[] findAll() {
-        int numberOfItems = 0;
+    public ArrayList<Item> findAll() {
+        ArrayList<Item> allItems = new ArrayList<>();
         for (Item i: items) {
-            if (i != null) {
-                numberOfItems++;
-            }
-        }
-
-        Item[] allItems = new Item[numberOfItems];
-        int index = 0;
-        for (Item i: items) {
-            if (i != null) {
-                allItems[index] = i;
-                index++;
-            }
+            allItems.add(i);
         }
         return allItems;
     }

@@ -19,7 +19,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "test item 1", "test description");
         tracker.add(item);
-        assertThat(tracker.findAll()[0].getName(), is("test item 1"));
+        assertThat(tracker.findAll().get(0).getName(), is("test item 1"));
     }
 
     /**
@@ -32,7 +32,7 @@ public class TrackerTest {
         Item item = new Item("test1", "test item 1", "test description");
         tracker.add(item);
         tracker.delete(item);
-        assertThat(tracker.findAll().length, is(0));
+        assertThat(tracker.findAll().size(), is(0));
     }
 
     /**
@@ -76,7 +76,7 @@ public class TrackerTest {
         Item itemUpdated = new Item("test2", "updated item", "updated description");
         tracker.update(itemUpdated);
 
-        assertThat(tracker.findAll()[1].getName(), is("updated item"));
+        assertThat(tracker.findAll().get(1).getName(), is("updated item"));
     }
 
 
