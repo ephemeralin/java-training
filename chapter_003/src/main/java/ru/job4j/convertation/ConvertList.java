@@ -22,7 +22,7 @@ public class ConvertList {
                 list.add(array[i][j]);
             }
         }
-        for (int i = list.size() - 1; i >= 0 ; i--) {
+        for (int i = list.size() - 1; i >= 0; i--) {
             if (list.get(i) == 0) {
                 list.remove(i);
             } else {
@@ -69,7 +69,7 @@ public class ConvertList {
         ArrayList<Integer> resultList = new ArrayList<>();
         for (int[] elementOfList : list) {
             for (int elementOfArray : elementOfList) {
-                resultList.add(Integer.valueOf(elementOfArray));
+                resultList.add(elementOfArray);
             }
         }
         return resultList;

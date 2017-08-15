@@ -4,8 +4,14 @@ package ru.job4j.usersort;
 /**
  * The type User.
  */
-public class User implements Comparable<User>{
+public class User implements Comparable<User> {
+    /**
+     * Name.
+     */
     private String name;
+    /**
+     * Age.
+     */
     private int age;
 
     /**
@@ -33,6 +39,10 @@ public class User implements Comparable<User>{
         return Integer.valueOf(this.age).compareTo(Integer.valueOf(user.getAge()));
     }
 
+    /**
+     * Overrided toString.
+     * @return String for User
+     */
     public String toString() {
         return String.format("(%s, %d)", this.name, this.age);
     }
