@@ -22,14 +22,14 @@ public class ConvertList {
                 list.add(array[i][j]);
             }
         }
-        while (true) {
-            Integer element = list.get(list.size() - 1);
-            if (element == Integer.valueOf(0)) {
-                list.remove(element);
+        for (int i = list.size() - 1; i >= 0 ; i--) {
+            if (list.get(i) == 0) {
+                list.remove(i);
             } else {
                 break;
             }
         }
+
         return list;
     }
 
