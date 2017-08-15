@@ -34,11 +34,11 @@ public class ConvertList {
     }
 
     /**
-     * To array int [ ] [ ].
+     * Convertation from ArrayList to Array.
      *
      * @param list the list
      * @param rows the rows
-     * @return the int [ ] [ ]
+     * @return the array
      */
     public int[][] toArray(List<Integer> list, int rows) {
         int k = 0;
@@ -57,5 +57,21 @@ public class ConvertList {
             }
         }
         return array;
+    }
+
+    /**
+     * Convert list of arrays to the list.
+     *
+     * @param list the list of arrays
+     * @return the list
+     */
+    public List<Integer> convert(List<int[]> list) {
+        ArrayList<Integer> resultList = new ArrayList<>();
+        for (int[] elementOfList : list) {
+            for (int elementOfArray : elementOfList) {
+                resultList.add(Integer.valueOf(elementOfArray));
+            }
+        }
+        return resultList;
     }
 }

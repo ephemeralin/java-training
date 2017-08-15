@@ -11,7 +11,26 @@ import static org.hamcrest.core.Is.is;
 public class ConvertListTest {
 
     /**
-     * To array when number of rows 3.
+     * Test for Convert list of arrays to the list.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void convert() throws Exception {
+        ArrayList<Integer> expectedList = new ArrayList<>();
+        for (int i = 1; i <= 6; i++) {
+            expectedList.add(i);
+        }
+
+        ArrayList<int[]> list = new ArrayList<>();
+        list.add(new int[] {1, 2});
+        list.add(new int[] {3, 4, 5, 6});
+
+        assertThat(new ConvertList().convert(list), is(expectedList));
+    }
+
+    /**
+     * Test for To array when number of rows 3.
      *
      * @throws Exception the exception
      */
@@ -27,7 +46,7 @@ public class ConvertListTest {
     }
 
     /**
-     * To list.
+     * Test for To list.
      *
      * @throws Exception the exception
      */
