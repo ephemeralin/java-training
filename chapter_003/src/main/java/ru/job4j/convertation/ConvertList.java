@@ -22,13 +22,6 @@ public class ConvertList {
                 list.add(array[i][j]);
             }
         }
-        for (int i = list.size() - 1; i >= 0; i--) {
-            if (list.get(i) == 0) {
-                list.remove(i);
-            } else {
-                break;
-            }
-        }
 
         return list;
     }
