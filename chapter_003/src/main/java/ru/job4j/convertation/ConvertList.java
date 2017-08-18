@@ -42,7 +42,11 @@ public class ConvertList {
             for (int j = 0; j < columns; j++) {
                 if (k < sizeOfList) {
                     Integer element = list.get(k);
-                    array[i][j] = list.get(k);
+                    if (element == null) {
+                        array[i][j] = 0;
+                    } else {
+                        array[i][j] = list.get(k);
+                    }
                 } else {
                     array[i][j] = 0;
                 }

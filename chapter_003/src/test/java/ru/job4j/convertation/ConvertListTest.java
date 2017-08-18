@@ -3,7 +3,6 @@ package ru.job4j.convertation;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -46,6 +45,8 @@ public class ConvertListTest {
         for (int i = 1; i <= 7; i++) {
             list.add(Integer.valueOf(i));
         }
+        list.add(null);
+
         assertThat(new ConvertList().toArray(list, numberOfRows), is(expectedArray));
     }
 
