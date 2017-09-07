@@ -1,4 +1,4 @@
-package ru.job4j.iterator_even_numbers;
+package ru.job4j.iteratorevennumbers;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -57,9 +57,11 @@ public class EvenNumbersIterator implements Iterator {
         }
         for (int i = nextPosition; i < numbers.length; i++) {
             if (numbers[i] % 2 == 0) {
-                nextPosition = i++;
-                return numbers[i];
+                int next = numbers[i];
+                nextPosition = i + 1;
+                return next;
             }
+
         }
         throw new NoSuchElementException();
     }

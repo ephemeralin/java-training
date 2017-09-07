@@ -5,4 +5,4 @@
 * @version $Id$
 * @since 0.1
 */
-package ru.job4j.iterator_even_numbers;
+package ru.job4j.iteratorevennumbers;
