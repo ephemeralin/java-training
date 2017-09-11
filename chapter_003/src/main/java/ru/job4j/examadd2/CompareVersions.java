@@ -9,16 +9,30 @@ import java.util.Comparator;
 public class CompareVersions {
 
     /**
-     * The entry point of application.
+     * Sort 2D-array.
      *
-     * @param args the input arguments
+     * @param array the array
+     * @return the sorted 2D-array
      */
-    public static void main(String[] args) {
-        int[][] array = {
-                {2, 1},
-                {2, 1, 0},
-                {1, 1, 2}
-        };
+    public static int[][] sort(int[][] array) {
+
+        Arrays.sort(array, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+        });
+
+        return array;
+    }
+
+    /**
+     * Reversed Sort 2D-array.
+     *
+     * @param array the array
+     * @return the sorted 2D-array
+     */
+    public static int[][] sortReversed(int[][] array) {
 
         Arrays.sort(array, new Comparator<int[]>() {
             @Override
@@ -27,5 +41,7 @@ public class CompareVersions {
             }
         });
 
+        return array;
     }
+
 }
