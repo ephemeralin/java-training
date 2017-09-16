@@ -10,26 +10,6 @@ import static org.hamcrest.core.Is.is;
  */
 public class CompareVersionsTest {
     /**
-     * Sort reversed.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    public void sortReversed() throws Exception {
-        int[][] originalArray = {
-                {2, 1},
-                {2, 1, 0},
-                {1, 1, 2},
-        };
-        int[][] expectedArray = {
-                {2, 1},
-                {2, 1, 0},
-                {1, 1, 2}
-        };
-        assertThat(CompareVersions.sortReversed(originalArray), is(expectedArray));
-    }
-
-    /**
      * Sort.
      *
      * @throws Exception the exception
@@ -39,14 +19,36 @@ public class CompareVersionsTest {
         int[][] originalArray = {
                 {2, 1},
                 {2, 1, 0},
+                {3, 1, 1},
                 {1, 1, 2}
         };
         int[][] expectedArray = {
                 {1, 1, 2},
                 {2, 1},
-                {2, 1, 0}
+                {2, 1, 0},
+                {3, 1, 1}
         };
         assertThat(CompareVersions.sort(originalArray), is(expectedArray));
+    }
+
+    /**
+     * Sort reversed.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void sortReversed() throws Exception {
+        int[][] originalArray = {
+                {2, 1, 0},
+                {1, 1, 2},
+                {2, 1}
+        };
+        int[][] expectedArray = {
+                {2, 1, 0},
+                {2, 1},
+                {1, 1, 2}
+        };
+        assertThat(CompareVersions.sortReversed(originalArray), is(expectedArray));
     }
 
 }
