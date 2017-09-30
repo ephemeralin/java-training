@@ -34,7 +34,7 @@ public class CompareVersionsTest {
     /**
      * Sort reversed.
      *
-     * @throws Exception the exception
+     * @throws Exception the exception1
      */
     @Test
     public void sortReversed() throws Exception {
