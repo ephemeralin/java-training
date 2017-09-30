@@ -1,4 +1,4 @@
-package ru.job4j.simplearray;
+package ru.job4j.generics;
 
 import org.junit.Test;
 
