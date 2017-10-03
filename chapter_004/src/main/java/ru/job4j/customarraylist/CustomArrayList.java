@@ -14,7 +14,7 @@ public class CustomArrayList<E> implements Iterable<E> {
     /**
      * The Default container size.
      */
-    static final int DEFAULT_CONTAINER_SIZE = 10;
+    private static final int DEFAULT_CONTAINER_SIZE = 10;
 
     /**
      * Container of any Objects.
@@ -27,10 +27,6 @@ public class CustomArrayList<E> implements Iterable<E> {
      */
     private int nextIndex = 0;
 
-    /**
-     * Size of the list.
-     */
-    private int size = 0;
 
     /**
      * Instantiates a new Custom array list.
@@ -59,7 +55,6 @@ public class CustomArrayList<E> implements Iterable<E> {
         }
         container[nextIndex] = value;
         nextIndex++;
-        size++;
     }
 
     /**
@@ -69,7 +64,7 @@ public class CustomArrayList<E> implements Iterable<E> {
      * @return the e
      */
     public E get(int index) {
-        if (index >= size) {
+        if (index >= nextIndex) {
             throw new NoSuchElementException();
         }
         return (E) container[index];
@@ -83,13 +78,13 @@ public class CustomArrayList<E> implements Iterable<E> {
 
             @Override
             public boolean hasNext() {
-                return cursor != size;
+                return cursor != nextIndex;
             }
 
             @Override
             public E next() {
                 int i = cursor;
-                if (i >= size) {
+                if (i >= nextIndex) {
                     throw new NoSuchElementException();
                 }
                 cursor++;
@@ -101,7 +96,7 @@ public class CustomArrayList<E> implements Iterable<E> {
     @Override
     public String toString() {
         String st = "";
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < nextIndex; i++) {
             if (i == 0) {
                 st = String.format("%s", container[i].toString());
             } else {
