@@ -30,7 +30,7 @@ public class SimpleArray<E> {
      * @return
      */
     private boolean checkIndex(int position) {
-        if (position > index) {
+        if (position > lastIndex) {
             return false;
         } else {
             return true;
@@ -43,10 +43,10 @@ public class SimpleArray<E> {
      * @param value the value
      */
     public void add(E value) {
-        if (objects.length == index + 1) {
+        if (objects.length == lastIndex + 1) {
             throw new IndexOutOfBoundsException();
         }
-        this.objects[index++] = value;
+        this.objects[lastIndex++] = value;
     }
 
     /**
