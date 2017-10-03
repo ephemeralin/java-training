@@ -1,8 +1,8 @@
 /**
-* Test for "SimpleArray implementation" task.
+* Tests for "Generics" task.
 *
 * @author Viacheslav Piliugin (mailto:ephemeralin@gmail.com)
 * @version $Id$
 * @since 0.1
 */
-package ru.job4j.simplearray;
+package ru.job4j.generics;
