@@ -25,21 +25,40 @@ public class SimpleArray<E> {
     }
 
     /**
+     * Check if index is correct.
+     * @param position
+     * @return
+     */
+    private boolean checkIndex(int position) {
+        if (position > index) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * Add.
      *
      * @param value the value
      */
     public void add(E value) {
+        if (objects.length == index + 1) {
+            throw new IndexOutOfBoundsException();
+        }
         this.objects[index++] = value;
     }
 
     /**
-     * Get e.
+     * Get item by index.
      *
      * @param position the position
-     * @return the e
+     * @return the item
      */
     public E get(int position) {
+        if (!checkIndex(position)) {
+            throw new IndexOutOfBoundsException();
+        }
         return (E) this.objects[position];
     }
 
@@ -51,7 +70,7 @@ public class SimpleArray<E> {
      * @return the boolean
      */
     public boolean update(E value, int position) {
-        if (position > index) {
+        if (!checkIndex(position)) {
             return false;
         } else {
             this.objects[position] = value;
