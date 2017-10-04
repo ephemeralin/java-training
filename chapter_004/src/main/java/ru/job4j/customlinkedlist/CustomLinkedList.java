@@ -31,7 +31,7 @@ public class CustomLinkedList<E> implements Iterable<E> {
      * Internal element of the List.
      * @param <E>
      */
-    private class Node<E> {
+    protected class Node<E> {
         /**
          * The Item.
          */
@@ -62,6 +62,60 @@ public class CustomLinkedList<E> implements Iterable<E> {
             this.next = next;
             this.prev = prev;
             this.index = index;
+        }
+
+        /**
+         * Gets item.
+         *
+         * @return the item
+         */
+        public E getItem() {
+            return item;
+        }
+
+        /**
+         * Sets item.
+         *
+         * @param item the item
+         */
+        public void setItem(E item) {
+            this.item = item;
+        }
+
+        /**
+         * Gets next.
+         *
+         * @return the next
+         */
+        public Node<E> getNext() {
+            return next;
+        }
+
+        /**
+         * Sets next.
+         *
+         * @param next the next
+         */
+        public void setNext(Node<E> next) {
+            this.next = next;
+        }
+
+        /**
+         * Gets prev.
+         *
+         * @return the prev
+         */
+        public Node<E> getPrev() {
+            return prev;
+        }
+
+        /**
+         * Sets prev.
+         *
+         * @param prev the prev
+         */
+        public void setPrev(Node<E> prev) {
+            this.prev = prev;
         }
     }
 
@@ -118,6 +172,43 @@ public class CustomLinkedList<E> implements Iterable<E> {
     public E getLast() {
         return lastNode.item;
     }
+
+    /**
+     * Gets first node.
+     *
+     * @return the first node
+     */
+    public Node<E> getFirstNode() {
+        return firstNode;
+    }
+
+    /**
+     * Gets last node.
+     *
+     * @return the last node
+     */
+    public Node<E> getLastNode() {
+        return lastNode;
+    }
+
+    /**
+     * Sets first node.
+     *
+     * @param firstNode the first node
+     */
+    public void setFirstNode(Node<E> firstNode) {
+        this.firstNode = firstNode;
+    }
+
+    /**
+     * Sets last node.
+     *
+     * @param lastNode the last node
+     */
+    public void setLastNode(Node<E> lastNode) {
+        this.lastNode = lastNode;
+    }
+
 
     /**
      * Gets size.
