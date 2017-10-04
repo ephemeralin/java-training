@@ -15,7 +15,7 @@ public class NodeTest {
      * @throws Exception the exception
      */
     @Test
-    public void hasCycle() throws Exception {
+    public void whenStartFromFirstThenHasCycle() throws Exception {
         Node first = new Node(1);
         Node two = new Node(2);
         Node third = new Node(3);
@@ -29,4 +29,23 @@ public class NodeTest {
         assertThat(Node.hasCycle(first), is(true));
     }
 
+    /**
+     * Has cycle.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void whenThirdFromFirstThenHasCycle() throws Exception {
+        Node first = new Node(1);
+        Node two = new Node(2);
+        Node third = new Node(3);
+        Node four = new Node(4);
+
+        first.setNext(two);
+        two.setNext(third);
+        third.setNext(four);
+        four.setNext(first);
+
+        assertThat(Node.hasCycle(third), is(true));
+    }
 }
