@@ -25,21 +25,36 @@ public class SimpleArray<E> {
     }
 
     /**
+     * Check if index is correct.
+     * @param position the checked position
+     * @return isCheckedIndex
+     */
+    private boolean checkIndex(int position) {
+        return !(position > lastIndex);
+    }
+
+    /**
      * Add.
      *
      * @param value the value
      */
     public void add(E value) {
+        if (objects.length < lastIndex + 1) {
+            throw new IndexOutOfBoundsException();
+        }
         this.objects[lastIndex++] = value;
     }
 
     /**
-     * Get e.
+     * Get item by index.
      *
      * @param position the position
-     * @return the e
+     * @return the item
      */
     public E get(int position) {
+        if (!checkIndex(position)) {
+            throw new IndexOutOfBoundsException();
+        }
         return (E) this.objects[position];
     }
 
@@ -51,12 +66,12 @@ public class SimpleArray<E> {
      * @return the boolean
      */
     public boolean update(E value, int position) {
-        if (position > lastIndex) {
-            return false;
-        } else {
+        boolean isUpdated = false;
+        if (checkIndex(position)) {
             this.objects[position] = value;
-            return true;
+            isUpdated = true;
         }
+        return isUpdated;
     }
 
     /**
@@ -66,12 +81,12 @@ public class SimpleArray<E> {
      * @return the boolean
      */
     public boolean delete(int position) {
-        if (position > lastIndex) {
-            return false;
-        } else {
+        boolean isDeleted = false;
+        if (checkIndex(position)) {
             objects[position] = null;
-            return true;
+            isDeleted = true;
         }
+        return isDeleted;
     }
 
     /**
