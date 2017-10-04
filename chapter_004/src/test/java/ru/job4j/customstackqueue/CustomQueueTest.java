@@ -46,6 +46,24 @@ public class CustomQueueTest {
     }
 
     /**
+     * When poll last then has it.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void whenPollLastThenHasIt() throws Exception {
+        CustomQueue<String> queue = new CustomQueue<>();
+
+        queue.push("Bob");
+        queue.push("John");
+
+        String firstItem = queue.poll();
+        String lastItem = queue.poll();
+
+        assertThat(lastItem, is("John"));
+    }
+
+    /**
      * When poll then previous element is last.
      */
     @Test

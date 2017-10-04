@@ -31,8 +31,11 @@ public class CustomQueue<T> extends CustomLinkedList<T> {
     public T poll() {
         CustomLinkedList.Node node = super.getFirstNode();
         T value = (T) node.getItem();
-        node.getNext().setPrev(null);
-        super.setFirstNode(node.getNext());
+        Node<T> nextNode = node.getNext();
+        if (nextNode != null) {
+            node.getNext().setPrev(null);
+        }
+        super.setFirstNode(nextNode);
         return value;
     }
 }

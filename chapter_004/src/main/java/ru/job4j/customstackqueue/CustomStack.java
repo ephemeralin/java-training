@@ -31,8 +31,11 @@ public class CustomStack<T> extends CustomLinkedList<T> {
     public T poll() {
         CustomLinkedList.Node node = super.getLastNode();
         T value = (T) node.getItem();
-        node.getPrev().setNext(null);
-        super.setLastNode(node.getPrev());
+        Node<T> prevNode = node.getPrev();
+        if (prevNode != null) {
+            prevNode.setNext(null);
+        }
+        super.setLastNode(prevNode);
         return value;
     }
 }

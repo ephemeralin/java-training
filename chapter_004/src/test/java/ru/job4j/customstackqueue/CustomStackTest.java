@@ -26,6 +26,24 @@ public class CustomStackTest {
     }
 
     /**
+     * When poll last then has it.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void whenPollLastThenHasIt() throws Exception {
+        CustomStack<String> queue = new CustomStack<>();
+
+        queue.push("Bob");
+        queue.push("John");
+
+        String firstItem = queue.poll();
+        String lastItem = queue.poll();
+
+        assertThat(lastItem, is("Bob"));
+    }
+
+    /**
      * When poll then delete and has this item.
      *
      * @throws Exception the exception
