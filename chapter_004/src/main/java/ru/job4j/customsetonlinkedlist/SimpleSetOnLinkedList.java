@@ -1,8 +1,9 @@
 
 package ru.job4j.customsetonlinkedlist;
 
+import ru.job4j.customlinkedlist.CustomLinkedList;
+
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * The type Simple set.
@@ -14,7 +15,7 @@ public class SimpleSetOnLinkedList<E> implements Iterable<E> {
     /**
      * Internal container of objects.
      */
-    private LinkedList<E> container;
+    private CustomLinkedList<E> container;
     /**
      * The Next index.
      */
@@ -24,7 +25,7 @@ public class SimpleSetOnLinkedList<E> implements Iterable<E> {
      * Instantiates a new Simple set.
      */
     public SimpleSetOnLinkedList() {
-        this.container = new LinkedList<E>();
+        this.container = new CustomLinkedList<>();
     }
 
     /**
@@ -38,7 +39,7 @@ public class SimpleSetOnLinkedList<E> implements Iterable<E> {
         Iterator<E> it = container.iterator();
         while (it.hasNext()) {
             E element = it.next();
-            if (element == value) {
+            if (element.equals(value)) {
                 isAdded = false;
                 break;
             }
