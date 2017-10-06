@@ -1,5 +1,7 @@
 package ru.job4j.cyclelinkedlist;
 
+import java.util.ArrayList;
+
 /**
  * The type Node.
  *
@@ -27,21 +29,22 @@ public class Node<T> {
     /**
      * Has cycle boolean.
      *
-     * @param first the first
+     * @param currentNode the first
      * @return the boolean
      */
-    static boolean hasCycle(Node first) {
-        Node current = first;
+    static boolean hasCycle(Node currentNode) {
+        ArrayList<Node> usedNodes = new ArrayList<>();
         boolean hasCycle = false;
         while (true) {
-            if (current.next == null) {
+            if (currentNode.next == null) {
                 break;
             }
-            if (current.next == first) {
+            if (usedNodes.contains(currentNode)) {
                 hasCycle = true;
                 break;
             }
-            current = current.next;
+            usedNodes.add(currentNode);
+            currentNode = currentNode.next;
         }
         return hasCycle;
     }
