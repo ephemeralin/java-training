@@ -1,32 +1,34 @@
 package ru.job4j.generics;
 
 /**
- * The type Abstract store.
+ * The type Abstract store new.
+ *
+ * @param <E> the type parameter
  */
-public abstract class AbstractStore implements Store<Base> {
+public class GeneralStore<E extends Base> implements Store<E> {
 
     /**
      * Users.
      */
-    private SimpleArray<Base> users;
+    private SimpleArray<E> users;
 
     /**
      * Instantiates a new Abstract store.
      *
      * @param count the count
      */
-    AbstractStore(int count) {
+    GeneralStore(int count) {
         this.users = new SimpleArray<>(count);
     }
 
     @Override
-    public Base add(Base model) {
+    public E add(E model) {
         users.add(model);
         return model;
     }
 
     @Override
-    public Base update(Base model) {
+    public E update(E model) {
         for (int i = 0; i <= this.users.getLastIndex(); i++) {
             if (this.users.get(i).equals(model)) {
                 this.users.update(model, i);
@@ -55,7 +57,7 @@ public abstract class AbstractStore implements Store<Base> {
      */
     public Base findById(String id) {
         for (int i = 0; i <= this.users.getLastIndex(); i++) {
-            Base user = this.users.get(i);
+            E user = this.users.get(i);
             if (user == null) {
                 continue;
             }

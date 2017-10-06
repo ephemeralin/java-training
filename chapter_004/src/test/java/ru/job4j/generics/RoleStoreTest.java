@@ -17,8 +17,8 @@ public class RoleStoreTest {
      * @throws Exception the exception
      */
     @Test
-    public void whenAddRoleThenFindByIdIt() throws Exception {
-        RoleStore roleStore = new RoleStore(3);
+    public void whenAddThenFindByIdIt() throws Exception {
+        GeneralStore<Role> roleStore = new GeneralStore<Role>(3);
         roleStore.add(new Role("a1", "manager"));
         Role role = (Role) roleStore.findById("a1");
         assertThat(role.getId(), is("a1"));
@@ -31,7 +31,7 @@ public class RoleStoreTest {
      */
     @Test
     public void whenUpdateThenFindByIdItWithOtherName() throws Exception {
-        RoleStore roleStore = new RoleStore(3);
+        GeneralStore<Role> roleStore = new GeneralStore<Role>(3);
         roleStore.add(new Role("a1", "manager"));
         Role role = (Role) roleStore.findById("a1");
         role.setName("director");
@@ -46,7 +46,7 @@ public class RoleStoreTest {
      */
     @Test
     public void whenAddAndDeleteOneThenHasNull() throws Exception {
-        RoleStore roleStore = new RoleStore(3);
+        GeneralStore<Role> roleStore = new GeneralStore<Role>(3);
         roleStore.add(new Role("a1", "manager"));
         roleStore.delete("a1");
         assertNull(roleStore.findById("a1"));
