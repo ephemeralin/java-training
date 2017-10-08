@@ -1,5 +1,6 @@
 package ru.job4j.maps;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -84,5 +85,11 @@ public class User {
      */
     public void setBirthday(Calendar birthday) {
         this.birthday = birthday;
+    }
+
+    @Override
+    public String toString() {
+        return "User [" + name + ", " + children + ", "
+                + new SimpleDateFormat("yyyy-MM-dd").format(birthday.getTime()) + ']';
     }
 }
