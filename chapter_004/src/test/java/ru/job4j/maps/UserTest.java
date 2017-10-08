@@ -82,4 +82,23 @@ public class UserTest {
 
         assertThat(createTestDataHashMap(first, second).toString(), anyOf(is(expectedValueFirst), is(expectedValueSecond)));
     }
+
+    /**
+     * When to string map of two different objects with overriding of HashCode and Equals Then has both objects.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void whenToStringMapOfTwoDiffObjectsWithOverridingHashCodeAndEqualsThenHasBothObjects() throws Exception {
+        UserWithOverridingHashcodeAndEquals first = new UserWithOverridingHashcodeAndEquals("Tom", 1, dateOfBirth);
+        UserWithOverridingHashcodeAndEquals second = new UserWithOverridingHashcodeAndEquals("Tom", 1, dateOfBirth);
+
+        System.out.println(first.hashCode());
+        System.out.println(second.hashCode());
+        System.out.println(first.equals(second));
+
+        String expectedValue = "{User [Tom, 1, 1985-12-08]=second user}";
+
+        assertThat(createTestDataHashMap(first, second).toString(), is(expectedValue));
+    }
 }
