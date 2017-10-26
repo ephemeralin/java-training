@@ -57,6 +57,21 @@ public class SimpleSetOptimizedTest {
     }
 
     /**
+     * When add similar then contains unique.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void whenAddSimilarPrimitiveThenContainsUniquePrimitive() throws Exception {
+        SimpleSetOptimized<Integer> set = new SimpleSetOptimized<>();
+        set.add(1);
+        set.add(1);
+
+        assertThat(set.getSize(), is(1));
+        assertThat(set.toString(), is("1"));
+    }
+
+    /**
      * When iterate three then has it.
      *
      * @throws Exception the exception

@@ -11,8 +11,6 @@ import java.util.NoSuchElementException;
  */
 public class SimpleSetOptimized<E> implements Iterable<E> {
 
-
-
     /**
      * Internal container of objects.
      */
@@ -35,26 +33,20 @@ public class SimpleSetOptimized<E> implements Iterable<E> {
     public boolean add(E value) {
         boolean isAdded = true;
 
-        for (int i = 0; i < container.length; i++) {
-            if (container[i].equals(value)) {
-                isAdded = false;
-                break;
+        int insertionPosition = findInsertionPosition(value);
+        if (insertionPosition < 0) {
+            //element does not exist
+            insertionPosition = insertionPosition * (-1) - 1;
+            container = Arrays.copyOf(container, container.length + 1);
+            int currentPosition = container.length - 2;
+            while (currentPosition >= insertionPosition) {
+                container[currentPosition + 1] = container[currentPosition];
+                currentPosition--;
             }
-        }
-
-        if (isAdded) {
-            int insertionPosition = findInsertionPosition(value);
-            if (insertionPosition <= 0) {
-                //element does not exist
-                insertionPosition = insertionPosition * (-1) - 1;
-                container = Arrays.copyOf(container, container.length + 1);
-                int currentPosition = container.length - 2;
-                while (currentPosition >= insertionPosition) {
-                    container[currentPosition + 1] = container[currentPosition];
-                    currentPosition--;
-                }
-                container[insertionPosition] = value;
-            }
+            container[insertionPosition] = value;
+        } else {
+            //element already exists
+            isAdded = false;
         }
 
         return isAdded;
@@ -67,11 +59,7 @@ public class SimpleSetOptimized<E> implements Iterable<E> {
      * @return number of position
      */
     public int findInsertionPosition(E value) {
-//        if (this.getSize() == 0) {
-//            return 0;
-//        } else {
-            return Arrays.binarySearch(container, value);
-//        }
+        return Arrays.binarySearch(container, value);
     }
 
     /**
