@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.hamcrest.core.Is.is;
@@ -28,7 +29,21 @@ public class SimpleDirectoryTest {
 
         assertThat(sd.toString(), containsString("(Barak, Obama)"));
         assertThat(sd.toString(), containsString("(John, Doe)"));
+    }
 
+    /**
+     * When insert with null key then get null.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void whenInsertWithNullKeyThenGetNull() throws Exception {
+        SimpleDirectory<String, String> sd = new SimpleDirectory<>();
+
+        sd.insert(null, "Karamba");
+        String result = sd.get(null);
+
+        assertNull(result);
     }
 
     /**

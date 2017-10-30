@@ -1,6 +1,5 @@
 package ru.job4j.directory;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -46,39 +45,6 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
     }
 
     /**
-     * The type Entry.
-     *
-     * @param <K> the type parameter
-     * @param <V> the type parameter
-     */
-    public class Entry<K, V> {
-        /**
-         * Key.
-         */
-        private K key;
-        /**
-         * Value.
-         */
-        private V value;
-
-        /**
-         * Instantiates a new Entry.
-         *
-         * @param key   the key
-         * @param value the value
-         */
-        public Entry(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("(%s, %s)", key, value);
-        }
-    }
-
-    /**
      * Hash int.
      *
      * @param key the key
@@ -109,28 +75,29 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
     public boolean insert(K key, V value) {
         boolean isInserted = false;
 
-        if (key == null) {
-            container[0].value = new Entry(0, value);
-            isInserted = true;
-
-        } else {
+        if (!(key == null)) {
             if ((double) amountOfEntries / container.length > loadFactor) {
                 //extend container
-                container = Arrays.copyOf(container, container.length * 2);
+                Entry[] t = new Entry[container.length * 2];
+                for (Entry e : container) {
+                    if (!(e == null)) {
+                        int index = indexFor(e.key.hashCode(), t.length);
+                        t[index] = e;
+                    }
+                }
+                container = t;
             }
             int hash = hash(key.hashCode());
             int index = indexFor(hash, container.length);
-            if (index < container.length) {
-                Entry<K, V> entry = container[index];
-                if (entry == null) {
-                    //add new
-                    Entry newEntry = new Entry(key, value);
-                    container[index] = newEntry;
-                    amountOfEntries++;
-                } else if (entry.key.equals(key)) {
-                    //update
-                    entry.value = value;
-                }
+            Entry<K, V> entry = container[index];
+            if (entry == null) {
+                //add new
+                Entry newEntry = new Entry(key, value);
+                container[index] = newEntry;
+                amountOfEntries++;
+            } else if (entry.key.equals(key)) {
+                //update
+                entry.value = value;
             }
         }
         return isInserted;
@@ -145,16 +112,11 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
     public V get(K key) {
         V value = null;
 
-        if (key == null) {
-            value = (V) container[0].value;
-
-        } else {
+        if (!(key == null)) {
             int hash = hash(key.hashCode());
             int index = indexFor(hash, container.length);
-            if (index < container.length) {
-                if (!(container[index] == null)) {
-                    value = (V) container[index].value;
-                }
+            if (!(container[index] == null)) {
+                value = (V) container[index].value;
             }
         }
         return value;
@@ -169,23 +131,17 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
     public boolean delete(K key) {
         boolean isDeleted = false;
 
-        if (key == null) {
-            container[0] = null;
-            isDeleted = true;
-
-        } else {
+        if (!(key == null)) {
             int hash = hash(key.hashCode());
             int index = indexFor(hash, container.length);
-            if (index < container.length) {
-                if (!(container[index] == null)) {
-                    container[index] = null;
-                    isDeleted = true;
-                }
+            if (!(container[index] == null)) {
+                container[index] = null;
+                isDeleted = true;
+                amountOfEntries--;
             }
         }
         return isDeleted;
     }
-
 
     /**
      * Gets size.
@@ -220,34 +176,69 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
     public Iterator<K> iterator() {
         return new Iterator<K>() {
             private int cursor = 0;
+            private int amountOfReturned = 0;
 
             @Override
             public boolean hasNext() {
-                if (cursor == getSize()) {
-                    return false;
-                }
-                while (cursor < getSize() && container[cursor] == null) {
-                    cursor++;
-                }
-                return cursor != getSize();
+                return amountOfReturned < amountOfEntries;
             }
 
             @Override
             public K next() {
                 int i = cursor;
                 int size = getSize();
+
                 if (i >= size) {
                     throw new NoSuchElementException();
                 }
 
-                cursor++;
+                while (i < size && container[i] == null) {
+                    i++;
+                    cursor++;
+                }
 
-                if (container[i] == null) {
+                if (i >= size) {
                     throw new NoSuchElementException();
                 }
+
+                amountOfReturned++;
+                cursor++;
 
                 return (K) container[i].key;
             }
         };
+    }
+
+    /**
+     * The type Entry.
+     *
+     * @param <K> the type parameter
+     * @param <V> the type parameter
+     */
+    public class Entry<K, V> {
+        /**
+         * Key.
+         */
+        private K key;
+        /**
+         * Value.
+         */
+        private V value;
+
+        /**
+         * Instantiates a new Entry.
+         *
+         * @param key   the key
+         * @param value the value
+         */
+        public Entry(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("(%s, %s)", key, value);
+        }
     }
 }
