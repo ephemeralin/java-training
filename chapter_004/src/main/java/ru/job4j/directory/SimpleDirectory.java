@@ -9,12 +9,12 @@ import java.util.NoSuchElementException;
  * @param <K> the type parameter
  * @param <V> the type parameter
  */
-public class SimpleDirectory<K, V> implements Iterable<K> {
+public class SimpleDirectory<K, V> implements Iterable<V> {
 
     /**
-     * The constant DEFAULT_SIZE.
+     * The constant DEFAULT_SIZE. Must be even
      */
-    static final int DEFAULT_SIZE = 3;
+    static final int DEFAULT_SIZE = 4;
 
     /**
      * The constant DEFAULT_LOAD_FACTOR.
@@ -55,14 +55,31 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
         return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
 
+
     /**
-     * Returns index in the container.
-     * @param h parameter for index calculation
-     * @param length length of the container
-     * @return index
+     * Extends container. New length must be even.
      */
-    private static int indexFor(int h, int length) {
-        return h & (length - 1);
+    private void extendContainer() {
+        int newLength = container.length * 2;
+        newLength = (newLength % 2 != 0) ? newLength - 1 : newLength;
+        Entry<K, V>[] t = new Entry[newLength];
+        for (Entry<K, V> e : container) {
+            if (e != null) {
+                int index = indexFor(e.key);
+                t[index] = e;
+            }
+        }
+        container = t;
+    }
+
+    /**
+     * Calculates index for the Key in the Container.
+     * @param key the key for which index should be calculated
+     * @return the calculated index
+     */
+    private int indexFor(K key) {
+        int hash = hash(key.hashCode());
+        return hash % this.container.length;
     }
 
     /**
@@ -75,20 +92,11 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
     public boolean insert(K key, V value) {
         boolean isInserted = false;
 
-        if (!(key == null)) {
+        if (key != null) {
             if ((double) amountOfEntries / container.length > loadFactor) {
-                //extend container
-                Entry[] t = new Entry[container.length * 2];
-                for (Entry e : container) {
-                    if (!(e == null)) {
-                        int index = indexFor(e.key.hashCode(), t.length);
-                        t[index] = e;
-                    }
-                }
-                container = t;
+                extendContainer();
             }
-            int hash = hash(key.hashCode());
-            int index = indexFor(hash, container.length);
+            int index = indexFor(key);
             Entry<K, V> entry = container[index];
             if (entry == null) {
                 //add new
@@ -112,10 +120,9 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
     public V get(K key) {
         V value = null;
 
-        if (!(key == null)) {
-            int hash = hash(key.hashCode());
-            int index = indexFor(hash, container.length);
-            if (!(container[index] == null)) {
+        if (key != null) {
+            int index = indexFor(key);
+            if (container[index] != null) {
                 value = (V) container[index].value;
             }
         }
@@ -131,10 +138,9 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
     public boolean delete(K key) {
         boolean isDeleted = false;
 
-        if (!(key == null)) {
-            int hash = hash(key.hashCode());
-            int index = indexFor(hash, container.length);
-            if (!(container[index] == null)) {
+        if (key != null) {
+            int index = indexFor(key);
+            if (container[index] != null) {
                 container[index] = null;
                 isDeleted = true;
                 amountOfEntries--;
@@ -173,8 +179,8 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
     }
 
     @Override
-    public Iterator<K> iterator() {
-        return new Iterator<K>() {
+    public Iterator<V> iterator() {
+        return new Iterator<V>() {
             private int cursor = 0;
             private int amountOfReturned = 0;
 
@@ -184,7 +190,7 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
             }
 
             @Override
-            public K next() {
+            public V next() {
                 int i = cursor;
                 int size = getSize();
 
@@ -204,7 +210,7 @@ public class SimpleDirectory<K, V> implements Iterable<K> {
                 amountOfReturned++;
                 cursor++;
 
-                return (K) container[i].key;
+                return (V) container[i].value;
             }
         };
     }

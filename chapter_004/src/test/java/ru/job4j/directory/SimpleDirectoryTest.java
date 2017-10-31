@@ -75,7 +75,7 @@ public class SimpleDirectoryTest {
         sd.insert("Tom", "Soyer");
         sd.insert("Bruce", "Lee");
 
-        assertEquals(sd.getSize(), 6);
+        assertEquals(sd.getSize(), 8);
     }
 
 
@@ -129,8 +129,8 @@ public class SimpleDirectoryTest {
             result = String.format("%s, %s", result, it.next());
         }
 
-        assertThat(result, containsString("John"));
-        assertThat(result, containsString("Barak"));
+        assertThat(result, containsString("Doe"));
+        assertThat(result, containsString("Obama"));
     }
 
 }
