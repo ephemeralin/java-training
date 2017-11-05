@@ -18,15 +18,37 @@ public class TreeTest {
      */
     @Test
     public void whenAddRootAndHisChildThenHasIt() throws Exception {
-        Tree<String> orgChart = new Tree<>("Director");
-
-        orgChart.add("Director", "Top manager");
+        Tree<String> orgChart = new Tree<String>("Director") {
+            {
+                add("Director", "Top manager");
+            }
+        };
 
         String result = orgChart.getChildren("Director").get(0).getValue();
 
         assertThat(result, is("Top manager"));
     }
 
+    /**
+     * When add two duplicates then has one.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void whenAddTwoDuplicatesThenHasOne() throws Exception {
+        Tree<String> orgChart = new Tree<String>("Director") {
+            {
+                add("Director", "Top manager");
+                add("Top manager", "Manager");
+                add("Director", "Second Director");
+                add("Second Director", "Manager");
+            }
+        };
+
+        String expected = "[Director, Top manager, Manager, Second Director]";
+
+        assertThat(orgChart.toString(), is(expected));
+    }
 
     /**
      * When convert to list then has proper list.
@@ -36,14 +58,16 @@ public class TreeTest {
      */
     @Test
     public void whenConvertToListThenHasProperList() throws Exception {
-        Tree<String> orgChart = new Tree<>("Director");
-
-        orgChart.add("Director", "Top manager");
-        orgChart.add("Top manager", "Manager");
-        orgChart.add("Manager", "Worker 1");
-        orgChart.add("Manager", "Worker 2");
-        orgChart.add("Worker 2", "Sub Worker A");
-        orgChart.add("Worker 2", "Sub Worker B");
+        Tree<String> orgChart = new Tree<String>("Director") {
+            {
+                add("Director", "Top manager");
+                add("Top manager", "Manager");
+                add("Manager", "Worker 1");
+                add("Manager", "Worker 2");
+                add("Worker 2", "Sub Worker A");
+                add("Worker 2", "Sub Worker B");
+            }
+        };
 
         String expected = "[Director, Top manager, Manager, Worker 1, Worker 2, Sub Worker A, Sub Worker B]";
 
@@ -57,14 +81,16 @@ public class TreeTest {
      */
     @Test
     public void whenIterateAllThenHasItAll() throws Exception {
-        Tree<String> orgChart = new Tree<>("Director");
-
-        orgChart.add("Director", "Top manager");
-        orgChart.add("Top manager", "Manager");
-        orgChart.add("Manager", "Worker 1");
-        orgChart.add("Manager", "Worker 2");
-        orgChart.add("Worker 2", "Sub Worker A");
-        orgChart.add("Worker 2", "Sub Worker B");
+        Tree<String> orgChart = new Tree<String>("Director") {
+            {
+                add("Director", "Top manager");
+                add("Top manager", "Manager");
+                add("Manager", "Worker 1");
+                add("Manager", "Worker 2");
+                add("Worker 2", "Sub Worker A");
+                add("Worker 2", "Sub Worker B");
+            }
+        };
 
         String result = "";
         Iterator<String> iterator = orgChart.iterator();

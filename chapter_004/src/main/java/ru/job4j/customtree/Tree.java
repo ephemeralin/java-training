@@ -119,7 +119,8 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E>, Iterable<E>
         Node<E> childNode = new Node<>(child);
 
         if (parentNode != null) {
-            if (!parentNode.getChilden().contains(childNode)) {
+            List<E> allValues = toList();
+            if (!allValues.contains(child)) {
                 parentNode.getChilden().add(childNode);
                 added = true;
                 length++;
