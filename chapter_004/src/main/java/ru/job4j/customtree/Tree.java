@@ -130,6 +130,32 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E>, Iterable<E>
         return added;
     }
 
+    @Override
+    public boolean isBinary() {
+        return checkAllNodesForBinary(root);
+    }
+
+    /**
+     * Recursive method checks all nodes in the Tree for binary state.
+     * @param parentNode start node from which recurse begins
+     * @return boolean is binary or not
+     */
+    private boolean checkAllNodesForBinary(Node<E> parentNode) {
+        boolean isBinary = true;
+        List<Node<E>> childrenList = getChildrenForNode(parentNode);
+        if (childrenList.size() <= 2) {
+            for (Node<E> childNode : childrenList) {
+                isBinary = checkAllNodesForBinary(childNode);
+                if (!isBinary) {
+                    break;
+                }
+            }
+        } else {
+            isBinary = false;
+        }
+        return isBinary;
+    }
+
     /**
      * Gets children.
      *

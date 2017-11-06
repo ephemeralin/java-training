@@ -11,6 +11,7 @@ import static org.hamcrest.core.Is.is;
  * The type Tree test.
  */
 public class TreeTest {
+
     /**
      * When add root and his child then has it.
      *
@@ -101,5 +102,49 @@ public class TreeTest {
         String expected = ", Director, Top manager, Manager, Worker 1, Worker 2, Sub Worker A, Sub Worker B";
 
         assertThat(result, is(expected));
+    }
+
+    /**
+     * When tree is binary then true.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void whenTreeIsBinaryThenTrue() throws Exception {
+        Tree<String> orgChart = new Tree<String>("Director") {
+            {
+                add("Director", "Top manager");
+                add("Top manager", "Manager");
+                add("Manager", "Worker 1");
+                add("Manager", "Worker 2");
+                add("Worker 2", "Sub Worker A");
+                add("Worker 2", "Sub Worker B");
+            }
+        };
+
+        assertThat(orgChart.isBinary(), is(true));
+    }
+
+    /**
+     * When tree is not binary then false.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void whenTreeIsNotBinaryThenFalse() throws Exception {
+        Tree<String> orgChart = new Tree<String>("Director") {
+            {
+                add("Director", "Top manager");
+                add("Top manager", "Manager");
+                add("Manager", "Worker 1");
+                add("Manager", "Worker 2");
+                add("Worker 2", "Sub Worker A");
+                add("Worker 2", "Sub Worker B");
+
+                add("Worker 2", "Sub Worker C");
+            }
+        };
+
+        assertThat(orgChart.isBinary(), is(false));
     }
 }

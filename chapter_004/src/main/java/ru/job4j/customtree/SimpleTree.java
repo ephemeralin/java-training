@@ -14,4 +14,11 @@ public interface SimpleTree<E extends Comparable<E>> extends Iterable<E> {
      * @return boolean
      */
     boolean add(E parent, E child);
+
+    /**
+     * Is binary or not.
+     *
+     * @return the boolean
+     */
+    boolean isBinary();
 }
