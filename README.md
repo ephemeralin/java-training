@@ -6,7 +6,7 @@ This is a training repository just for learning awesome Java =)
 ## Contents
 
 ### [I. Basic syntax](#i-basic-syntax-1)
-* [1. "If ... else" statement](#1-if-else-statement)
+* [1. "If ... else" statement](#1-if--else-statement)
 * [2. Cycles](#2-cycles)
 * [3. Arrays](#3-arrays)
 * [4. Exam task](#4-exam-task)
@@ -19,13 +19,13 @@ This is a training repository just for learning awesome Java =)
 * [5. Inner classes](#5-inner-classes)
 * [6. Exceptions](#6-exceptions)
 * [7. Abstract and anonymous classes](#7-abstract-and-anonymous-classes)
-* [8. Exam task](#8-exam-task-1)
+* [8. Exam task](#8-exam-task)
 
-### [III. Collections Light](iii-collections-light-1)
+### [III. Collections Lite](iii-collections-lite-1)
 * [1. Collections Framework](#1-collections-framework)
-* [2. Generics Light](#2-generics-light)
+* [2. Generics Lite](#2-generics-lite)
 * [3. Sorting](#3-sorting)
-* [4. Exam task](#4-exam-task-2)
+* [4. Exam task](#4-exam-task-1)
 
 ### [IV. Collections Pro](iv-collections-pro-1)
 * [1. Iterator](#1-iterator)
@@ -53,7 +53,8 @@ This is a training repository just for learning awesome Java =)
 #### 4. Polymorphism
 #### 5. Inner classes
 #### 6. Exceptions
-#### 7. Exam task
+#### 7. Abstract and anonymous classes
+#### 8. Exam task
 
 ### III. Collections Lite
 [Up](#java-training)
