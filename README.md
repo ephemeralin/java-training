@@ -1,4 +1,5 @@
-# java-training [![Build Status](https://travis-ci.org/ephemeralin/java-training.svg?branch=master)](https://travis-ci.org/ephemeralin/java-training)
+# java-training [![Build Status](https://travis-ci.org/ephemeralin/java-training.svg?branch=master)](https://travis-ci.org/ephemeralin/java-training) [![codecov](https://codecov.io/gh/ephemeralin/java-training/branch/master/graph/badge.svg)](https://codecov.io/gh/ephemeralin/java-training)
+
 
 This is a training repository just for learning awesome Java =)
 
