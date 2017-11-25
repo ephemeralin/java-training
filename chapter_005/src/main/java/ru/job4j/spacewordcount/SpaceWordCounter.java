@@ -89,6 +89,8 @@ public class SpaceWordCounter {
      * @param args the input arguments
      */
     public static void main(String[] args) {
+        System.out.println("The program has started.");
+
         SpaceWordCounter counter = new SpaceWordCounter("There is just a sentence");
 
         Thread threadOne = new Thread(counter.new SpaceCounter());
@@ -96,6 +98,15 @@ public class SpaceWordCounter {
 
         Thread threadTwo = new Thread(counter.new WordCounter());
         threadTwo.start();
+
+        try {
+            threadOne.join();
+            threadTwo.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("The program has finished.");
 
     }
 }
