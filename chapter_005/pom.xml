@@ -30,6 +30,14 @@
         </plugins>
     </build>
 
+    <dependencies>
+        <dependency>
+            <groupId>net.jcip</groupId>
+            <artifactId>jcip-annotations</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
     <parent>
         <groupId>ru.job4j</groupId>
         <artifactId>junior</artifactId>

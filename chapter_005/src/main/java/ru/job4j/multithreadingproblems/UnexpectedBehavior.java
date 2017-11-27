@@ -1,5 +1,8 @@
 package ru.job4j.multithreadingproblems;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 /**
  * The type Unexpected behavior.
  */
@@ -25,17 +28,27 @@ public class UnexpectedBehavior {
 /**
  * The type Counter.
  */
+@ThreadSafe
 class Counter {
+    /**
+     * Lock.
+     */
+    private Object lock = new Object();
+
     /**
      * Counter variable which will increase.
      */
+    @GuardedBy("lock")
     private long counter = 0L;
+
 
     /**
      * Increase counter.
      */
     public void increaseCounter() {
-        counter++;
+        synchronized (lock) {
+            counter++;
+        }
     }
 
     /**
