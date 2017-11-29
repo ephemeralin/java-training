@@ -57,7 +57,9 @@ class Counter {
      * @return the counter
      */
     public long getCounter() {
-        return counter;
+        synchronized (lock) {
+            return counter;
+        }
     }
 }
 
