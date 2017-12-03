@@ -61,7 +61,7 @@ public class SearchEngine {
         this.text = text;
         this.extensions = extensions;
         this.foundPaths = new ArrayList<>();
-        this.executor = Executors.newWorkStealingPool();
+        this.executor = Executors.newCachedThreadPool();
     }
 
     /**
