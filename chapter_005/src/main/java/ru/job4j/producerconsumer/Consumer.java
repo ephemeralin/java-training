@@ -1,6 +1,6 @@
 package ru.job4j.producerconsumer;
 
-import java.util.concurrent.BlockingQueue;
+import ru.job4j.producerconsumer.blockingqueue.BlockableQ;
 
 /**
  * The Consumer.
@@ -10,14 +10,14 @@ public class Consumer implements Runnable {
     /**
      * Data container.
      */
-    private BlockingQueue<DataMessage> queue;
+    private BlockableQ<DataMessage> queue;
 
     /**
      * Instantiates a new Consumer.
      *
      * @param queue the queue
      */
-    public Consumer(BlockingQueue<DataMessage> queue) {
+    public Consumer(BlockableQ<DataMessage> queue) {
         this.queue = queue;
     }
 
