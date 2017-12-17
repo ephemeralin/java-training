@@ -20,12 +20,12 @@ public class Work implements Runnable {
 
     @Override
     public void run() {
-        try {
+//        try {
             System.out.println("Start work " + number);
-            Thread.sleep(5000);
+//            Thread.sleep(5000);
             System.out.println("    Finish work " + number);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 }
