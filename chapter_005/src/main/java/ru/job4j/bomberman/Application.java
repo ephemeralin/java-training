@@ -11,20 +11,25 @@ public class Application {
      * @throws InterruptedException the interrupted exception
      */
     public static void main(String[] args) throws InterruptedException {
-        Board board = new Board(4, 4);
+        Application game = new Application();
+        game.startGame(9, 7, 3, 2);
+    }
 
-        Monster monsterOne = new Monster("Monster 1", 1, 2, board);
-        if (monsterOne != null) {
-            Thread thread2 = new Thread(monsterOne);
-            thread2.start();
-        }
+    /**
+     * Start game.
+     *
+     * @param boardSizeColumns the board size columns
+     * @param boardSizeRows    the board size rows
+     * @param stones           the stones
+     * @param monsters         the monsters
+     * @throws InterruptedException the interrupted exception
+     */
+    public void startGame(int boardSizeColumns, int boardSizeRows, int stones, int monsters) throws InterruptedException {
+        Board board = new Board(boardSizeColumns, boardSizeRows, stones);
 
-        Thread.sleep(300);
+        board.generateStones();
+        board.generateMonsters(monsters);
 
-        Monster monsterTwo = new Monster("Monster 2", 0, 1, board);
-        if (monsterTwo != null) {
-            Thread thread2 = new Thread(monsterTwo);
-            thread2.start();
-        }
+        Player player = board.createPlayer();
     }
 }

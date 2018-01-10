@@ -78,7 +78,7 @@ public abstract class Creature {
         boolean isMoved = false;
         try {
             if (!board.getCell(newX, newY).lockCell()) {
-                System.err.println(String.format("      %s cannot lock cell (%d, %d)", this.name, newX, newY));
+                System.err.println(String.format("      %s cannot move to (%d, %d)", this.name, newX, newY));
             } else {
                 board.getCell(this.x, this.y).unlock();
                 System.out.println(String.format("  %s released (%d, %d)", this.name, this.x, this.y));
@@ -88,7 +88,7 @@ public abstract class Creature {
                 isMoved = true;
             }
         } catch (IndexOutOfBoundsException e) {
-            System.err.println(String.format("Cannot set %s with current coordinates: (%d, %d)", this.name, newX, newY));
+            System.err.println(String.format("%s cannot set with coordinates (%d, %d)", this.name, newX, newY));
         } catch (InterruptedException e) {
             System.err.println("Operation was interrupted.");
         } catch (Exception e) {

@@ -53,6 +53,5 @@ public class Monster extends Creature implements Runnable {
             }
             randomMove();
         }
-
     }
 }

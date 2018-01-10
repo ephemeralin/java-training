@@ -19,7 +19,7 @@ public class CreatureTest {
      */
     @Test
     public void getPossibleCoordinatesCaseOneTest() {
-        Board board = new Board(3, 5);
+        Board board = new Board(3, 5, 0);
         Monster monster = new Monster("Monster", 0, 2, board);
         HashSet<List<Integer>> possibleCoordinates = monster.getPossibleCoordinates();
 
@@ -38,7 +38,7 @@ public class CreatureTest {
      */
     @Test
     public void getPossibleCoordinatesCaseTwoTest() {
-        Board board = new Board(3, 5);
+        Board board = new Board(3, 5, 0);
         Monster monster = new Monster("Monster", 2, 4, board);
         HashSet<List<Integer>> possibleCoordinates = monster.getPossibleCoordinates();
 
@@ -56,7 +56,7 @@ public class CreatureTest {
      */
     @Test
     public void getPossibleCoordinatesCaseThreeTest() {
-        Board board = new Board(3, 5);
+        Board board = new Board(3, 5, 0);
         Monster monster = new Monster("Monster", 1, 2, board);
         HashSet<List<Integer>> possibleCoordinates = monster.getPossibleCoordinates();
 
