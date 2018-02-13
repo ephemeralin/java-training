@@ -1,4 +1,4 @@
-package ru.job4j.sqlxmlxsltjdbc.util;
+package ru.job4j.tracker;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,7 @@ import java.sql.Statement;
 /**
  * The type Util.
  */
-public class Util {
+public class Temp {
 
     /**
      * The constant PATH.

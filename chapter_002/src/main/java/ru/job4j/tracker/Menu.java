@@ -19,7 +19,7 @@ class EditItem extends BaseAction {
      * @param input   the input
      * @param tracker the tracker
      */
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, Interacting tracker) {
         String id = input.ask("Enter task ID: ");
         Item item = tracker.findByID(id);
         if (item != null) {
@@ -50,7 +50,7 @@ public class Menu {
     /**
      * Tracker object.
      */
-    private Tracker tracker;
+    private Interacting tracker;
     /**
      * List of all available actions.
      */
@@ -63,7 +63,7 @@ public class Menu {
      * @param input   the input
      * @param tracker the tracker
      */
-    public Menu(Input input, Tracker tracker) {
+    public Menu(Input input, Interacting tracker) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -132,7 +132,7 @@ public class Menu {
          * @param input   the input
          * @param tracker the tracker
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, Interacting tracker) {
             String name = input.ask("Enter user name: ");
             String description = input.ask("Enter description: ");
             String id = tracker.getNextID();
@@ -166,7 +166,7 @@ public class Menu {
          * @param input   the input
          * @param tracker the tracker
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, Interacting tracker) {
             ArrayList<Item> items = tracker.findAll();
             if (items.size() == 0) {
                 System.out.println("No items.");
@@ -195,7 +195,7 @@ public class Menu {
          * @param input   the input
          * @param tracker the tracker
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, Interacting tracker) {
             String id = input.ask("Enter task ID: ");
             Item item = tracker.findByID(id);
 
@@ -225,7 +225,7 @@ public class Menu {
          * @param input   the input
          * @param tracker the tracker
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, Interacting tracker) {
             String id = input.ask("Enter task ID: ");
             Item item = tracker.findByID(id);
 
@@ -254,7 +254,7 @@ public class Menu {
          * @param input   the input
          * @param tracker the tracker
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, Interacting tracker) {
             String name = input.ask("Enter the name for search: ");
             Item[] items = tracker.findByName(name);
             for (Item item : items) {
@@ -280,7 +280,7 @@ public class Menu {
          * @param input   the input
          * @param tracker the tracker
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, Interacting tracker) {
             System.out.println("Bye!");
         }
 

@@ -1,15 +1,17 @@
 package ru.job4j.tracker;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * Created by ephemeralin on 21.05.17.
  */
-public class Tracker implements Interacting {
-    /**
-     * Array of Items.
-     */
-    private ArrayList<Item> items = new ArrayList<>();
+public class TrackerPostgres implements Interacting, DBConnectable {
+
+    private Connection connection;
 
     /**
      * Index of the last Item.
@@ -116,4 +118,27 @@ public class Tracker implements Interacting {
         return "task" + lastItemIndex;
     }
 
+
+    @Override
+    public Connection getConnection(Properties properties) {
+        if (connection == null) {
+
+            String url = "jdbc:sqlite:/Users/ephemeralin/sqlite/db/" + fileName;
+
+            try {
+                connection = DriverManager.getConnection(url);
+                System.out.println("Connection established.");
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return connection;
+    }
+
+    @Override
+    public void prepareTables() {
+
+    }
 }
