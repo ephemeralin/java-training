@@ -7,7 +7,7 @@ public class StartUI {
     /**
      * Tracker system.
      */
-    private Tracker tracker;
+    private Interacting tracker;
     /**
      * Input system.
      */
@@ -19,7 +19,7 @@ public class StartUI {
      * @param tracker the tracker
      * @param input   the input
      */
-    public StartUI(Tracker tracker, Input input) {
+    public StartUI(Interacting tracker, Input input) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -45,7 +45,13 @@ public class StartUI {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        Tracker tracker = new Tracker();
+        //keeping data in memory
+        //Tracker tracker = new Tracker();
+
+        //keeping data in postgresql
+        TrackerPostgres tracker = new TrackerPostgres();
+        tracker.Utils.
+
         Input input = new ValidatedInput();
         new StartUI(tracker, input).init();
     }

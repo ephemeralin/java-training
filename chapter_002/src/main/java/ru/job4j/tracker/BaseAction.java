@@ -30,7 +30,7 @@ public abstract class BaseAction implements UserAction {
      * @param tracker the tracker
      */
     @Override
-    public abstract void execute(Input input, Tracker tracker);
+    public abstract void execute(Input input, Interacting tracker);
 
     /**
      * Show info about action.
