@@ -71,7 +71,20 @@ public class Item {
      * @return the created
      */
     public Long getCreated() {
-        return created;
+        if (created == null) {
+            return Long.valueOf(0);
+        } else {
+            return created;
+        }
+    }
+
+    /**
+     * Sets created.
+     *
+     * @param created the created
+     */
+    public void setCreated(Long created) {
+        this.created = created;
     }
 
     /**

@@ -41,7 +41,7 @@ public interface Interacting {
      * @param name the name
      * @return the item [ ]
      */
-    Item[] findByName(String name);
+    ArrayList<Item> findByName(String name);
 
     /**
      * Find by id item.
@@ -57,4 +57,9 @@ public interface Interacting {
      * @return the next id
      */
     String getNextID();
+
+    /**
+     * Close tracker datasource connection.
+     */
+    void closeConnection();
 }

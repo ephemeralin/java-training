@@ -256,7 +256,7 @@ public class Menu {
          */
         public void execute(Input input, Interacting tracker) {
             String name = input.ask("Enter the name for search: ");
-            Item[] items = tracker.findByName(name);
+            ArrayList<Item> items = tracker.findByName(name);
             for (Item item : items) {
                 System.out.println(item.toString());
             }
@@ -281,6 +281,7 @@ public class Menu {
          * @param tracker the tracker
          */
         public void execute(Input input, Interacting tracker) {
+            tracker.closeConnection();
             System.out.println("Bye!");
         }
 

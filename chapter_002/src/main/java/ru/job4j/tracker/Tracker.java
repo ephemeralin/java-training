@@ -71,20 +71,11 @@ public class Tracker implements Interacting {
      * @param name the name
      * @return the item []
      */
-    public Item[] findByName(String name) {
-        int numberOfFoundItems = 0;
+    public ArrayList<Item> findByName(String name) {
+        ArrayList<Item> foundItems = new ArrayList<>();
         for (Item i: items) {
             if (i != null && i.getName().equals(name)) {
-                numberOfFoundItems++;
-            }
-        }
-
-        Item[] foundItems = new Item[numberOfFoundItems];
-        int index = 0;
-        for (Item i: items) {
-            if (i != null && i.getName().equals(name)) {
-                foundItems[index] = i;
-                index++;
+                foundItems.add(i);
             }
         }
         return foundItems;
@@ -114,6 +105,11 @@ public class Tracker implements Interacting {
      */
     public String getNextID() {
         return "task" + lastItemIndex;
+    }
+
+    @Override
+    public void closeConnection() {
+        //mock
     }
 
 }

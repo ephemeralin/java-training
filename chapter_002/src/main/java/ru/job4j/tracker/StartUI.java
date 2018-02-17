@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.sql.SQLException;
+
 /**
  * Created by ephemeralin on 27.05.17.
  */
@@ -49,11 +51,16 @@ public class StartUI {
         //Tracker tracker = new Tracker();
 
         //keeping data in postgresql
-        TrackerPostgres tracker = new TrackerPostgres();
-        tracker.Utils.
-
+        String resourcesPath = "chapter_002/resources/tracker/";
+        TrackerPostgres tracker = new TrackerPostgres(resourcesPath);
+        try {
+            tracker.initConnection();
+            tracker.prepare();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //starting UI
         Input input = new ValidatedInput();
         new StartUI(tracker, input).init();
     }
-
 }

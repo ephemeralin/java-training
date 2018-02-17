@@ -1,9 +1,20 @@
 package ru.job4j.tracker;
 
-import java.sql.Connection;
-import java.util.Properties;
+import java.sql.SQLException;
 
+/**
+ * The interface database connectable.
+ */
 public interface DBConnectable {
-    Connection getConnection(Properties properties);
-    void prepareTables();
+    /**
+     * Init databse connection.
+     *
+     * @throws SQLException the sql exception
+     */
+    void initConnection() throws SQLException;
+
+    /**
+     * Prepare tracker for doing work.
+     */
+    void prepare();
 }
