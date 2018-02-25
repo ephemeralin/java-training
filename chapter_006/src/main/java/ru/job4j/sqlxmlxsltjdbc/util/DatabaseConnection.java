@@ -5,16 +5,38 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * The type Database connection.
+ */
 public final class DatabaseConnection {
+    /**
+     * Connection instance.
+     */
     private static DatabaseConnection instance = null;
+    /**
+     * Connection.
+     */
     private Connection connection;
+    /**
+     * DB name.
+     */
     private String dbName;
 
+    /**
+     * Instantiates a new Database connection.
+     *
+     * @param dbName the db name
+     */
     public DatabaseConnection(String dbName) {
         this.dbName = dbName;
 
     }
 
+    /**
+     * Gets connection.
+     *
+     * @return the connection
+     */
     public Connection getConnection() {
         String url = "jdbc:sqlite:/Users/ephemeralin/sqlite/db/" + this.dbName;
         try {
@@ -26,6 +48,11 @@ public final class DatabaseConnection {
         return connection;
     }
 
+    /**
+     * Prepare table boolean.
+     *
+     * @return the boolean
+     */
     public boolean prepareTable() {
         String sqlCreateTable = "CREATE TABLE IF NOT EXISTS data (id INTEGER PRIMARY KEY);";
         String sqlDropTable = "DELETE FROM data;";

@@ -37,7 +37,6 @@ public class TrackerPostgres implements Interacting, DBConnectable {
             InputStream is = new FileInputStream(new File(this.resourcesPath + "tracker.properties"));
             this.properties = new Properties();
             this.properties.load(is);
-            String t = properties.getProperty("db.url");
         } catch (Exception e) {
             e.printStackTrace();
         }
