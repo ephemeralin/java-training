@@ -61,7 +61,8 @@ public class DataProcessor {
     public void putDataIntoDb(String dbName, Data data) {
         DatabaseConnection instance = new DatabaseConnection(dbName);
         try (Connection conn = instance.getConnection()) {
-            if (instance.prepareTable()) {
+            if (instance.prepareDatabaseStructure("CREATE TABLE IF NOT EXISTS data (id INTEGER PRIMARY KEY);")
+                    && instance.prepareDatabaseStructure("DELETE FROM data;")) {
                 System.out.println("- Put data into DB... ");
                 conn.setAutoCommit(false);
                 PreparedStatement pstmt = conn.prepareStatement("INSERT INTO data VALUES(?)");

@@ -4,8 +4,25 @@
         <servlet-class>ru.job4j.servlets.EchoServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>ru.job4j.crudservlet.UserServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>EchoServlet</servlet-name>
         <url-pattern>/echo</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/user</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>
+            ru.job4j.utils.AllServletsContext
+        </listener-class>
+    </listener>
 </web-app>
