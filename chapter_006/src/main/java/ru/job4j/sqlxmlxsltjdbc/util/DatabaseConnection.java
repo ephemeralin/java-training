@@ -53,13 +53,10 @@ public final class DatabaseConnection {
      *
      * @return the boolean
      */
-    public boolean prepareTable() {
-        String sqlCreateTable = "CREATE TABLE IF NOT EXISTS data (id INTEGER PRIMARY KEY);";
-        String sqlDropTable = "DELETE FROM data;";
+    public boolean prepareDatabaseStructure(String sql) {
         boolean isPrepared = false;
         try (Statement stmt = this.connection.createStatement()) {
-            stmt.execute(sqlCreateTable);
-            stmt.execute(sqlDropTable);
+            stmt.execute(sql);
             isPrepared = true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
