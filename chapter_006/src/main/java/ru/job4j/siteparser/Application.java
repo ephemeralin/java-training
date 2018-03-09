@@ -69,12 +69,11 @@ public class Application extends TimerTask {
                 if (!dbPrepared) {
                     dbPrepared = databaseProcessor.prepareDatabaseStructure();
                 }
+                databaseProcessor.putIntoDatabase(vacancies);
+                databaseProcessor.closeConnection();
             } else {
                 logger.trace("Program was stopped because of database connection error");
-                return;
             }
-            databaseProcessor.putIntoDatabase(vacancies);
-            databaseProcessor.closeConnection();
         } else {
             logger.trace("No vacancies for such period.");
         }
