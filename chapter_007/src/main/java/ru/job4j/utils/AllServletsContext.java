@@ -44,7 +44,6 @@ public class AllServletsContext implements ServletContextListener {
      */
     public final void contextDestroyed(ServletContextEvent contextEvent) {
         context = contextEvent.getServletContext();
-
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
         Enumeration<Driver> drivers = DriverManager.getDrivers();
         while (drivers.hasMoreElements()) {

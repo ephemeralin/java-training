@@ -1,4 +1,4 @@
-package ru.job4j.crudservlet;
+package ru.job4j.userservlet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +14,7 @@ import java.util.Calendar;
 /**
  * The type Crud servlet.
  */
-public class UserServlet extends HttpServlet {
+public final class UserServlet extends HttpServlet {
     /**
      * User store.
      */
@@ -106,7 +106,6 @@ public class UserServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        this.userStore.destroy();
         this.log.info("UserServlet destroyed.");
     }
 }

@@ -1,4 +1,4 @@
-package ru.job4j.crudservlet;
+package ru.job4j.userservlet;
 
 /**
  * The type User.
