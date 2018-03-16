@@ -26,6 +26,14 @@ public class DataProcessor {
      * Default number of entries.
      */
     private int numberOfEntries = 10;
+    /**
+     * Database connection.
+     */
+    private DatabaseConnection databaseConnection;
+
+    public DataProcessor(String dbName) {
+        this.databaseConnection = new DatabaseConnection(dbName);
+    }
 
     /**
      * Sets number of entries.
@@ -53,16 +61,13 @@ public class DataProcessor {
 
     /**
      * Put data into db.
-     *
-     * @param dbName the db name
      * @param data   the data
      * @throws SQLException the sql exception
      */
-    public void putDataIntoDb(String dbName, Data data) {
-        DatabaseConnection instance = new DatabaseConnection(dbName);
-        try (Connection conn = instance.getConnection()) {
-            if (instance.prepareDatabaseStructure("CREATE TABLE IF NOT EXISTS data (id INTEGER PRIMARY KEY);")
-                    && instance.prepareDatabaseStructure("DELETE FROM data;")) {
+    public void putDataIntoDb(Data data) {
+        try (Connection conn = databaseConnection.getConnection()) {
+            if (databaseConnection.prepareDatabaseStructure("CREATE TABLE IF NOT EXISTS data (id INTEGER PRIMARY KEY);")
+                    && databaseConnection.prepareDatabaseStructure("DELETE FROM data;")) {
                 System.out.println("- Put data into DB... ");
                 conn.setAutoCommit(false);
                 PreparedStatement pstmt = conn.prepareStatement("INSERT INTO data VALUES(?)");
@@ -87,14 +92,11 @@ public class DataProcessor {
 
     /**
      * Gets data from sql.
-     *
-     * @param dbName the db name
      * @return the data from sql
      */
-    public Data getDataFromSql(String dbName) {
-        DatabaseConnection instance = new DatabaseConnection(dbName);
+    public Data getDataFromSql() {
         Data data = new Data();
-        try (Connection conn = instance.getConnection()) {
+        try (Connection conn = databaseConnection.getConnection()) {
             System.out.println("- Receiving data from DB... ");
             String query = "SELECT * FROM data";
             try (Statement stmt = conn.createStatement()) {

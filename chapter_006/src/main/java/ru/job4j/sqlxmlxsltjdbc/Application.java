@@ -34,11 +34,11 @@ public class Application {
         int numberOfEntries = Integer.parseInt(args[1]);
         System.out.println("--- Start program. Number of entries: " + numberOfEntries);
         System.out.println(new Timestamp(System.currentTimeMillis()));
-        DataProcessor dataProcessor = new DataProcessor();
+        DataProcessor dataProcessor = new DataProcessor(dbName);
         dataProcessor.setNumberOfEntries(numberOfEntries);
         Data data = dataProcessor.generateData();
-        dataProcessor.putDataIntoDb(dbName, data);
-        data = dataProcessor.getDataFromSql(dbName);
+        dataProcessor.putDataIntoDb(data);
+        data = dataProcessor.getDataFromSql();
         dataProcessor.putDataInXmlFile(data, PATH + "1.xml");
         dataProcessor.convertXmlFile(PATH + "xml_convert.xsl",
                                         PATH +  "1.xml", PATH + "2.xml");

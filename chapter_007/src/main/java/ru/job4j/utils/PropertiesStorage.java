@@ -101,7 +101,4 @@ public class PropertiesStorage {
     public String getProperty(String s) {
         return properties.getProperty(s);
     }
-
-
-
 }

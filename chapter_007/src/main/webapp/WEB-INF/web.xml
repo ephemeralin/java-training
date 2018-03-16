@@ -9,31 +9,31 @@
 
     <servlet>
         <servlet-name>UserServlet</servlet-name>
-        <servlet-class>ru.job4j.userservlet.UserServlet</servlet-class>
+        <servlet-class>ru.job4j.userservlet.servlets.UserServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>UserMainServlet</servlet-name>
-        <servlet-class>ru.job4j.userservlet.UserMainServlet</servlet-class>
+        <servlet-class>ru.job4j.userservlet.servlets.UserMainServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>UserCreateServlet</servlet-name>
-        <servlet-class>ru.job4j.userservlet.UserCreateServlet</servlet-class>
+        <servlet-class>ru.job4j.userservlet.servlets.UserCreateServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>UserDeleteServlet</servlet-name>
-        <servlet-class>ru.job4j.userservlet.UserDeleteServlet</servlet-class>
+        <servlet-class>ru.job4j.userservlet.servlets.UserDeleteServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>UserUpdateServlet</servlet-name>
-        <servlet-class>ru.job4j.userservlet.UserUpdateServlet</servlet-class>
+        <servlet-class>ru.job4j.userservlet.servlets.UserUpdateServlet</servlet-class>
         <load-on-startup>4</load-on-startup>
     </servlet>
 

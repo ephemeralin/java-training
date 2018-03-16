@@ -10,10 +10,6 @@ import java.sql.Statement;
  */
 public final class DatabaseConnection {
     /**
-     * Connection instance.
-     */
-    private static DatabaseConnection instance = null;
-    /**
      * Connection.
      */
     private Connection connection;
@@ -29,7 +25,6 @@ public final class DatabaseConnection {
      */
     public DatabaseConnection(String dbName) {
         this.dbName = dbName;
-
     }
 
     /**
@@ -64,4 +59,3 @@ public final class DatabaseConnection {
         return isPrepared;
     }
 }
-
