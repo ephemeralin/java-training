@@ -4,9 +4,9 @@ sudo: false
 services:
   - postgresql
 
-before_script: {
-    psql -c "CREATE DATABASE database;" -U postgres
-}
+before_script:
+  - psql -c "CREATE DATABASE database;" -U postgres
+
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
