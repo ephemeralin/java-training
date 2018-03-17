@@ -1,6 +1,13 @@
 language: java
 sudo: false
 
+services:
+  - postgresql
+
+before_script: {
+    psql -c "CREATE DATABASE database;" -U postgres
+}
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
@@ -8,5 +15,5 @@ notifications:
   email:
     recipients:
       - ephemeralin@gmail.com
-    on_success: never # default: change
+    on_success: always # default: change
     on_failure: always # default: always
