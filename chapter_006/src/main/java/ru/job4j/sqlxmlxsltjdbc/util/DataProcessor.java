@@ -31,6 +31,10 @@ public class DataProcessor {
      */
     private DatabaseConnection databaseConnection;
 
+    /**
+     * Dataprocessor constructor.
+     * @param dbName database name
+     */
     public DataProcessor(String dbName) {
         this.databaseConnection = new DatabaseConnection(dbName);
     }

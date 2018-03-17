@@ -44,8 +44,9 @@ public final class DatabaseConnection {
     }
 
     /**
-     * Prepare table boolean.
+     * Prepare database structure boolean.
      *
+     * @param sql the sql
      * @return the boolean
      */
     public boolean prepareDatabaseStructure(String sql) {
