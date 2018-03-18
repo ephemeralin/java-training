@@ -1,9 +1,9 @@
-package ru.job4j.userservlet.servlets;
+package ru.job4j.users.servlets.one;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.job4j.userservlet.User;
-import ru.job4j.userservlet.UserStore;
+import ru.job4j.users.model.User;
+import ru.job4j.users.model.UserStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

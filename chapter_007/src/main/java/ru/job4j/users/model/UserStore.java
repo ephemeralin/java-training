@@ -1,4 +1,4 @@
-package ru.job4j.userservlet;
+package ru.job4j.users.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -125,6 +125,9 @@ public final class UserStore {
      * @return the boolean
      */
     public boolean add(User user) {
+        if (user.getEmail().isEmpty()) {
+            return false;
+        }
         String sql = "INSERT INTO users (email, name, login, created) VALUES (?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement pstmt = null;

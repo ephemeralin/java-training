@@ -7,7 +7,6 @@ services:
 before_script:
   - psql -c "CREATE DATABASE database;" -U postgres
 
-
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 

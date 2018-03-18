@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 
 /**
- * The type All servlets context.
+ * The type All echo context.
  */
 public class AllServletsContext implements ServletContextListener {
     /**

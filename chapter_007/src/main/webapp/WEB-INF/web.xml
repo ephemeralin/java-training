@@ -4,36 +4,60 @@
 
     <servlet>
         <servlet-name>EchoServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.EchoServlet</servlet-class>
+        <servlet-class>ru.job4j.echo.EchoServlet</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>UserServlet</servlet-name>
-        <servlet-class>ru.job4j.userservlet.servlets.UserServlet</servlet-class>
+        <servlet-class>ru.job4j.users.servlets.one.UserServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>UserMainServlet</servlet-name>
-        <servlet-class>ru.job4j.userservlet.servlets.UserMainServlet</servlet-class>
+        <servlet-class>ru.job4j.users.servlets.many.UserMainServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>UserCreateServlet</servlet-name>
-        <servlet-class>ru.job4j.userservlet.servlets.UserCreateServlet</servlet-class>
+        <servlet-class>ru.job4j.users.servlets.many.UserCreateServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>UserDeleteServlet</servlet-name>
-        <servlet-class>ru.job4j.userservlet.servlets.UserDeleteServlet</servlet-class>
+        <servlet-class>ru.job4j.users.servlets.many.UserDeleteServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>UserUpdateServlet</servlet-name>
-        <servlet-class>ru.job4j.userservlet.servlets.UserUpdateServlet</servlet-class>
+        <servlet-class>ru.job4j.users.servlets.many.UserUpdateServlet</servlet-class>
+        <load-on-startup>4</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>UserMainServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.servlets.jsp.UserMainServletJSP</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>UserCreateServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.servlets.jsp.UserCreateServletJSP</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>UserDeleteServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.servlets.jsp.UserDeleteServletJSP</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>UserUpdateServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.servlets.jsp.UserUpdateServletJSP</servlet-class>
         <load-on-startup>4</load-on-startup>
     </servlet>
 
@@ -67,6 +91,26 @@
     <servlet-mapping>
         <servlet-name>UserUpdateServlet</servlet-name>
         <url-pattern>/update</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UserMainServletJSP</servlet-name>
+        <url-pattern>/mainj</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UserCreateServletJSP</servlet-name>
+        <url-pattern>/createj</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UserDeleteServletJSP</servlet-name>
+        <url-pattern>/deletej</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UserUpdateServletJSP</servlet-name>
+        <url-pattern>/updatej</url-pattern>
     </servlet-mapping>
 
     <!--OTHER-->
