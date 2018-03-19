@@ -1,11 +1,10 @@
-package ru.job4j.users.servlets.jsp;
+package ru.job4j.users.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.users.model.User;
 import ru.job4j.users.model.UserStore;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,7 @@ import java.util.List;
 /**
  * The Main servlet.
  */
-public final class UserMainServletJSP extends HttpServlet {
+public final class MainController extends HttpServlet {
     /**
      * Logger instance.
      */
@@ -26,8 +25,7 @@ public final class UserMainServletJSP extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<User> allUsers = UserStore.getInstance().getAll();
         request.setAttribute("usersList", allUsers);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/view/main.jsp").forward(request, response);
     }
 
     @Override

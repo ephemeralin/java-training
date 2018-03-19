@@ -1,4 +1,4 @@
-package ru.job4j.users.servlets.jsp;
+package ru.job4j.users.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,12 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * The user Create servlet.
  */
-public final class UserCreateServletJSP extends HttpServlet {
+public final class CreateController extends HttpServlet {
     /**
      * Logger instance.
      */
@@ -25,7 +24,7 @@ public final class UserCreateServletJSP extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("create.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/create.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -37,15 +36,11 @@ public final class UserCreateServletJSP extends HttpServlet {
         Long created = Calendar.getInstance().getTimeInMillis();
         User user = new User(name, login, email, created);
         if (UserStore.getInstance().add(user)) {
-            List<User> allUsers = UserStore.getInstance().getAll();
-            request.setAttribute("usersList", allUsers);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");
-            dispatcher.forward(request, response);
+            response.sendRedirect("main");
         } else {
-            String err = String.format("User with email %s was not created!", email);
+            String err = String.format("User with email <%s> was not created!", email);
             request.setAttribute("errorMsg", err);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/view/error.jsp").forward(request, response);
         }
     }
 

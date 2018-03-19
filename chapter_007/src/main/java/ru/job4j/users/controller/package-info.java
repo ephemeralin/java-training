@@ -1,8 +1,8 @@
 /**
- * Package for jsp servlets implementation.
+ * Package for controller servlets implementation.
  *
  * @author Viacheslav Piliugin (mailto:ephemeralin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-package ru.job4j.users.servlets.jsp;
+package ru.job4j.users.controller;

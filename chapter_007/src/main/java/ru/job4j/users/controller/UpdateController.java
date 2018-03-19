@@ -1,4 +1,4 @@
-package ru.job4j.users.servlets.jsp;
+package ru.job4j.users.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,12 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * The type Crud servlet.
  */
-public final class UserUpdateServletJSP extends HttpServlet {
+public final class UpdateController extends HttpServlet {
     /**
      * Logger instance.
      */
@@ -30,12 +29,12 @@ public final class UserUpdateServletJSP extends HttpServlet {
             request.setAttribute("email", user.getEmail());
             request.setAttribute("name", user.getName());
             request.setAttribute("login", user.getLogin());
-            RequestDispatcher dispatcher = request.getRequestDispatcher("update.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/update.jsp");
             dispatcher.forward(request, response);
         } else {
-            String err = String.format("User with email %s was not found!", email);
+            String err = String.format("User with email <%s> was not found!", email);
             request.setAttribute("errorMsg", err);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/error.jsp");
             dispatcher.forward(request, response);
         }
     }
@@ -51,19 +50,16 @@ public final class UserUpdateServletJSP extends HttpServlet {
             user.setName(name);
             user.setLogin(login);
             if (UserStore.getInstance().update(user)) {
-                List<User> allUsers = UserStore.getInstance().getAll();
-                request.setAttribute("usersList", allUsers);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");
-                dispatcher.forward(request, response);
+                response.sendRedirect("main");
             } else {
-                err = String.format("User with email %s was not updated!", email);
+                err = String.format("User with email <%s> was not updated!", email);
             }
         } else {
-            err = String.format("Could NOT find user by email %s for updating", email);
+            err = String.format("Could NOT find user by email <%s> for updating", email);
         }
         if (!err.isEmpty()) {
             request.setAttribute("errorMsg", err);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/error.jsp");
             dispatcher.forward(request, response);
         }
     }
