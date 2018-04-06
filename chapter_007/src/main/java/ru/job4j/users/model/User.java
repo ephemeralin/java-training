@@ -22,6 +22,16 @@ public class User {
     private Long created;
 
     /**
+     * The password.
+     */
+    private String password;
+
+    /**
+     * The user's role.
+     */
+    private Role role;
+
+    /**
      * Instantiates a new User.
      *
      * @param name    the name
@@ -29,11 +39,21 @@ public class User {
      * @param email   the email
      * @param created the created
      */
-    public User(String name, String login, String email, Long created) {
+    public User(String name, String login, String email, Long created, String password, Role role) {
         this.email = email;
         this.name = name;
         this.login = login;
+        this.password = password;
         this.created = created;
+        this.role = role;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     /**
@@ -43,6 +63,14 @@ public class User {
      */
     public String getName() {
         return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**

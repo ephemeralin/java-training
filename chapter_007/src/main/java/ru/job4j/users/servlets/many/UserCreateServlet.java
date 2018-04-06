@@ -2,6 +2,7 @@ package ru.job4j.users.servlets.many;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.users.model.Role;
 import ru.job4j.users.model.User;
 import ru.job4j.users.model.UserStore;
 
@@ -65,7 +66,7 @@ public final class UserCreateServlet extends HttpServlet {
         String name = request.getParameter("name");
         String login = request.getParameter("login");
         Long created = Calendar.getInstance().getTimeInMillis();
-        User user = new User(name, login, email, created);
+        User user = new User(name, login, email, created, null, new Role(1, "user"));
         if (userStore.add(user)) {
             resultText = String.format("User with email %s created successfully.", email);
         } else {

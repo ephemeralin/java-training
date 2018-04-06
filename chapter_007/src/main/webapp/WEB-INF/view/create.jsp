@@ -17,7 +17,16 @@
     Name:<br>
     <input type='text' name='name' value=''><br>
     Login:<br>
-    <input type='text' name='login' value=''><br><br>
+    <input type='text' name='login' value=''><br>
+    Role:<br>
+    <select name="role">
+        <c:forEach items="${rolesList}" var="roleFromList">
+            <option value="${roleFromList.name}">${roleFromList.name}</option>
+        </c:forEach>
+    </select><br>
+    Password:<br>
+    <input type='password' name='password' value=''><br>
+    <br>
     <input type='submit' value='Create'>
 </form>
 

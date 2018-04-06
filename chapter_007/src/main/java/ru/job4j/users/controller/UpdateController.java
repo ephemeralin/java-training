@@ -29,6 +29,9 @@ public final class UpdateController extends HttpServlet {
             request.setAttribute("email", user.getEmail());
             request.setAttribute("name", user.getName());
             request.setAttribute("login", user.getLogin());
+            request.setAttribute("role", user.getRole().getName());
+            request.setAttribute("rolesList", UserStore.getInstance().getAllRoles());
+            request.setAttribute("currentRole", request.getSession().getAttribute("role"));
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/update.jsp");
             dispatcher.forward(request, response);
         } else {
@@ -45,10 +48,17 @@ public final class UpdateController extends HttpServlet {
         String email = request.getParameter("email");
         String name = request.getParameter("name");
         String login = request.getParameter("login");
+        String password = request.getParameter("password");
+        String roleName = request.getParameter("role");
+        System.out.println(roleName);
         User user = UserStore.getInstance().getByEmail(email);
         if (user != null) {
             user.setName(name);
             user.setLogin(login);
+            user.setRole(UserStore.getInstance().getRoleByRoleName(roleName));
+            if (password != null && !password.isEmpty()) {
+                user.setPassword(password);
+            }
             if (UserStore.getInstance().update(user)) {
                 response.sendRedirect("main");
             } else {

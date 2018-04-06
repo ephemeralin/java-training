@@ -65,6 +65,18 @@
         <load-on-startup>4</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>LoginServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.controller.LoginController</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>ru.job4j.users.controller.LoginFilter</filter-class>
+        <load-on-startup>0</load-on-startup>
+    </filter>
+
 
     <!--MAPPINGS-->
 
@@ -121,6 +133,16 @@
         <servlet-name>UserUpdateServletJSP</servlet-name>
         <url-pattern>/update</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>LoginServletJSP</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
 
     <!--OTHER-->
 
