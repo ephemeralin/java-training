@@ -36,6 +36,7 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("login", login);
                 session.setAttribute("role", UserStore.getInstance().getRoleByLogin(login));
                 resp.sendRedirect("main");
+                System.out.println(login);
             } else {
                 req.setAttribute("error", "Login failed!");
                 doGet(req, resp);

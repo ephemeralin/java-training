@@ -50,7 +50,6 @@ public final class UpdateController extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String roleName = request.getParameter("role");
-        System.out.println(roleName);
         User user = UserStore.getInstance().getByEmail(email);
         if (user != null) {
             user.setName(name);
