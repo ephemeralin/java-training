@@ -53,12 +53,32 @@ public final class UserStore {
      */
     private void createDatabaseIfNotExist() {
         String sql = "CREATE TABLE IF NOT EXISTS roles"
-                    + "(id INT4 PRIMARY KEY,"
-                    + "name VARCHAR(100));";
+                + "(id INT4 PRIMARY KEY,"
+                + "name VARCHAR(100));";
         try (Statement stmt = databaseConnector.getConnection().createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
-            log.error("Creating database error", e);
+            log.error("Creating database error (errors)", e);
+        }
+
+        sql = "CREATE TABLE IF NOT EXISTS countries"
+                + "(id SERIAL PRIMARY KEY,"
+                + "name VARCHAR(150));";
+        try (Statement stmt = databaseConnector.getConnection().createStatement()) {
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            log.error("Creating database error (countries)", e);
+        }
+
+        sql = "CREATE TABLE IF NOT EXISTS cities"
+                + "(id SERIAL PRIMARY KEY,"
+                + "name VARCHAR(150),"
+                + "country_id INT4,"
+                + "FOREIGN KEY (country_id) REFERENCES countries(id));";
+        try (Statement stmt = databaseConnector.getConnection().createStatement()) {
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            log.error("Creating database error (cities)", e);
         }
 
         sql = "CREATE TABLE IF NOT EXISTS users"
@@ -72,7 +92,7 @@ public final class UserStore {
         try (Statement stmt = databaseConnector.getConnection().createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
-            log.error("Creating database error", e);
+            log.error("Creating database error (users)", e);
         }
     }
 
@@ -95,9 +115,15 @@ public final class UserStore {
                 + "users.created AS created,"
                 + "users.password AS password,"
                 + "roles.name AS role_name,"
-                + "roles.id AS role_id "
+                + "roles.id AS role_id, "
+                + "cities.id AS city_id, "
+                + "cities.name AS city_name, "
+                + "countries.id AS country_id, "
+                + "countries.name AS country_name "
                 + "FROM users AS users "
                 + "LEFT OUTER JOIN roles AS roles ON users.role_id = roles.id "
+                + "LEFT OUTER JOIN cities AS cities ON users.city_id = cities.id "
+                + "LEFT OUTER JOIN countries AS countries ON cities.country_id = countries.id "
                 + "where users.email = ?;";
         try {
             conn = databaseConnector.getConnection();
@@ -115,6 +141,12 @@ public final class UserStore {
         return user;
     }
 
+    /**
+     * Gets role by login.
+     *
+     * @param login the login
+     * @return the role by login
+     */
     public Role getRoleByLogin(String login) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -128,9 +160,15 @@ public final class UserStore {
                 + "users.created AS created,"
                 + "users.password AS password,"
                 + "roles.name AS role_name,"
-                + "roles.id AS role_id "
+                + "roles.id AS role_id, "
+                + "cities.id AS city_id, "
+                + "cities.name AS city_name, "
+                + "countries.id AS country_id, "
+                + "countries.name AS country_name "
                 + "FROM users AS users "
                 + "LEFT OUTER JOIN roles AS roles ON users.role_id = roles.id "
+                + "LEFT OUTER JOIN cities AS cities ON users.city_id = cities.id "
+                + "LEFT OUTER JOIN countries AS countries ON cities.country_id = countries.id "
                 + "where users.login = ?;";
         try {
             conn = databaseConnector.getConnection();
@@ -154,6 +192,12 @@ public final class UserStore {
         return role;
     }
 
+    /**
+     * Gets role by role name.
+     *
+     * @param roleName the role name
+     * @return the role by role name
+     */
     public Role getRoleByRoleName(String roleName) {
         Role role = null;
         Connection conn = null;
@@ -161,10 +205,10 @@ public final class UserStore {
         ResultSet rs = null;
         String sql =
                 "SELECT "
-                    + "roles.id AS id,"
-                    + "roles.name AS name "
-                    + "FROM roles AS roles "
-                    + "where roles.name = ?;";
+                        + "roles.id AS id,"
+                        + "roles.name AS name "
+                        + "FROM roles AS roles "
+                        + "where roles.name = ?;";
         try {
             conn = databaseConnector.getConnection();
             pstmt = conn.prepareStatement(sql);
@@ -174,11 +218,85 @@ public final class UserStore {
                 role = new Role(rs.getInt("id"), rs.getString("name"));
             }
         } catch (SQLException e) {
-            log.error("Error getting user by e-mail", e);
+            log.error("Error getting role by name", e);
         } finally {
             closeSqlResources(conn, pstmt, rs);
         }
         return role;
+    }
+
+    /**
+     * Gets city by city name.
+     *
+     * @param cityName the city name
+     * @return the city by city name
+     */
+    public City getCityByCityName(String cityName) {
+        City city = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql =
+                "SELECT "
+                        + "cities.id AS id,"
+                        + "cities.name AS name, "
+                        + "countries.id AS country_id, "
+                        + "countries.name AS country_name "
+                        + "FROM cities AS cities "
+                        + "LEFT OUTER JOIN countries AS countries ON cities.country_id = countries.id "
+                        + "where cities.name = ?;";
+        try {
+            conn = databaseConnector.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, cityName);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Country country = new Country(rs.getInt("country_id"), rs.getString("country_name"));
+                city = new City(rs.getInt("id"), rs.getString("name"), country);
+            }
+        } catch (SQLException e) {
+            log.error("Error getting city by name", e);
+        } finally {
+            closeSqlResources(conn, pstmt, rs);
+        }
+        return city;
+    }
+
+    /**
+     * Gets city by id.
+     *
+     * @param id the id
+     * @return the city by id
+     */
+    public City getCityById(String id) {
+        City city = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql =
+                "SELECT "
+                        + "cities.id AS id,"
+                        + "cities.name AS name, "
+                        + "countries.id AS country_id, "
+                        + "countries.name AS country_name "
+                        + "FROM cities AS cities "
+                        + "LEFT OUTER JOIN countries AS countries ON cities.country_id = countries.id "
+                        + "where cities.id = ?;";
+        try {
+            conn = databaseConnector.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, Integer.parseInt(id));
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Country country = new Country(rs.getInt("country_id"), rs.getString("country_name"));
+                city = new City(rs.getInt("id"), rs.getString("name"), country);
+            }
+        } catch (SQLException e) {
+            log.error("Error getting city by id", e);
+        } finally {
+            closeSqlResources(conn, pstmt, rs);
+        }
+        return city;
     }
 
     /**
@@ -196,9 +314,16 @@ public final class UserStore {
                 + "users.created AS created,"
                 + "users.password AS password,"
                 + "roles.name AS role_name,"
-                + "roles.id AS role_id "
+                + "roles.id AS role_id, "
+                + "cities.id AS city_id, "
+                + "cities.name AS city_name, "
+                + "countries.id AS country_id, "
+                + "countries.name AS country_name "
                 + "FROM users AS users "
-                + "LEFT OUTER JOIN roles AS roles ON users.role_id = roles.id ";
+                + "LEFT OUTER JOIN roles AS roles ON users.role_id = roles.id "
+                + "LEFT OUTER JOIN cities AS cities ON users.city_id = cities.id "
+                + "LEFT OUTER JOIN countries AS countries ON cities.country_id = countries.id ";
+
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -227,7 +352,7 @@ public final class UserStore {
         if (user.getEmail().isEmpty()) {
             return false;
         }
-        String sql = "INSERT INTO users (email, name, login, password, created, role_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (email, name, login, password, created, role_id, city_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -241,6 +366,7 @@ public final class UserStore {
             pstmt.setString(4, user.getPassword());
             pstmt.setLong(5, user.getCreated());
             pstmt.setInt(6, user.getRole().getId());
+            pstmt.setInt(7, user.getCity().getId());
             pstmt.execute();
             isAdded = true;
             log.info(String.format("User with e-mail %s put to the DB", user.getEmail()));
@@ -267,7 +393,7 @@ public final class UserStore {
         boolean isUpdated = false;
         String sql =
             "UPDATE users "
-            + "SET name = ?, login = ?, created = ?, password = ?, role_id = ? "
+            + "SET name = ?, login = ?, created = ?, password = ?, role_id = ?, city_id = ? "
             + "WHERE email = ?";
         try {
             conn = databaseConnector.getConnection();
@@ -277,7 +403,8 @@ public final class UserStore {
             pstmt.setLong(3, user.getCreated());
             pstmt.setString(4, user.getPassword());
             pstmt.setInt(5, user.getRole().getId());
-            pstmt.setString(6, user.getEmail());
+            pstmt.setInt(6, user.getCity().getId());
+            pstmt.setString(7, user.getEmail());
             pstmt.execute();
             isUpdated = true;
             log.info(String.format("User with e-mail %s updated", user.getEmail()));
@@ -311,6 +438,13 @@ public final class UserStore {
         return isDeleted;
     }
 
+    /**
+     * Is identified boolean.
+     *
+     * @param login    the login
+     * @param password the password
+     * @return the boolean
+     */
     public boolean isIdentified(String login, String password) {
         boolean isIdentified = false;
         Connection conn = null;
@@ -347,9 +481,19 @@ public final class UserStore {
             String login = rs.getString("login");
             String password = rs.getString("password");
             Long created = rs.getLong("created");
+            //role data
             int role_id = rs.getInt("role_id");
             String role_name = rs.getString("role_name");
-            user = new User(name, login, email, created, password, new Role(role_id, role_name));
+            Role role = new Role(role_id, role_name);
+            //country data
+            int country_id = rs.getInt("country_id");
+            String country_name = rs.getString("country_name");
+            Country country = new Country(country_id, country_name);
+            //city data
+            int city_id = rs.getInt("city_id");
+            String city_name = rs.getString("city_name");
+            City city = new City(city_id, city_name, country);
+            user = new User(name, login, email, created, password, role, city);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -397,13 +541,18 @@ public final class UserStore {
 
     }
 
+    /**
+     * Gets all roles.
+     *
+     * @return the all roles
+     */
     public List<Role> getAllRoles() {
         List<Role> allRoles = new ArrayList<>();
         String sql =
-            "SELECT "
-                + "roles.id AS id,"
-                + "roles.name AS name "
-                + "FROM roles AS roles;";
+                "SELECT "
+                        + "roles.id AS id,"
+                        + "roles.name AS name "
+                        + "FROM roles AS roles;";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -420,5 +569,74 @@ public final class UserStore {
             closeSqlResources(conn, pstmt, rs);
         }
         return allRoles;
+    }
+
+    /**
+     * Gets all countries.
+     *
+     * @return the all countries
+     */
+    public List<Country> getAllCountries() {
+        List<Country> allCountries = new ArrayList<>();
+        String sql =
+                "SELECT "
+                        + "countries.id AS id,"
+                        + "countries.name AS name "
+                        + "FROM countries AS countries "
+                        + "ORDER BY name ASC;";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn =  databaseConnector.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                allCountries.add(new Country(rs.getInt("id"), rs.getString("name")));
+            }
+        } catch (SQLException e) {
+            log.error("Error getting all countries", e);
+        } finally {
+            closeSqlResources(conn, pstmt, rs);
+        }
+        return allCountries;
+    }
+
+    /**
+     * Gets cities by country id.
+     *
+     * @param countryId the country id
+     * @return the cities by country id
+     */
+    public List<City> getCitiesByCountryId(int countryId) {
+        List<City> cities = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql =
+                "SELECT "
+                        + "cities.id AS id,"
+                        + "cities.name AS name, "
+                        + "countries.id AS country_id, "
+                        + "countries.name AS country_name "
+                        + "FROM cities AS cities "
+                        + "INNER JOIN countries AS countries ON cities.country_id = countries.id "
+                        + "where countries.id = ?;";
+        try {
+            conn = databaseConnector.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, countryId);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Country country = new Country(rs.getInt("country_id"), rs.getString("country_name"));
+                City city = new City(rs.getInt("id"), rs.getString("name"), country);
+                cities.add(city);
+            }
+        } catch (SQLException e) {
+            log.error("Error getting cities for country id", e);
+        } finally {
+            closeSqlResources(conn, pstmt, rs);
+        }
+        return cities;
     }
 }

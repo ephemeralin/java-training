@@ -3,9 +3,9 @@ package ru.job4j.users.model;
 import java.util.Objects;
 
 /**
- * The type Role.
+ * The type Country.
  */
-public class Role {
+public class Country {
     /**
      * ID.
      */
@@ -16,12 +16,32 @@ public class Role {
     private String name;
 
     /**
+     * Instantiates a new Country.
+     *
+     * @param id   the id
+     * @param name the name
+     */
+    public Country(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    /**
      * Gets id.
      *
      * @return the id
      */
     public int getId() {
         return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
@@ -42,17 +62,6 @@ public class Role {
         this.name = name;
     }
 
-    /**
-     * Instantiates a new Role.
-     *
-     * @param id   the id
-     * @param name the name
-     */
-    public Role(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -61,9 +70,9 @@ public class Role {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Role role = (Role) o;
-        return getId() == role.getId() &&
-                Objects.equals(getName(), role.getName());
+        Country country = (Country) o;
+        return getId() == country.getId() &&
+                Objects.equals(getName(), country.getName());
     }
 
     @Override
@@ -74,6 +83,10 @@ public class Role {
 
     @Override
     public String toString() {
-        return this.name;
+        if (name == null) {
+            return "";
+        } else {
+            return name;
+        }
     }
 }

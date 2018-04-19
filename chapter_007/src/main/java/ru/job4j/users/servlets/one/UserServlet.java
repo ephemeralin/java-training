@@ -2,9 +2,7 @@ package ru.job4j.users.servlets.one;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.job4j.users.model.Role;
-import ru.job4j.users.model.User;
-import ru.job4j.users.model.UserStore;
+import ru.job4j.users.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -64,7 +62,10 @@ public final class UserServlet extends HttpServlet {
         User user = userStore.getByEmail(email);
         if (user == null) {
             //Create user
-            user = new User(name, login, email, created, null, new Role(1, "user"));
+            Role role = new Role(1, "user");
+            Country country = new Country(1, "Russia");
+            City city = new City(1, "Moscow", country);
+            user = new User(name, login, email, created, null, role, city);
             if (userStore.add(user)) {
                 response.setStatus(201);
                 outputText = String.format("New user added to the DB: %s", user);

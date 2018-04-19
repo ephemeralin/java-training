@@ -1,33 +1,35 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
 <head>
     <title>Users database</title>
 
     <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
+        <%@ include file="css/mainStyle.css"%>
+        body {
+            text-align: left;
         }
-        th, td {
-            padding: 7px;
+        h1 {
+            text-align: center;
         }
     </style>
+
 </head>
 
 <body>
     <c:set var="path" value="${pageContext.servletContext.contextPath}" scope="request"></c:set>
-
+    <h1>Users database</h1>
     <p>
         Login: <c:out value="${login}"></c:out><br>
         Role: <c:out value="${role.name}"></c:out>
     </p>
 
-    <form action='${requestScope.path}/login' method='post'><input type='submit'value='Logoff'>
+    <form action='${requestScope.path}/login' method='post'><input type='submit'value='Logoff' style="width: auto">
         <input type='hidden' name='logoff' value="logoff">
     </form>
-    <br>
+
     <table
             style='width:70%'>
         <tr>
@@ -35,6 +37,8 @@
             <th>Login</th>
             <th>E-mail</th>
             <th>Role</th>
+            <th>Country</th>
+            <th>City</th>
             <th>Edit</th>
             <th>Delete</th>
             <c:forEach items="${usersList}" var="user">
@@ -43,6 +47,8 @@
                     <td><c:out value="${user.login}"></c:out></td>
                     <td><c:out value="${user.email}"></c:out></td>
                     <td><c:out value="${user.role}"></c:out></td>
+                    <td><c:out value="${user.country}"></c:out></td>
+                    <td><c:out value="${user.city}"></c:out></td>
                     <c:choose>
                         <c:when test="${role.name == 'admin'}">
                             <td><form action='${requestScope.path}/update' method='get'><input type='submit' value='Edit'>
@@ -63,13 +69,15 @@
                             <td></td>
                         </c:otherwise>
                     </c:choose>
+
+
                 </tr>
             </c:forEach>
     </table>
     <br>
     <c:if test="${role.name == 'admin'}">
         <form action='${requestScope.path}/create' method='get'>
-            <input type='submit' value='Create new'>
+            <input type='submit' value='Create new' style="width: auto">
         </form>
     </c:if>
 </body>

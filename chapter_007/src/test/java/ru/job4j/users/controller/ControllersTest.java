@@ -17,9 +17,18 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * The type Controllers test.
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllersTest {
 
+    /**
+     * A create user.
+     *
+     * @throws IOException      the io exception
+     * @throws ServletException the servlet exception
+     */
     @Test
     public void a_createUser() throws IOException, ServletException {
         final CreateController controller = new CreateController();
@@ -31,6 +40,7 @@ public class ControllersTest {
         when(request.getParameter("name")).thenReturn("root_test");
         when(request.getParameter("password")).thenReturn("root_test");
         when(request.getParameter("role")).thenReturn("admin");
+        when(request.getParameter("city")).thenReturn("1");
 
         controller.doPost(request, response);
         final User user = UserStore.getInstance().getByEmail(userEmail);
@@ -38,6 +48,12 @@ public class ControllersTest {
         assertThat(user.getLogin(), is("root_test"));
     }
 
+    /**
+     * B update user.
+     *
+     * @throws IOException      the io exception
+     * @throws ServletException the servlet exception
+     */
     @Test
     public void b_updateUser() throws IOException, ServletException {
         final UpdateController controller = new UpdateController();
@@ -49,6 +65,7 @@ public class ControllersTest {
         when(request.getParameter("name")).thenReturn("root_test");
         when(request.getParameter("password")).thenReturn("root_test");
         when(request.getParameter("role")).thenReturn("admin");
+        when(request.getParameter("city")).thenReturn("1");
 
         controller.doPost(request, response);
         final User user = UserStore.getInstance().getByEmail(userEmail);
@@ -56,6 +73,12 @@ public class ControllersTest {
         assertThat(user.getLogin(), is("root_test_changed"));
     }
 
+    /**
+     * C delete user.
+     *
+     * @throws IOException      the io exception
+     * @throws ServletException the servlet exception
+     */
     @Test
     public void c_deleteUser() throws IOException, ServletException {
         final DeleteController controller = new DeleteController();
@@ -69,5 +92,4 @@ public class ControllersTest {
 
         assertNull(user);
     }
-
 }

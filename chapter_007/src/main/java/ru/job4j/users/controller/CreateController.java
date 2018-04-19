@@ -2,6 +2,7 @@ package ru.job4j.users.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.users.model.City;
 import ru.job4j.users.model.Role;
 import ru.job4j.users.model.User;
 import ru.job4j.users.model.UserStore;
@@ -25,21 +26,25 @@ public final class CreateController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.setAttribute("rolesList", UserStore.getInstance().getAllRoles());
+        final UserStore userStore = UserStore.getInstance();
+        request.setAttribute("rolesList", userStore.getAllRoles());
+        request.setAttribute("countriesList", userStore.getAllCountries());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/create.jsp");
         dispatcher.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        final UserStore userStore = UserStore.getInstance();
         String email = request.getParameter("email");
         String name = request.getParameter("name");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         Long created = Calendar.getInstance().getTimeInMillis();
-        Role role = UserStore.getInstance().getRoleByRoleName(request.getParameter("role"));
-        User user = new User(name, login, email, created, password, role);
-        if (UserStore.getInstance().add(user)) {
+        Role role = userStore.getRoleByRoleName(request.getParameter("role"));
+        City city = userStore.getCityById(request.getParameter("city"));
+        User user = new User(name, login, email, created, password, role, city);
+        if (userStore.add(user)) {
             response.sendRedirect("main");
         } else {
             String err = String.format("User with email <%s> was not created!", email);

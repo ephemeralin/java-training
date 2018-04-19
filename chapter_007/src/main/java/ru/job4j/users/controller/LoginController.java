@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * The type Login controller.
+ */
 public class LoginController extends HttpServlet {
     /**
      * Logger instance.
@@ -36,7 +39,6 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("login", login);
                 session.setAttribute("role", UserStore.getInstance().getRoleByLogin(login));
                 resp.sendRedirect("main");
-                System.out.println(login);
             } else {
                 req.setAttribute("error", "Login failed!");
                 doGet(req, resp);

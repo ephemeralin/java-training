@@ -71,6 +71,12 @@
         <load-on-startup>0</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>CityServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.controller.CityController</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>ru.job4j.users.controller.LoginFilter</filter-class>
@@ -137,6 +143,11 @@
     <servlet-mapping>
         <servlet-name>LoginServletJSP</servlet-name>
         <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CityServletJSP</servlet-name>
+        <url-pattern>/cities</url-pattern>
     </servlet-mapping>
 
     <filter-mapping>

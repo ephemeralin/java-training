@@ -4,23 +4,31 @@
 <html>
 <head>
     <title>Please, login...</title>
+
+    <style>
+        <%@ include file="css/mainStyle.css"%>
+    </style>
+
 </head>
 
     <body>
         <c:set var="path" value="${pageContext.servletContext.contextPath}" scope="request"></c:set>
-        <p>Please, login...</p>
-        <c:if test="${error != ''}">
-            <div style="background: darkred">
-                <c:out value="${error}"/>
-            </div>
-        </c:if>
-        <form action="${requestScope.path}/login" method='post'>
-            Login:<br>
-            <input type='text' name='login' value="${login}"><br>
-            Password:<br>
-            <input type='password' name='password' value="${password}"><br>
-            <br>
-            <input type='submit' value='OK'>
-        </form>
+        <h1>Please, login...</h1>
+        <div>
+            <p style="color: red;font-size: 22px;font-weight: bold">
+                <c:if test="${error != ''}">
+                    <c:out value="${error}"/>
+                </c:if>
+            </p>
+
+            <form action="${requestScope.path}/login" method='post'>
+                Login<br>
+                <input type='text' name='login' value="${login}"><br>
+                Password<br>
+                <input type='password' name='password' value="${password}"><br>
+                <br>
+                <input type='submit' value='OK'>
+            </form>
+        </div>
     </body>
 </html>

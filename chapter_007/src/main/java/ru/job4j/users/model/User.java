@@ -32,28 +32,85 @@ public class User {
     private Role role;
 
     /**
+     * City.
+     */
+    private City city;
+
+    /**
+     * Country.
+     */
+    private Country country;
+
+    /**
      * Instantiates a new User.
      *
-     * @param name    the name
-     * @param login   the login
-     * @param email   the email
-     * @param created the created
+     * @param name     the name
+     * @param login    the login
+     * @param email    the email
+     * @param created  the created
+     * @param password the password
+     * @param role     the role
+     * @param city     the city
      */
-    public User(String name, String login, String email, Long created, String password, Role role) {
+    public User(String name, String login, String email, Long created, String password, Role role, City city) {
         this.email = email;
         this.name = name;
         this.login = login;
         this.password = password;
         this.created = created;
         this.role = role;
+        this.city = city;
+        if (city != null) {
+            this.country = city.getCountry();
+        }
     }
 
+    /**
+     * Gets role.
+     *
+     * @return the role
+     */
     public Role getRole() {
         return role;
     }
 
+    /**
+     * Sets role.
+     *
+     * @param role the role
+     */
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    /**
+     * Gets city.
+     *
+     * @return the city
+     */
+    public City getCity() {
+        return city;
+    }
+
+    /**
+     * Sets city.
+     *
+     * @param city the city
+     */
+    public void setCity(City city) {
+        this.city = city;
+        if (city != null) {
+            this.country = city.getCountry();
+        }
+    }
+
+    /**
+     * Gets country.
+     *
+     * @return the country
+     */
+    public Country getCountry() {
+        return country;
     }
 
     /**
@@ -65,10 +122,20 @@ public class User {
         return name;
     }
 
+    /**
+     * Gets password.
+     *
+     * @return the password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Sets password.
+     *
+     * @param password the password
+     */
     public void setPassword(String password) {
         this.password = password;
     }

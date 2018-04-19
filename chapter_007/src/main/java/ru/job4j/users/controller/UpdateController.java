@@ -24,14 +24,18 @@ public final class UpdateController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
-        User user = UserStore.getInstance().getByEmail(email);
+        UserStore userStore = UserStore.getInstance();
+        User user = userStore.getByEmail(email);
         if (user != null) {
             request.setAttribute("email", user.getEmail());
             request.setAttribute("name", user.getName());
             request.setAttribute("login", user.getLogin());
             request.setAttribute("role", user.getRole().getName());
-            request.setAttribute("rolesList", UserStore.getInstance().getAllRoles());
+            request.setAttribute("rolesList", userStore.getAllRoles());
             request.setAttribute("currentRole", request.getSession().getAttribute("role"));
+            request.setAttribute("countriesList", userStore.getAllCountries());
+            request.setAttribute("country", user.getCountry().getName());
+            request.setAttribute("cityId", user.getCity().getId());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/update.jsp");
             dispatcher.forward(request, response);
         } else {
@@ -45,20 +49,23 @@ public final class UpdateController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String err = "";
+        final UserStore userStore = UserStore.getInstance();
         String email = request.getParameter("email");
         String name = request.getParameter("name");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String roleName = request.getParameter("role");
-        User user = UserStore.getInstance().getByEmail(email);
+        String cityId = request.getParameter("city");
+        User user = userStore.getByEmail(email);
         if (user != null) {
             user.setName(name);
             user.setLogin(login);
-            user.setRole(UserStore.getInstance().getRoleByRoleName(roleName));
+            user.setRole(userStore.getRoleByRoleName(roleName));
+            user.setCity(userStore.getCityById(cityId));
             if (password != null && !password.isEmpty()) {
                 user.setPassword(password);
             }
-            if (UserStore.getInstance().update(user)) {
+            if (userStore.update(user)) {
                 response.sendRedirect("main");
             } else {
                 err = String.format("User with email <%s> was not updated!", email);
