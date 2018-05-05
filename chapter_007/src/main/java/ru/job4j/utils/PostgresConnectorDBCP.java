@@ -7,8 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * The type Postgres database connection.
@@ -83,5 +82,47 @@ public final class PostgresConnectorDBCP {
         return "PostgresConnector{"
                 + "connection=" + dataSource
                 + '}';
+    }
+
+    /**
+     * Execute statement.
+     *
+     * @param sql           the sql
+     * @param statementName the statement name
+     */
+    public void executeStatement(String sql, String statementName) {
+        try (Statement stmt = getConnection().createStatement()) {
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            log.error("Executing statement error with: " + statementName, e);
+        }
+    }
+
+    /**
+     * Close all SQL connection resources.
+     *
+     * @param conn  Connection
+     * @param pstmt Prepared Statement
+     * @param rs    Result Set
+     */
+    public void closeSqlResources(Connection conn, PreparedStatement pstmt, ResultSet rs) {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (Exception e) {
+        }
     }
 }
