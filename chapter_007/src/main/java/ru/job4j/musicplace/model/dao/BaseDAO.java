@@ -65,19 +65,14 @@ public abstract class BaseDAO {
         if (entity != null) {
             String sql = "INSERT INTO tableName (id, name) VALUES (DEFAULT, ?) RETURNING id;";
             sql = sql.replace("tableName", tableName);
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            ResultSet rs = null;
-            try {
-                conn = getDatabaseConnector().getConnection();
-                pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            try (Connection conn = databaseConnector.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
+            ) {
                 pstmt.setString(1, entity.getName());
                 id = create(entity, pstmt);
             } catch (SQLException e) {
                 getLog().error(String.format("SQL Error to put entity(%s) with name %s to the DB",
                         tableName, entity.getName()), e);
-            } finally {
-                databaseConnector.closeSqlResources(conn, pstmt, null);
             }
         }
         return id;
@@ -99,16 +94,11 @@ public abstract class BaseDAO {
             rs = pstmt.getGeneratedKeys();
             if (rs != null && rs.next()) {
                 key = rs.getInt(1);
-                getLog().info(String.format("Entity(%s) with name %s put to the DB", entityName, entity.getName()));
             } else {
                 getLog().error(String.format("SQL Error to put entity(%s) with name %s to the DB", entityName, entity.getName()));
             }
         } catch (SQLException e) {
             getLog().error(String.format("SQL Error to put entity(%s) with name %s to the DB", entityName, entity.getName()), e);
-        } catch (Exception e) {
-            getLog().error(String.format("Unknown Error to put entity(%s) with name %s to the DB", entityName, entity.getName()), e);
-        } finally {
-            databaseConnector.closeSqlResources(null, pstmt, rs);
         }
         return key;
     }
@@ -123,18 +113,11 @@ public abstract class BaseDAO {
     public boolean update(IEntity entity, PreparedStatement pstmt) {
         boolean isUpdated = false;
         String entityName = entity.getClass().getName();
-        Connection conn = null;
-        ResultSet rs = null;
         try {
             pstmt.execute();
             isUpdated = true;
-            getLog().info(String.format("Entity(%s) with name %s updated in the DB", entityName, entity.getName()));
         } catch (SQLException e) {
             getLog().error(String.format("SQL Error while updating entity(%s) with name %s in the DB", entityName, entity.getName()), e);
-        } catch (Exception e) {
-            getLog().error(String.format("Unknown Error while updating entity(%s) with name %s in the DB", entityName, entity.getName()), e);
-        } finally {
-            databaseConnector.closeSqlResources(conn, pstmt, rs);
         }
         return isUpdated;
     }
@@ -151,22 +134,17 @@ public abstract class BaseDAO {
         if (entity != null) {
             String sql = "UPDATE tableName SET name = ? WHERE id = ?";
             sql = sql.replace("tableName", tableName);
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            try {
-                conn = getDatabaseConnector().getConnection();
-                pstmt = conn.prepareStatement(sql);
+            try (Connection conn = databaseConnector.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)
+            ) {
                 pstmt.setString(1, entity.getName());
                 pstmt.setInt(2, entity.getId());
                 pstmt.execute();
                 isUpdated = true;
             } catch (SQLException e) {
                 getLog().error(String.format("SQL Error while updating Entity with name %s to the DB", entity.getName()), e);
-            } finally {
-                databaseConnector.closeSqlResources(conn, pstmt, null);
             }
         }
-
         return isUpdated;
     }
 
@@ -182,19 +160,14 @@ public abstract class BaseDAO {
         if (entity != null) {
             String sql = "DELETE FROM tableName WHERE id = ?";
             sql = sql.replace("tableName", tableName);
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            try {
-                conn = getDatabaseConnector().getConnection();
-                pstmt = conn.prepareStatement(sql);
+            try (Connection conn = databaseConnector.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)
+            ) {
                 pstmt.setInt(1, entity.getId());
                 pstmt.execute();
-                getLog().info(String.format("Entity with name %s deleted", entity.getName()));
                 isDeleted = true;
             } catch (SQLException e) {
                 getLog().error(String.format("SQL Error deleting Entity with name %s in the DB", entity.getName()), e);
-            } finally {
-                databaseConnector.closeSqlResources(conn, pstmt, null);
             }
         }
         return isDeleted;
@@ -215,21 +188,17 @@ public abstract class BaseDAO {
                         "WHERE tableName.name = ?;";
         sql = sql.replace("tableName", tableName);
         IEntity entity = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            conn = getDatabaseConnector().getConnection();
-            pstmt = conn.prepareStatement(sql);
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
             pstmt.setString(1, entityName);
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 entity = (IEntity) Class.forName(className).getConstructor().newInstance();
                 entity.setId(id);
                 entity.setName(name);
-                getLog().info(String.format("%s with name %s found in DB", className, entityName));
             } else {
                 getLog().error(String.format("SQL Error to find %s with id %s in DB", className, entityName));
             }
@@ -237,8 +206,6 @@ public abstract class BaseDAO {
             getLog().error(String.format("SQL Error to find %s with id %s in DB", className, entityName));
         } catch (Exception e) {
             getLog().error(String.format("Unknown Error to find %s with id %s in DB", className, entityName));
-        } finally {
-            databaseConnector.closeSqlResources(conn, pstmt, rs);
         }
         return entity;
     }
@@ -258,26 +225,18 @@ public abstract class BaseDAO {
                         "WHERE tableName.id = ?;";
         sql = sql.replace("tableName", tableName);
         IEntity entity = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            conn = getDatabaseConnector().getConnection();
-            pstmt = conn.prepareStatement(sql);
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
             pstmt.setInt(1, entityId);
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 entity = createEntityFromResultSet(rs, className);
-                getLog().info(String.format("%s with id %s found in DB", className, entityId));
             } else {
                 getLog().error(String.format("SQL Error to find %s with id %s in DB", className, entityId));
             }
         } catch (SQLException e) {
             getLog().error(String.format("SQL Error to find %s with id %s in DB", className, entityId));
-        } catch (Exception e) {
-            getLog().error(String.format("Unknown Error to find %s with id %s in DB", className, entityId));
-        } finally {
-            databaseConnector.closeSqlResources(conn, pstmt, rs);
         }
         return entity;
     }
@@ -295,13 +254,10 @@ public abstract class BaseDAO {
                 "SELECT * FROM tableName AS tableName;";
         sql = sql.replace("tableName", tableName);
         IEntity entity = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            conn = getDatabaseConnector().getConnection();
-            pstmt = conn.prepareStatement(sql);
-            rs = pstmt.executeQuery();
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 entity = createEntityFromResultSet(rs, className);
                 entityList.add(entity);
@@ -309,10 +265,6 @@ public abstract class BaseDAO {
             }
         } catch (SQLException e) {
             getLog().error(String.format("SQL Error to find all %s in DB", className));
-        } catch (Exception e) {
-            getLog().error(String.format("Unknown Error to find all %s in DB", className));
-        } finally {
-            databaseConnector.closeSqlResources(conn, pstmt, rs);
         }
         return entityList;
     }
@@ -324,12 +276,17 @@ public abstract class BaseDAO {
      * @return Entity
      * @throws Exception exception
      */
-    private IEntity createEntityFromResultSet(ResultSet rs, String className) throws Exception {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        IEntity entity = (IEntity) Class.forName(className).getConstructor().newInstance();
-        entity.setId(id);
-        entity.setName(name);
+    private IEntity createEntityFromResultSet(ResultSet rs, String className) {
+        IEntity entity = null;
+        try {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            entity = (IEntity) Class.forName(className).getConstructor().newInstance();
+            entity.setId(id);
+            entity.setName(name);
+        } catch (Exception e) {
+            log.error("Error while creating entity from result set", e);
+        }
         return entity;
     }
 }

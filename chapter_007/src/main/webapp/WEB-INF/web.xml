@@ -2,86 +2,86 @@
 
     <!--SERVLETS LIST-->
 
-    <!--&lt;!&ndash;echo servlet&ndash;&gt;-->
-    <!--<servlet>-->
-        <!--<servlet-name>EchoServlet</servlet-name>-->
-        <!--<servlet-class>ru.job4j.echo.EchoServlet</servlet-class>-->
-    <!--</servlet>-->
+    <!--echo servlet-->
+    <servlet>
+        <servlet-name>EchoServlet</servlet-name>
+        <servlet-class>ru.job4j.echo.EchoServlet</servlet-class>
+    </servlet>
 
-    <!--&lt;!&ndash;all-in-one servlet&ndash;&gt;-->
-    <!--<servlet>-->
-        <!--<servlet-name>UserServlet</servlet-name>-->
-        <!--<servlet-class>ru.job4j.users.servlets.one.UserServlet</servlet-class>-->
-        <!--<load-on-startup>1</load-on-startup>-->
-    <!--</servlet>-->
+    <!--all-in-one servlet-->
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>ru.job4j.users.servlets.one.UserServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
-    <!--&lt;!&ndash;many servlets&ndash;&gt;-->
-    <!--<servlet>-->
-        <!--<servlet-name>UserMainServlet</servlet-name>-->
-        <!--<servlet-class>ru.job4j.users.servlets.many.UserMainServlet</servlet-class>-->
-        <!--<load-on-startup>0</load-on-startup>-->
-    <!--</servlet>-->
+    <!--many servlets-->
+    <servlet>
+        <servlet-name>UserMainServlet</servlet-name>
+        <servlet-class>ru.job4j.users.servlets.many.UserMainServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
 
-    <!--<servlet>-->
-        <!--<servlet-name>UserCreateServlet</servlet-name>-->
-        <!--<servlet-class>ru.job4j.users.servlets.many.UserCreateServlet</servlet-class>-->
-        <!--<load-on-startup>2</load-on-startup>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>UserCreateServlet</servlet-name>
+        <servlet-class>ru.job4j.users.servlets.many.UserCreateServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
 
-    <!--<servlet>-->
-        <!--<servlet-name>UserDeleteServlet</servlet-name>-->
-        <!--<servlet-class>ru.job4j.users.servlets.many.UserDeleteServlet</servlet-class>-->
-        <!--<load-on-startup>3</load-on-startup>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>UserDeleteServlet</servlet-name>
+        <servlet-class>ru.job4j.users.servlets.many.UserDeleteServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
 
-    <!--<servlet>-->
-        <!--<servlet-name>UserUpdateServlet</servlet-name>-->
-        <!--<servlet-class>ru.job4j.users.servlets.many.UserUpdateServlet</servlet-class>-->
-        <!--<load-on-startup>4</load-on-startup>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>UserUpdateServlet</servlet-name>
+        <servlet-class>ru.job4j.users.servlets.many.UserUpdateServlet</servlet-class>
+        <load-on-startup>4</load-on-startup>
+    </servlet>
 
     <!--JSP many servlets -->
-    <!--<servlet>-->
-        <!--<servlet-name>UserMainServletJSP</servlet-name>-->
-        <!--<servlet-class>ru.job4j.users.controller.MainController</servlet-class>-->
-        <!--<load-on-startup>0</load-on-startup>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>UserMainServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.controller.MainController</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
 
-    <!--<servlet>-->
-        <!--<servlet-name>UserCreateServletJSP</servlet-name>-->
-        <!--<servlet-class>ru.job4j.users.controller.CreateController</servlet-class>-->
-        <!--<load-on-startup>2</load-on-startup>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>UserCreateServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.controller.CreateController</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
 
-    <!--<servlet>-->
-        <!--<servlet-name>UserDeleteServletJSP</servlet-name>-->
-        <!--<servlet-class>ru.job4j.users.controller.DeleteController</servlet-class>-->
-        <!--<load-on-startup>3</load-on-startup>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>UserDeleteServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.controller.DeleteController</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
 
-    <!--<servlet>-->
-        <!--<servlet-name>UserUpdateServletJSP</servlet-name>-->
-        <!--<servlet-class>ru.job4j.users.controller.UpdateController</servlet-class>-->
-        <!--<load-on-startup>4</load-on-startup>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>UserUpdateServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.controller.UpdateController</servlet-class>
+        <load-on-startup>4</load-on-startup>
+    </servlet>
 
-    <!--<servlet>-->
-        <!--<servlet-name>LoginServletJSP</servlet-name>-->
-        <!--<servlet-class>ru.job4j.users.controller.LoginController</servlet-class>-->
-        <!--<load-on-startup>0</load-on-startup>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>LoginServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.controller.LoginController</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
 
-    <!--<servlet>-->
-        <!--<servlet-name>CityServletJSP</servlet-name>-->
-        <!--<servlet-class>ru.job4j.users.controller.CityController</servlet-class>-->
-        <!--<load-on-startup>0</load-on-startup>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>CityServletJSP</servlet-name>
+        <servlet-class>ru.job4j.users.controller.CityController</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
 
-    <!--<filter>-->
-        <!--<filter-name>LoginFilter</filter-name>-->
-        <!--<filter-class>ru.job4j.users.controller.LoginFilter</filter-class>-->
-        <!--<load-on-startup>0</load-on-startup>-->
-    <!--</filter>-->
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>ru.job4j.users.controller.LoginFilter</filter-class>
+        <load-on-startup>0</load-on-startup>
+    </filter>
 
 
     <!--Music place-->
@@ -105,74 +105,74 @@
 
     <!--MAPPINGS-->
 
-    <!--&lt;!&ndash;echo servlet&ndash;&gt;-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>EchoServlet</servlet-name>-->
-        <!--<url-pattern>/echo</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <!--echo servlet-->
+    <servlet-mapping>
+        <servlet-name>EchoServlet</servlet-name>
+        <url-pattern>/echo</url-pattern>
+    </servlet-mapping>
 
-    <!--&lt;!&ndash;all-in-one servlet&ndash;&gt;-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>UserServlet</servlet-name>-->
-        <!--<url-pattern>/user</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <!--all-in-one servlet-->
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/user</url-pattern>
+    </servlet-mapping>
 
-    <!--&lt;!&ndash;many servlets&ndash;&gt;-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>UserMainServlet</servlet-name>-->
-        <!--<url-pattern>/main</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <!--many servlets-->
+    <servlet-mapping>
+        <servlet-name>UserMainServlet</servlet-name>
+        <url-pattern>/main</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>UserCreateServlet</servlet-name>-->
-        <!--<url-pattern>/create</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>UserCreateServlet</servlet-name>
+        <url-pattern>/create</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>UserDeleteServlet</servlet-name>-->
-        <!--<url-pattern>/delete</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>UserDeleteServlet</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>UserUpdateServlet</servlet-name>-->
-        <!--<url-pattern>/update</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>UserUpdateServlet</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
 
     <!--JSP many servlets -->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>UserMainServletJSP</servlet-name>-->
-        <!--<url-pattern>/main</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>UserMainServletJSP</servlet-name>
+        <url-pattern>/main</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>UserCreateServletJSP</servlet-name>-->
-        <!--<url-pattern>/create</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>UserCreateServletJSP</servlet-name>
+        <url-pattern>/create</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>UserDeleteServletJSP</servlet-name>-->
-        <!--<url-pattern>/delete</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>UserDeleteServletJSP</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>UserUpdateServletJSP</servlet-name>-->
-        <!--<url-pattern>/update</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>UserUpdateServletJSP</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>LoginServletJSP</servlet-name>-->
-        <!--<url-pattern>/login</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>LoginServletJSP</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>CityServletJSP</servlet-name>-->
-        <!--<url-pattern>/cities</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>CityServletJSP</servlet-name>
+        <url-pattern>/cities</url-pattern>
+    </servlet-mapping>
 
-    <!--<filter-mapping>-->
-        <!--<filter-name>LoginFilter</filter-name>-->
-        <!--<url-pattern>/users</url-pattern>-->
-    <!--</filter-mapping>-->
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/users</url-pattern>
+    </filter-mapping>
 
 
     <!--Musicplace-->

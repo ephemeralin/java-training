@@ -81,19 +81,14 @@ public class GenreDAO extends BaseDAO implements IModelDAO<Genre> {
         boolean isDeleted = false;
         if (genre != null) {
             String sql = "DELETE FROM user_genre WHERE genre_id = ?";
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            try {
-                conn = getDatabaseConnector().getConnection();
-                pstmt = conn.prepareStatement(sql);
+            try (Connection conn = getDatabaseConnector().getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)
+            ) {
                 pstmt.setInt(1, genre.getId());
                 pstmt.execute();
-                getLog().info(String.format("All junctions for genre %s is deleted", genre.getName()));
                 isDeleted = true;
             } catch (SQLException e) {
                 getLog().error(String.format("SQL Error deleting all junctions for genre %s", genre.getName()), e);
-            } finally {
-                getDatabaseConnector().closeSqlResources(conn, pstmt, null);
             }
         }
         return isDeleted;

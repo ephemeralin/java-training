@@ -20,9 +20,6 @@ public final class MainController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-//        request.setAttribute("usersList", UserStore.getInstance().getAll());
-//        request.setAttribute("login", request.getSession().getAttribute("login"));
-//        request.setAttribute("role", request.getSession().getAttribute("role"));
         request.getRequestDispatcher("/WEB-INF/view/mp-main.jsp").forward(request, response);
     }
 

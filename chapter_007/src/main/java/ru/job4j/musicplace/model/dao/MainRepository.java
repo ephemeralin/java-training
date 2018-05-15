@@ -161,21 +161,16 @@ public class MainRepository {
         boolean isAdded = false;
         if (user != null && genre != null) {
             String sql = "INSERT INTO user_genre (user_id, genre_id) VALUES (?, ?);";
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            try {
-                conn = databaseConnector.getConnection();
-                pstmt = conn.prepareStatement(sql);
+            try (Connection conn = databaseConnector.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)
+            ) {
                 pstmt.setInt(1, user.getId());
                 pstmt.setInt(2, genre.getId());
                 pstmt.executeUpdate();
-                log.info(String.format("Genre %s added to user %s", genre.getName(), user.getName()));
                 isAdded = true;
             } catch (SQLException e) {
                 log.error(String.format("SQL error while adding Genre %s to user %s",
                         genre.getName(), user.getName()), e);
-            } finally {
-                databaseConnector.closeSqlResources(conn, pstmt, null);
             }
         }
         return isAdded;
@@ -197,32 +192,24 @@ public class MainRepository {
                             "roles.name AS role_name "
                             + "FROM users AS users "
                             + "INNER JOIN addresses AS addresses ON users.id = addresses.user_id "
-                            + "LEFT OUTER JOIN roles AS roles on users.role_id = roles.id "
+                            + "LEFT OUTER JOIN roles AS roles ON users.role_id = roles.id "
                             + "WHERE addresses.id = ?;";
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            ResultSet rs = null;
-            try {
-                conn = databaseConnector.getConnection();
-                pstmt = conn.prepareStatement(sql);
+            try (Connection conn = databaseConnector.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)
+            ) {
                 pstmt.setInt(1, address.getId());
-                rs = pstmt.executeQuery();
+                ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
                     user = (User) createEntityFromResultSet(rs, User.class.getName());
                     Role role = new Role();
                     role.setId(rs.getInt("role_id"));
                     role.setName(rs.getString("role_name"));
                     user.setRole(role);
-                    log.info(String.format("User with id %s found in DB", user.getId()));
                 } else {
                     log.error("SQL Error to find user by address in DB");
                 }
             } catch (SQLException e) {
                 log.error("SQL Error to find user by address in DB");
-            } catch (Exception e) {
-                log.error("Unknown Error to find user by address in DB");
-            } finally {
-                databaseConnector.closeSqlResources(conn, pstmt, rs);
             }
         }
         return user;
@@ -243,26 +230,18 @@ public class MainRepository {
                             + "FROM users AS users "
                             + "INNER JOIN roles AS roles ON users.role_id = roles.id "
                             + "WHERE roles.id = ?;";
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            ResultSet rs = null;
-            try {
-                conn = databaseConnector.getConnection();
-                pstmt = conn.prepareStatement(sql);
+            try (Connection conn = databaseConnector.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)
+            ) {
                 pstmt.setInt(1, role.getId());
-                rs = pstmt.executeQuery();
+                ResultSet rs = pstmt.executeQuery();
                 while (rs.next()) {
                     User user = (User) createEntityFromResultSet(rs, User.class.getName());
                     user.setRole(role);
                     usersList.add(user);
-                    log.info(String.format("User with id %s found in DB", user.getId()));
                 }
             } catch (SQLException e) {
                 log.error("SQL Error to find user by role in DB");
-            } catch (Exception e) {
-                log.error("Unknown Error to find user by role in DB");
-            } finally {
-                databaseConnector.closeSqlResources(conn, pstmt, rs);
             }
         }
         return usersList;
@@ -284,16 +263,13 @@ public class MainRepository {
                             + "roles.name AS role_name "
                             + "FROM users AS users "
                             + "INNER JOIN roles AS roles ON users.role_id = roles.id "
-                            + "INNER JOIN user_genre as ug ON users.id = ug.user_id "
+                            + "INNER JOIN user_genre AS ug ON users.id = ug.user_id "
                             + "WHERE ug.genre_id = ?;";
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            ResultSet rs = null;
-            try {
-                conn = databaseConnector.getConnection();
-                pstmt = conn.prepareStatement(sql);
+            try (Connection conn = databaseConnector.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)
+            ) {
                 pstmt.setInt(1, genre.getId());
-                rs = pstmt.executeQuery();
+                ResultSet rs = pstmt.executeQuery();
                 while (rs.next()) {
                     User user = (User) createEntityFromResultSet(rs, User.class.getName());
                     Role role = new Role();
@@ -301,14 +277,9 @@ public class MainRepository {
                     role.setName(rs.getString("role_name"));
                     user.setRole(role);
                     usersList.add(user);
-                    log.info(String.format("User with id %s found in DB", user.getId()));
                 }
             } catch (SQLException e) {
                 log.error("SQL Error to find users by genre in DB");
-            } catch (Exception e) {
-                log.error("Unknown Error to find users by genre in DB");
-            } finally {
-                databaseConnector.closeSqlResources(conn, pstmt, rs);
             }
         }
         return usersList;
@@ -327,27 +298,19 @@ public class MainRepository {
                     "SELECT addresses.id AS id, addresses.name AS name "
                             + "FROM addresses AS addresses "
                             + "WHERE addresses.user_id = ?;";
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            ResultSet rs = null;
-            try {
-                conn = databaseConnector.getConnection();
-                pstmt = conn.prepareStatement(sql);
+            try (Connection conn = databaseConnector.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)
+            ) {
                 pstmt.setInt(1, user.getId());
-                rs = pstmt.executeQuery();
+                ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
                     address = (Address) createEntityFromResultSet(rs, Address.class.getName());
                     address.setUser(user);
-                    log.info(String.format("Address found for user id %s found in DB", user.getId()));
                 } else {
-                    log.error("SQL Error to find address by user id in DB");
+                    log.error("There is address by user id in DB");
                 }
             } catch (SQLException e) {
                 log.error("SQL Error to find address by user id in DB");
-            } catch (Exception e) {
-                log.error("Unknown Error to find address by user id in DB");
-            } finally {
-                databaseConnector.closeSqlResources(conn, pstmt, rs);
             }
         }
         return address;
@@ -363,18 +326,15 @@ public class MainRepository {
         ArrayList<Genre> genresList = new ArrayList<>();
         String sql =
                 "SELECT user_genre.genre_id AS genre_id, "
-              + "genres.name AS genre_name "
-              + "FROM user_genre AS user_genre "
-              + "INNER JOIN genres AS genres ON user_genre.genre_id = genres.id "
-              + "WHERE user_genre.user_id = ?;";
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            conn = databaseConnector.getConnection();
-            pstmt = conn.prepareStatement(sql);
+                        + "genres.name AS genre_name "
+                        + "FROM user_genre AS user_genre "
+                        + "INNER JOIN genres AS genres ON user_genre.genre_id = genres.id "
+                        + "WHERE user_genre.user_id = ?;";
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
             pstmt.setInt(1, user.getId());
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int genre_id = rs.getInt("genre_id");
                 String genre_name = rs.getString("genre_name");
@@ -384,11 +344,7 @@ public class MainRepository {
                 genresList.add(genre);
             }
         } catch (SQLException e) {
-            log.error(String.format("SQL Error to find genres for user %s", user.getName()));
-        } catch (Exception e) {
-            log.error(String.format("Unknown Error to find genres for user %s", user.getName()));
-        } finally {
-            databaseConnector.closeSqlResources(conn, pstmt, rs);
+            log.error("SQL Error to find genres for user %s", user.getName());
         }
         return genresList;
     }
@@ -401,12 +357,18 @@ public class MainRepository {
      * @return Entity entity
      * @throws Exception exception
      */
-    public IEntity createEntityFromResultSet(ResultSet rs, String className) throws Exception {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        IEntity entity = (IEntity) Class.forName(className).getConstructor().newInstance();
-        entity.setId(id);
-        entity.setName(name);
+    public IEntity createEntityFromResultSet(ResultSet rs, String className) {
+        IEntity entity = null;
+        try {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+             entity = (IEntity) Class.forName(className).getConstructor().newInstance();
+            entity.setId(id);
+            entity.setName(name);
+            return entity;
+        } catch (Exception e) {
+            log.error("Error while creating entity from result set");
+        }
         return entity;
     }
 
@@ -425,25 +387,17 @@ public class MainRepository {
                             + "users.name AS name "
                             + "FROM users AS users "
                             + "WHERE users.name = ? AND users.password = ?;";
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            ResultSet rs = null;
-            try {
-                conn = databaseConnector.getConnection();
-                pstmt = conn.prepareStatement(sql);
+            try (Connection conn = databaseConnector.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)
+            ) {
                 pstmt.setString(1, login);
                 pstmt.setString(2, password);
-                rs = pstmt.executeQuery();
+                ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
-                    log.info(String.format("User with login name %s authenticated", login));
                     isIdentified = true;
                 }
             } catch (SQLException e) {
                 log.error("SQL Error while authenticates");
-            } catch (Exception e) {
-                log.error("Unknown Error while authenticates");
-            } finally {
-                databaseConnector.closeSqlResources(conn, pstmt, rs);
             }
         }
         return isIdentified;

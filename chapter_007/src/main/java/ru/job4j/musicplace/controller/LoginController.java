@@ -37,7 +37,6 @@ public class LoginController extends HttpServlet {
             if (MainRepository.getInstance().isIdentified(login, password)) {
                 final HttpSession session = req.getSession();
                 session.setAttribute("login", login);
-//                session.setAttribute("role", UserStore.getInstance().getRoleByLogin(login));
                 resp.sendRedirect("mp-main");
             } else {
                 req.setAttribute("error", "Login failed!");

@@ -40,18 +40,14 @@ public class AddressDAO extends BaseDAO implements IModelDAO<Address> {
     public int create(Address address) {
         int id = 0;
         String sql = "INSERT INTO addresses (id, name, user_id) VALUES (DEFAULT, ?, ?) RETURNING id;";
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        try {
-            conn = getDatabaseConnector().getConnection();
-            pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        try (Connection conn = getDatabaseConnector().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
             pstmt.setString(1, address.getName());
             pstmt.setInt(2, address.getUser().getId());
             id = super.create(address, pstmt);
         } catch (SQLException e) {
             getLog().error(String.format("SQL Error to put Address with name %s to the DB", address.getName()), e);
-        } finally {
-            getDatabaseConnector().closeSqlResources(conn, pstmt, null);
         }
         return id;
     }

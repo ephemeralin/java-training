@@ -97,32 +97,4 @@ public final class PostgresConnectorDBCP {
             log.error("Executing statement error with: " + statementName, e);
         }
     }
-
-    /**
-     * Close all SQL connection resources.
-     *
-     * @param conn  Connection
-     * @param pstmt Prepared Statement
-     * @param rs    Result Set
-     */
-    public void closeSqlResources(Connection conn, PreparedStatement pstmt, ResultSet rs) {
-        try {
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (Exception e) {
-        }
-        try {
-            if (pstmt != null) {
-                pstmt.close();
-            }
-        } catch (Exception e) {
-        }
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (Exception e) {
-        }
-    }
 }

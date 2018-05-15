@@ -43,19 +43,15 @@ public class UserDAO extends BaseDAO implements IModelDAO<User> {
     public int create(User user) {
         int id = 0;
         String sql = "INSERT INTO users (id, name, password, role_id) VALUES (DEFAULT, ?, ?, ?) RETURNING id;";
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        try {
-            conn = getDatabaseConnector().getConnection();
-            pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        try (Connection conn = getDatabaseConnector().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getPassword());
             pstmt.setInt(3, user.getRole().getId());
             id = super.create(user, pstmt);
         } catch (SQLException e) {
             getLog().error(String.format("SQL Error to put User with name %s to the DB", user.getName()), e);
-        } finally {
-            getDatabaseConnector().closeSqlResources(conn, pstmt, null);
         }
         return id;
     }
@@ -68,14 +64,11 @@ public class UserDAO extends BaseDAO implements IModelDAO<User> {
                         + "FROM users AS users "
                         + "LEFT OUTER JOIN roles AS roles ON users.role_id = roles.id "
                         + "WHERE users.id = ?;";
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            conn = getDatabaseConnector().getConnection();
-            pstmt = conn.prepareStatement(sql);
+        try (Connection conn = getDatabaseConnector().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
             pstmt.setInt(1, id);
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 user = new User();
                 user.setId(id);
@@ -90,10 +83,6 @@ public class UserDAO extends BaseDAO implements IModelDAO<User> {
             }
         } catch (SQLException e) {
             getLog().error(String.format("SQL Error to find user with id %s in DB", id));
-        } catch (Exception e) {
-            getLog().error(String.format("Unknown Error to find user with id %s in DB", id));
-        } finally {
-            getDatabaseConnector().closeSqlResources(conn, pstmt, rs);
         }
         return user;
     }
@@ -106,14 +95,11 @@ public class UserDAO extends BaseDAO implements IModelDAO<User> {
                         + "FROM users AS users "
                         + "LEFT OUTER JOIN roles AS roles ON users.role_id = roles.id "
                         + "WHERE users.name = ?;";
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            conn = getDatabaseConnector().getConnection();
-            pstmt = conn.prepareStatement(sql);
+        try (Connection conn = getDatabaseConnector().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
             pstmt.setString(1, name);
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt("id");
                 user = new User();
@@ -129,10 +115,6 @@ public class UserDAO extends BaseDAO implements IModelDAO<User> {
             }
         } catch (SQLException e) {
             getLog().error(String.format("SQL Error to find user with name %s in DB", name));
-        } catch (Exception e) {
-            getLog().error(String.format("Unknown Error to find user with name %s in DB", name));
-        } finally {
-            getDatabaseConnector().closeSqlResources(conn, pstmt, rs);
         }
         return user;
     }
@@ -144,13 +126,10 @@ public class UserDAO extends BaseDAO implements IModelDAO<User> {
                 "SELECT users.id AS id, users.name AS name, users.role_id AS role_id, roles.name AS role_name "
                         + "FROM users AS users "
                         + "LEFT OUTER JOIN roles AS roles ON users.role_id = roles.id;";
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            conn = getDatabaseConnector().getConnection();
-            pstmt = conn.prepareStatement(sql);
-            rs = pstmt.executeQuery();
+        try (Connection conn = getDatabaseConnector().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
@@ -164,10 +143,6 @@ public class UserDAO extends BaseDAO implements IModelDAO<User> {
             }
         } catch (SQLException e) {
             getLog().error(String.format("SQL Error to find all users in DB"));
-        } catch (Exception e) {
-            getLog().error(String.format("Unknown Error to find all users in DB"));
-        } finally {
-            getDatabaseConnector().closeSqlResources(conn, pstmt, rs);
         }
         return usersList;
     }
@@ -179,19 +154,15 @@ public class UserDAO extends BaseDAO implements IModelDAO<User> {
                 "UPDATE users "
                         + "SET name = ?, role_id = ?"
                         + "WHERE id = ?";
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        try {
-            conn = getDatabaseConnector().getConnection();
-            pstmt = conn.prepareStatement(sql);
+        try (Connection conn = getDatabaseConnector().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
             pstmt.setString(1, user.getName());
             pstmt.setInt(2, user.getRole().getId());
             pstmt.setInt(3, user.getId());
             isUpdated = super.update(user, pstmt);
         } catch (SQLException e) {
             getLog().error(String.format("SQL Error while updating User with name %s to the DB", user.getName()), e);
-        } finally {
-            getDatabaseConnector().closeSqlResources(conn, pstmt, null);
         }
         return isUpdated;
     }
