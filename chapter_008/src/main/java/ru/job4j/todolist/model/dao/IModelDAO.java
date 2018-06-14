@@ -38,13 +38,15 @@ public interface IModelDAO<T> {
      * Update boolean.
      *
      * @param entity the entity
+     * @return the Item
      */
-    void update(T entity);
+    Item update(T entity);
 
     /**
      * Delete boolean.
      *
      * @param id the entity's id
+     * @return result
      */
-    void delete(int id);
+    boolean delete(int id);
 }
