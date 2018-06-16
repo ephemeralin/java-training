@@ -13,9 +13,10 @@ public class Application {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
-        System.out.println("Session Factory : " + sessionFactory.hashCode());
+        SessionFactory sessionFactory = HibernateUtility.getSessionFactory("hibernate.cfg_for_cars.xml");
+        System.out.println("Session Factory 1: " + sessionFactory.hashCode());
         System.out.println("Session Factory 2 : " + sessionFactory.hashCode());
         System.out.println("Session Factory 3 : " + sessionFactory.hashCode());
+        sessionFactory.close();
     }
 }

@@ -26,13 +26,14 @@ public class HibernateUtility {
     /**
      * Gets session factory.
      *
+     * @param cfgFileName the cfg file name
      * @return the session factory
      */
-    public static synchronized SessionFactory getSessionFactory() {
+    public static synchronized SessionFactory getSessionFactory(String cfgFileName) {
         if (factory == null) {
             Logger log = LogManager.getLogger(HibernateUtility.class);
             try {
-                StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder() .configure("hibernate.cfg.xml").build();
+                StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder() .configure(cfgFileName).build();
                 Metadata metadata = new MetadataSources(standardRegistry).getMetadataBuilder().build();
                 factory = metadata.getSessionFactoryBuilder().build();
                 log.info("Initial SessionFactory created");

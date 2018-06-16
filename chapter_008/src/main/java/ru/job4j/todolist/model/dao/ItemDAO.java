@@ -50,7 +50,7 @@ public class ItemDAO implements IModelDAO<Item> {
      * @return result
      */
     private <T> T tx(final Function<Session, T> command) {
-        final Session session = HibernateUtility.getSessionFactory().openSession();
+        final Session session = HibernateUtility.getSessionFactory("hibernate.cfg.xml").openSession();
         final Transaction tx = session.beginTransaction();
         try {
             return command.apply(session);
