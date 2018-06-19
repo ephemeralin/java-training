@@ -9,38 +9,48 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 /**
- * The type Hibernate utility.
+ * The enum Hibernate utility 2.
  */
-public class HibernateUtility {
+public enum HibernateUtility2 {
     /**
-     * The constant factory.
+     * The Instance.
      */
-    private static SessionFactory factory;
+    INSTANCE("Initial class info");
+        private final SessionFactory sessionFactory;
 
     /**
-     * Private constructor.
+     * Hibernate utility default constructor.
+     * @param fileName name of config file
      */
-    private HibernateUtility() {
-    }
-
-    /**
-     * Gets session factory.
-     *
-     * @return the session factory
-     */
-    public static SessionFactory getSessionFactory() {
-        if (factory == null) {
+    HibernateUtility2(String fileName) {
             Logger log = LogManager.getLogger(HibernateUtility.class);
             try {
-                StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder() .configure("hibernate.cfg.xml").build();
+                StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder() .configure(fileName).build();
                 Metadata metadata = new MetadataSources(standardRegistry).getMetadataBuilder().build();
-                factory = metadata.getSessionFactoryBuilder().build();
+                sessionFactory = metadata.getSessionFactoryBuilder().build();
                 log.info("Initial SessionFactory created");
             } catch (Throwable ex) {
                 log.error("Initial SessionFactory creation failed. " + ex);
                 throw new ExceptionInInitializerError(ex);
             }
         }
-        return factory;
+
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
+    public HibernateUtility2 getInstance() {
+            return INSTANCE;
+        }
+
+    /**
+     * Gets session factory.
+     *
+     * @return the session factory
+     */
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
+
 }

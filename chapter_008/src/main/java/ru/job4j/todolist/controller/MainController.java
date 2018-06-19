@@ -25,7 +25,7 @@ public final class MainController extends HttpServlet {
     /**
      * Logger instance.
      */
-    private Logger log;
+    private final Logger log = LogManager.getLogger(this.getClass());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -46,7 +46,6 @@ public final class MainController extends HttpServlet {
 
     @Override
     public void init() {
-        this.log = LogManager.getLogger(this.getClass());
         this.log.info("MainController initiated.");
     }
 

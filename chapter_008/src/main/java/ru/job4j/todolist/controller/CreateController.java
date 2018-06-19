@@ -27,7 +27,7 @@ public class CreateController extends HttpServlet {
     /**
      * Logger instance.
      */
-    private Logger log;
+    private final Logger log = LogManager.getLogger(this.getClass());
 
     /**
      * The type Wrapper.
@@ -89,7 +89,6 @@ public class CreateController extends HttpServlet {
 
     @Override
     public void init() {
-        this.log = LogManager.getLogger(this.getClass());
         this.log.info("CreateController initiated.");
     }
 
