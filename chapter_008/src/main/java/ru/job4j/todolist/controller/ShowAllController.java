@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * The type Show all controller.
@@ -26,7 +27,7 @@ public class ShowAllController extends HttpServlet {
     /**
      * Logger instance.
      */
-    private Logger log;
+    private final Logger log = LogManager.getLogger(this.getClass());
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,15 +45,7 @@ public class ShowAllController extends HttpServlet {
         } else {
             itemsList = (ArrayList<Item>) ItemDAO.getInstance().findOnlyActive();
         }
-        itemsList.sort((o1, o2) -> {
-            if (o1.getCreated() == o2.getCreated()) {
-                return 0;
-            } else if (o1.getCreated() < o2.getCreated()) {
-                return -1;
-            } else {
-                return 1;
-            }
-        });
+        itemsList.sort(Comparator.comparingLong(Item::getCreated));
         String toJson = new Gson().toJson(itemsList);
         response.getWriter().print(toJson);
         response.getWriter().flush();
@@ -60,7 +53,6 @@ public class ShowAllController extends HttpServlet {
 
     @Override
     public void init() {
-        this.log = LogManager.getLogger(this.getClass());
         this.log.info("UpdateController initiated.");
     }
 
