@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import ru.job4j.todolist.model.entity.Item;
 import ru.job4j.utils.HibernateUtility;
+import ru.job4j.utils.HibernateUtility2;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class ItemDAO implements IModelDAO<Item> {
 
     @Override
     public int create(Item item) {
-        Session session = HibernateUtility.getSessionFactory().openSession();
+        Session session = HibernateUtility2.INSTANCE.getSessionFactory().openSession();
         session.beginTransaction();
         session.save(item);
         session.getTransaction().commit();
@@ -53,7 +54,7 @@ public class ItemDAO implements IModelDAO<Item> {
 
     @Override
     public Item findById(int id) {
-        Session session = HibernateUtility.getSessionFactory().openSession();
+        Session session = HibernateUtility2.INSTANCE.getSessionFactory().openSession();
         Item item = session.get(Item.class, id);
         session.close();
         return item;
@@ -61,7 +62,7 @@ public class ItemDAO implements IModelDAO<Item> {
 
     @Override
     public List<Item> findAll() {
-        Session session = HibernateUtility.getSessionFactory().openSession();
+        Session session = HibernateUtility2.INSTANCE.getSessionFactory().openSession();
         List<Item> items = session.createQuery("FROM Item").list();
         session.close();
         return items;
@@ -73,7 +74,7 @@ public class ItemDAO implements IModelDAO<Item> {
      * @return the list
      */
     public List<Item> findOnlyActive() {
-        Session session = HibernateUtility.getSessionFactory().openSession();
+        Session session = HibernateUtility2.INSTANCE.getSessionFactory().openSession();
         List<Item> items = session.createQuery("FROM Item WHERE done = false ").list();
         session.close();
         return items;
@@ -81,7 +82,7 @@ public class ItemDAO implements IModelDAO<Item> {
 
     @Override
     public void update(Item item) {
-        Session session = HibernateUtility.getSessionFactory().openSession();
+        Session session = HibernateUtility2.INSTANCE.getSessionFactory().openSession();
         session.beginTransaction();
         Item itemUpdate = session.load(Item.class, item.getId());
         itemUpdate.setDescription(item.getDescription());
@@ -93,7 +94,7 @@ public class ItemDAO implements IModelDAO<Item> {
 
     @Override
     public void delete(int id) {
-        Session session = HibernateUtility.getSessionFactory().openSession();
+        Session session = HibernateUtility2.INSTANCE.getSessionFactory().openSession();
         session.beginTransaction();
         Item item = findById(id);
         if (item != null) {

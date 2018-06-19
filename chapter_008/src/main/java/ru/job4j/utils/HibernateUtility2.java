@@ -15,8 +15,12 @@ public enum HibernateUtility2 {
     /**
      * The Instance.
      */
-    INSTANCE("Initial class info");
-        private final SessionFactory sessionFactory;
+    INSTANCE("hibernate.cfg.xml");
+
+    /**
+     * Session factory.
+     */
+    private final SessionFactory sessionFactory;
 
     /**
      * Hibernate utility default constructor.
