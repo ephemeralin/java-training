@@ -4,11 +4,11 @@ import javax.persistence.*;
 import java.util.Objects;
 
 /**
- * The type Engine.
+ * The type Model.
  */
 @Entity
-@Table(name = "engines", schema = "public")
-public class Engine {
+@Table(name = "models", schema = "public")
+public class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,32 +18,33 @@ public class Engine {
     @Column(name = "name")
     private String name;
 
-//    @OneToMany(mappedBy = "engine")
-//    private Set<Car> cars;
+    @ManyToOne
+    @JoinColumn(name = "make_id", nullable = false)
+    private Make make;
 
     /**
-     * Instantiates a new Engine.
+     * Instantiates a new Model.
      */
-    public Engine() {
+    public Model() {
     }
 
     /**
-     * Instantiates a new Engine.
+     * Instantiates a new Model.
      *
      * @param id the id
      */
-    public Engine(int id) {
+    public Model(int id) {
         this.id = id;
     }
 
 
     /**
-     * Instantiates a new Engine.
+     * Instantiates a new Model.
      *
      * @param id   the id
      * @param name the name
      */
-    public Engine(int id, String name) {
+    public Model(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -92,7 +93,7 @@ public class Engine {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Engine that = (Engine) o;
+        Model that = (Model) o;
         return getId() == that.getId() &&
                 Objects.equals(getName(), that.getName());
     }

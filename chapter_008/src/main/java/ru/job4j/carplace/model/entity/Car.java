@@ -18,6 +18,12 @@ public class Car {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "sold")
+    private boolean sold;
+
+    @Column(name = "image")
+    private byte[] image;
+
     @ManyToOne
     @JoinColumn(name = "body_id", nullable = false)
     private Body body;
@@ -29,6 +35,21 @@ public class Car {
     @ManyToOne
     @JoinColumn(name = "transmission_id", nullable = false)
     private Transmission transmission;
+
+    @ManyToOne
+    @JoinColumn(name = "make_id", nullable = false)
+    private Make make;
+
+    @ManyToOne
+    @JoinColumn(name = "model_id", nullable = false)
+    private Model model;
+
+    @Column(name = "image_base64")
+    private String base64imageFile;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
 
     /**
      * Instantiates a new Car.
@@ -118,6 +139,24 @@ public class Car {
     }
 
     /**
+     * Gets make.
+     *
+     * @return the make
+     */
+    public Make getMake() {
+        return make;
+    }
+
+    /**
+     * Sets make.
+     *
+     * @param make the make
+     */
+    public void setMake(Make make) {
+        this.make = make;
+    }
+
+    /**
      * Gets transmission.
      *
      * @return the transmission
@@ -133,6 +172,96 @@ public class Car {
      */
     public void setTransmission(Transmission transmission) {
         this.transmission = transmission;
+    }
+
+    /**
+     * Gets model.
+     *
+     * @return the model
+     */
+    public Model getModel() {
+        return model;
+    }
+
+    /**
+     * Sets model.
+     *
+     * @param model the model
+     */
+    public void setModel(Model model) {
+        this.model = model;
+    }
+
+    /**
+     * Get image byte [ ].
+     *
+     * @return the byte [ ]
+     */
+    public byte[] getImage() {
+        return image;
+    }
+
+    /**
+     * Sets image.
+     *
+     * @param image the image
+     */
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    /**
+     * Gets base 64 image file.
+     *
+     * @return the base 64 image file
+     */
+    public String getBase64imageFile() {
+        return base64imageFile;
+    }
+
+    /**
+     * Sets base 64 image file.
+     *
+     * @param base64imageFile the base 64 image file
+     */
+    public void setBase64imageFile(String base64imageFile) {
+        this.base64imageFile = base64imageFile;
+    }
+
+    /**
+     * Gets owner.
+     *
+     * @return the owner
+     */
+    public User getOwner() {
+        return owner;
+    }
+
+    /**
+     * Sets owner.
+     *
+     * @param owner the owner
+     */
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    /**
+     * Gets sold.
+     *
+     * @return the sold
+     */
+    public boolean getSold() {
+        return sold;
+    }
+
+    /**
+     * Sets sold.
+     *
+     * @param sold the sold
+     */
+    public void setSold(boolean sold) {
+        this.sold = sold;
     }
 
     @Override
@@ -159,12 +288,14 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Car {" +
+        return "Car{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", body=" + body +
                 ", engine=" + engine +
                 ", transmission=" + transmission +
+                ", make=" + make +
+                ", model=" + model +
                 '}';
     }
 }

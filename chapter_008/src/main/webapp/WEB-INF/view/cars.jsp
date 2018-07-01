@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>Todo list</title>
+    <title>Car place</title>
 
     <style>
         <%@ include file="css/mainStyle.css"%>
@@ -105,38 +105,76 @@
 
 <body>
     <c:set var="path" value="${pageContext.servletContext.contextPath}" scope="request"></c:set>
-    <h1>Todo list</h1>
-    <br>
-    <form>
-        <textarea id="todo" name="message" rows="10" cols="30"></textarea>
+    <h1>Car Place</h1>
+    <p>
+        Login: <c:out value="${login}"></c:out><br>
+        Role: <c:out value="${role.name}"></c:out>
+    </p>
+    <form action='${requestScope.path}/login' method='post'><input type='submit'value='Logoff' style="width: auto">
+        <input type='hidden' name='logoff' value="logoff">
     </form>
-    <input type='button' value='Add' id="add" onclick="add()">
-    Show all: <input type="checkbox" onclick="showAll(this)" id="tShowAll" checked="checked"/>
-    <br>
-    <br>
+    <%--Show all: <input type="checkbox" onclick="showAll(this)" id="tShowAll" checked="checked"/>--%>
     <table
             style='width:70%'>
         <thead>
-            <th>Created</th>
-            <th>Description</th>
-            <th>Done</th>
+            <th>Name</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Body</th>
+            <th>Engine</th>
+            <th>Transmission</th>
+            <th>Photo</th>
+            <th>Seller</th>
+            <th>Sold out</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </thead>
         <tbody id="tbody">
-            <c:forEach items="${itemsList}" var="car">
-                <jsp:useBean id="dateValue" class="java.util.Date"/>
-                <jsp:setProperty name="dateValue" property="time" value="${car.created}"/>
+            <c:forEach items="${carsList}" var="car">
                 <tr>
-                    <td><fmt:formatDate value="${dateValue}" pattern="dd.MM.yyyy, HH:mm"/></td>
-                    <td><c:out value="${car.description}"></c:out></td>
+                    <td><c:out value="${car.name}"></c:out></td>
+                    <td><c:out value="${car.make}"></c:out></td>
+                    <td><c:out value="${car.model}"></c:out></td>
+                    <td><c:out value="${car.body}"></c:out></td>
+                    <td><c:out value="${car.engine}"></c:out></td>
+                    <td><c:out value="${car.transmission}"></c:out></td>
                     <td>
-                        <input type="checkbox" onclick="changeStatus(this)" id="<c:out value="${car.id}"></c:out>"
-                               <c:if test="${car.done == 'true'}">checked="checked"</c:if>
-                        />
+                        <div class="zoom">
+                            <img src="data:image/gif;base64,<c:out value="${car.base64imageFile}"/>"
+                                 height="100" alt="Cars photo"/>
+                        </div>
                     </td>
+
+                    <td><c:out value="${car.owner}"></c:out></td>
+
+                    <td>
+                        <input type="checkbox" id="<c:out value="${car.id}"></c:out>" onclick="return false;"
+                           <c:if test="${car.sold == 'true'}">checked="checked"</c:if>/>
+                    </td>
+
+                    <c:choose>
+                        <c:when test="${(car.owner.login == login) || login == 'admin'}">
+                            <td><form action='${requestScope.path}/update_car' method='get'><input type='submit' value='Edit'>
+                                    <input type='hidden' name='id' value="${car.id}">
+                                </form>
+                            </td>
+                            <td><form action='${requestScope.path}/delete_car' method='post'><input type='submit' value='Delete'>
+                                <input type='hidden' name='id' value="${car.id}">
+                            </form>
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                            <td></td>
+                            <td></td>
+                        </c:otherwise>
+                    </c:choose>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
-
+    <br>
+    <form action='${requestScope.path}/add_car' method='get'>
+        <input type='submit' value='Add car' style="width: auto">
+    </form>
 </body>
 </html>

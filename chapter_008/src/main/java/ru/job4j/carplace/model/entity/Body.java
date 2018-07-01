@@ -2,7 +2,6 @@ package ru.job4j.carplace.model.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * The type Body.
@@ -19,8 +18,8 @@ public class Body {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "car")
-    private Set<Car> cars;
+//    @OneToMany(mappedBy = "body")
+//    private Set<Car> cars;
 
     /**
      * Instantiates a new Body.
@@ -35,6 +34,18 @@ public class Body {
      */
     public Body(int id) {
         this.id = id;
+    }
+
+
+    /**
+     * Instantiates a new Body.
+     *
+     * @param id   the id
+     * @param name the name
+     */
+    public Body(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     /**
@@ -93,9 +104,6 @@ public class Body {
 
     @Override
     public String toString() {
-        return "Body{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

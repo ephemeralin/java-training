@@ -13,6 +13,13 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
 
-        <mapping class="ru.job4j.todolist.model.entity.Item" />
+        <mapping class="ru.job4j.carplace.model.entity.Car"/>
+        <mapping class="ru.job4j.carplace.model.entity.Transmission"/>
+        <mapping class="ru.job4j.carplace.model.entity.Body"/>
+        <mapping class="ru.job4j.carplace.model.entity.Engine"/>
+        <mapping class="ru.job4j.carplace.model.entity.Make"/>
+        <mapping class="ru.job4j.carplace.model.entity.Model"/>
+        <mapping class="ru.job4j.carplace.model.entity.Role"/>
+        <mapping class="ru.job4j.carplace.model.entity.User"/>
     </session-factory>
 </hibernate-configuration>

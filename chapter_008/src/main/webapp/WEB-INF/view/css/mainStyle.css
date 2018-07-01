@@ -2,6 +2,9 @@
     --gray-color:#949494;
     --dark-gray-color:#292929;
     --green-color:#4CAF50;
+    --green-hover:#45a049;
+    --red-color:#4e0710;
+    --red-hover:#4a070f;
 }
 
 body {
@@ -51,7 +54,7 @@ input[type=submit] {
 }
 
 input[type=button] {
-    width: 8%;
+    width: 80%;
     background-color: var(--green-color);
     color: white;
     padding: 10px 20px;
@@ -60,6 +63,26 @@ input[type=button] {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+}
+
+input[type=button]:hover {
+    background-color: var(--green-hover);
+}
+
+input.cancelButton[type=submit] {
+    width: 80%;
+    background-color: var(--red-color);
+    color: white;
+    padding: 10px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+input.cancelButton[type=submit]:hover {
+    background-color: var(--red-hover);
 }
 
 textarea {
@@ -82,46 +105,69 @@ textarea:focus {
     box-shadow: 0 0 10px white;
 }
 
-
 input[type=submit]:hover {
-
-    background-color: #45a049;
+    background-color: var(--green-hover);
 }
 
-input[type=button]:hover {
-    background-color: #45a049;
-}
-
-div {
+.div1 {
     width: 30%;
     border-radius: 5px;
     background-color: #454545;
     padding: 20px;
     margin: auto;
 }
-
 table {
-    width:70%
+    /*width:90%*/
 }
 table, th, td {
     border-collapse: collapse;
     border: 1px solid #ffffff;
 }
+
 th, td {
     padding: 3px;
     color: white;
     vertical-align: center;
 }
 
-table td:nth-child(5) {
+table td:nth-child(9) {
     text-align: center;
+    width: 30px;
 }
 
-table td:nth-child(6) {
+table td:nth-child(10) {
     text-align: center;
+    width: 100px;
+}
+
+table td:nth-child(11) {
+    text-align: center;
+    width: 100px;
 }
 
 p {
     font-size: 18px;
     color: white;
 }
+
+
+
+ * {
+     box-sizing: border-box;
+ }
+
+.zoom {
+    padding: 0px;
+    /*background-color: green;*/
+    transition: transform .2s;
+    /*width: 200px;*/
+    height: 100px;
+    margin: 0 auto;
+}
+
+.zoom:hover {
+    -ms-transform: scale(4); /* IE 9 */
+    -webkit-transform: scale(4); /* Safari 3-8 */
+    transform: scale(4);
+}
+

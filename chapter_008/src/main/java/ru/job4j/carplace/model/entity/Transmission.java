@@ -2,7 +2,6 @@ package ru.job4j.carplace.model.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * The type Transmission.
@@ -19,9 +18,6 @@ public class Transmission {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "car")
-    private Set<Car> cars;
-
     /**
      * Instantiates a new Transmission.
      */
@@ -35,6 +31,18 @@ public class Transmission {
      */
     public Transmission(int id) {
         this.id = id;
+    }
+
+
+    /**
+     * Instantiates a new Transmission.
+     *
+     * @param id   the id
+     * @param name the name
+     */
+    public Transmission(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     /**
@@ -94,9 +102,6 @@ public class Transmission {
 
     @Override
     public String toString() {
-        return "Transmission{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

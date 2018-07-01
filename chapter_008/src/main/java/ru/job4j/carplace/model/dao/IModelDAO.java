@@ -1,7 +1,5 @@
 package ru.job4j.carplace.model.dao;
 
-import ru.job4j.todolist.model.entity.Item;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -33,7 +31,7 @@ public interface IModelDAO<T> {
      *
      * @return the list
      */
-    List<Item> findAll();
+    List<T> findAll();
 
     /**
      * Update boolean.
@@ -41,7 +39,7 @@ public interface IModelDAO<T> {
      * @param entity the entity
      * @return the Item
      */
-    Item update(T entity);
+    T update(T entity);
 
     /**
      * Delete boolean.

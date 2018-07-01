@@ -33,7 +33,7 @@ public class HibernateUtility {
         if (factory == null) {
             Logger log = LogManager.getLogger(HibernateUtility.class);
             try {
-                StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder() .configure("hibernate.cfg.xml").build();
+                StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder() .configure(cfgFileName).build();
                 Metadata metadata = new MetadataSources(standardRegistry).getMetadataBuilder().build();
                 factory = metadata.getSessionFactoryBuilder().build();
                 log.info("Initial SessionFactory created");
