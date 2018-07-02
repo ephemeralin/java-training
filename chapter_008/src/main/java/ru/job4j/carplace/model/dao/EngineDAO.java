@@ -1,7 +1,5 @@
 package ru.job4j.carplace.model.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import ru.job4j.carplace.model.entity.Engine;
 
 import java.sql.SQLException;
@@ -10,11 +8,8 @@ import java.util.List;
 /**
  * The type Engine dao.
  */
+@lombok.extern.log4j.Log4j2
 public class EngineDAO extends DAO implements IModelDAO<Engine> {
-    /**
-     * Logger instance.
-     */
-    private Logger log;
     /**
      * Item DAO instance.
      */
@@ -24,7 +19,6 @@ public class EngineDAO extends DAO implements IModelDAO<Engine> {
      * Default constructor.
      */
     private EngineDAO() {
-        this.log = LogManager.getLogger(this.getClass());
     }
 
     /**

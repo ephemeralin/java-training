@@ -1,11 +1,13 @@
 package ru.job4j.carplace.model.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
-import java.util.Objects;
 
 /**
  * The type Body.
  */
+@Data
 @Entity
 @Table(name = "bodies", schema = "public")
 public class Body {
@@ -17,9 +19,6 @@ public class Body {
 
     @Column(name = "name")
     private String name;
-
-//    @OneToMany(mappedBy = "body")
-//    private Set<Car> cars;
 
     /**
      * Instantiates a new Body.
@@ -36,7 +35,6 @@ public class Body {
         this.id = id;
     }
 
-
     /**
      * Instantiates a new Body.
      *
@@ -46,60 +44,6 @@ public class Body {
     public Body(int id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets name.
-     *
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets name.
-     *
-     * @param name the name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Body that = (Body) o;
-        return getId() == that.getId() &&
-                Objects.equals(getName(), that.getName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName());
     }
 
     @Override

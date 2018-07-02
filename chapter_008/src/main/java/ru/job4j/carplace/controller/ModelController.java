@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * The type Model controller.
  */
+@lombok.extern.log4j.Log4j2
 @WebServlet(
         name = "ModelController",
         description = "Add model servlet",
@@ -41,7 +42,6 @@ public class ModelController extends HttpServlet {
         }
         response.setContentType("text/json");
         String s = new Gson().toJson(modelsList);
-        System.out.println(s);
         response.getWriter().print(s);
         response.getWriter().flush();
     }

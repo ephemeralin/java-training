@@ -1,7 +1,5 @@
 package ru.job4j.carplace.model.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import ru.job4j.carplace.model.entity.Role;
 
 import java.sql.SQLException;
@@ -10,11 +8,8 @@ import java.util.List;
 /**
  * The type Role dao.
  */
+@lombok.extern.log4j.Log4j2
 public class RoleDAO extends DAO implements IModelDAO<Role> {
-    /**
-     * Logger instance.
-     */
-    private Logger log;
     /**
      * Item DAO instance.
      */
@@ -24,7 +19,6 @@ public class RoleDAO extends DAO implements IModelDAO<Role> {
      * Default constructor.
      */
     private RoleDAO() {
-        this.log = LogManager.getLogger(this.getClass());
     }
 
     /**
@@ -53,9 +47,7 @@ public class RoleDAO extends DAO implements IModelDAO<Role> {
     @Override
     public Role findById(int id) {
         return super.tx(
-                session -> {
-                    return session.get(Role.class, id);
-                }
+                session -> session.get(Role.class, id)
         );
     }
 

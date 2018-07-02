@@ -6,6 +6,9 @@ services:
 
 before_script:
   - psql -c "CREATE DATABASE database;" -U postgres
+  - psql -c "CREATE DATABASE cars;" -U postgres
+  - psql -c "CREATE DATABASE todolist;" -U postgres
+  - psql -c "CREATE DATABASE musicplace;" -U postgres
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

@@ -10,13 +10,13 @@ import java.io.IOException;
 /**
  * The type Login filter.
  */
+@lombok.extern.log4j.Log4j2
 @WebFilter(
         urlPatterns = "/*"
 )
 public class LoginFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
 
     @Override
@@ -36,6 +36,5 @@ public class LoginFilter implements Filter {
 
     @Override
     public void destroy() {
-
     }
 }

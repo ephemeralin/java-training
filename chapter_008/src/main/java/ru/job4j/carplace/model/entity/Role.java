@@ -1,11 +1,14 @@
 package ru.job4j.carplace.model.entity;
 
 
+import lombok.*;
+
 import javax.persistence.*;
 
 /**
  * The type Role.
  */
+@Data
 @Entity
 @Table(name = "roles", schema = "public")
 public class Role {
@@ -22,39 +25,8 @@ public class Role {
     @Column(name = "name")
     private String name;
 
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets name.
-     *
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Sets name.
-     *
-     * @param name the name
-     */
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public String toString() {
+        return name;
     }
 }

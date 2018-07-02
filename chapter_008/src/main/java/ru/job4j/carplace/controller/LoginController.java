@@ -1,7 +1,5 @@
 package ru.job4j.carplace.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import ru.job4j.carplace.model.dao.UserDAO;
 
 import javax.servlet.ServletException;
@@ -15,16 +13,13 @@ import java.io.IOException;
 /**
  * The type Login controller.
  */
+@lombok.extern.log4j.Log4j2
 @WebServlet(
         name = "LoginController",
         description = "Login servlet",
         urlPatterns = {"/login"}
 )
 public class LoginController extends HttpServlet {
-    /**
-     * Logger instance.
-     */
-    private Logger log;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -54,12 +49,9 @@ public class LoginController extends HttpServlet {
 
     @Override
     public void init() {
-        this.log = LogManager.getLogger(this.getClass());
-        this.log.info("UserServlet initiated.");
     }
 
     @Override
     public void destroy() {
-        this.log.info("UserServlet destroyed.");
     }
 }

@@ -1,7 +1,5 @@
 package ru.job4j.carplace.model.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import ru.job4j.carplace.model.entity.Make;
 
 import java.sql.SQLException;
@@ -10,11 +8,8 @@ import java.util.List;
 /**
  * The type Make dao.
  */
+@lombok.extern.log4j.Log4j2
 public class MakeDAO extends DAO implements IModelDAO<Make> {
-    /**
-     * Logger instance.
-     */
-    private Logger log;
     /**
      * Item DAO instance.
      */
@@ -24,7 +19,6 @@ public class MakeDAO extends DAO implements IModelDAO<Make> {
      * Default constructor.
      */
     private MakeDAO() {
-        this.log = LogManager.getLogger(this.getClass());
     }
 
     /**
@@ -53,9 +47,7 @@ public class MakeDAO extends DAO implements IModelDAO<Make> {
     @Override
     public Make findById(int id) {
         return this.tx(
-                session -> {
-                    return session.get(Make.class, id);
-                }
+                session -> session.get(Make.class, id)
         );
     }
 

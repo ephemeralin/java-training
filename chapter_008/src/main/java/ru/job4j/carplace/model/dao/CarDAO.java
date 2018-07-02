@@ -1,7 +1,5 @@
 package ru.job4j.carplace.model.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import ru.job4j.carplace.model.entity.Car;
 
 import java.sql.SQLException;
@@ -10,11 +8,8 @@ import java.util.List;
 /**
  * The type Car dao.
  */
+@lombok.extern.log4j.Log4j2
 public class CarDAO extends DAO implements IModelDAO<Car> {
-    /**
-     * Logger instance.
-     */
-    private Logger log;
     /**
      * Item DAO instance.
      */
@@ -24,7 +19,6 @@ public class CarDAO extends DAO implements IModelDAO<Car> {
      * Default constructor.
      */
     private CarDAO() {
-        this.log = LogManager.getLogger(this.getClass());
     }
 
     /**
@@ -53,9 +47,7 @@ public class CarDAO extends DAO implements IModelDAO<Car> {
     @Override
     public Car findById(int id) {
         return this.tx(
-                session -> {
-                    return session.get(Car.class, id);
-                }
+                session -> session.get(Car.class, id)
         );
     }
 
@@ -72,7 +64,7 @@ public class CarDAO extends DAO implements IModelDAO<Car> {
                 session -> {
                     Car carUpdate = session.load(Car.class, car.getId());
                     carUpdate.setName(car.getName());
-                    carUpdate.setSold(car.getSold());
+                    carUpdate.setSold(car.isSold());
                     carUpdate.setMake(car.getMake());
                     carUpdate.setModel(car.getModel());
                     carUpdate.setEngine(car.getEngine());

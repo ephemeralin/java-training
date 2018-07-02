@@ -1,7 +1,5 @@
 package ru.job4j.carplace.model.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.query.Query;
 import ru.job4j.carplace.model.entity.Role;
 import ru.job4j.carplace.model.entity.User;
@@ -12,11 +10,8 @@ import java.util.List;
 /**
  * The type User dao.
  */
+@lombok.extern.log4j.Log4j2
 public class UserDAO extends DAO implements IModelDAO<User> {
-    /**
-     * Logger instance.
-     */
-    private Logger log;
     /**
      * Item DAO instance.
      */
@@ -26,7 +21,6 @@ public class UserDAO extends DAO implements IModelDAO<User> {
      * Default constructor.
      */
     private UserDAO() {
-        this.log = LogManager.getLogger(this.getClass());
     }
 
     /**
@@ -55,9 +49,7 @@ public class UserDAO extends DAO implements IModelDAO<User> {
     @Override
     public User findById(int id) {
         return super.tx(
-                session -> {
-                    return session.get(User.class, id);
-                }
+                session -> session.get(User.class, id)
         );
     }
 

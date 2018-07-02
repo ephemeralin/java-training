@@ -1,10 +1,8 @@
 package ru.job4j.carplace.controller;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import ru.job4j.carplace.model.dao.*;
-import ru.job4j.carplace.model.entity.Car;
+import ru.job4j.carplace.model.entity.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,6 +20,7 @@ import java.util.Base64;
 /**
  * The user Create servlet.
  */
+@lombok.extern.log4j.Log4j2
 @WebServlet(
         name = "AddController",
         description = "Add car",
@@ -29,10 +28,6 @@ import java.util.Base64;
 )
 @MultipartConfig
 public final class AddUpdateController extends HttpServlet {
-    /**
-     * Logger instance.
-     */
-    private Logger log;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -59,7 +54,6 @@ public final class AddUpdateController extends HttpServlet {
         String carId = request.getParameter("carId");
         boolean sold = (request.getParameter("sold") != null
                 && request.getParameter("sold").equals("on"));
-
         String carName = request.getParameter("name");
         int makeId = Integer.parseInt(request.getParameter("make"));
         int modelId = Integer.parseInt(request.getParameter("model"));
@@ -71,11 +65,11 @@ public final class AddUpdateController extends HttpServlet {
         Car car = new Car();
         car.setName(carName);
         car.setSold(sold);
-        car.setMake(MakeDAO.getInstance().findById(makeId));
-        car.setModel(ModelDAO.getInstance().findById(modelId));
-        car.setBody(BodyDAO.getInstance().findById(bodyId));
-        car.setEngine(EngineDAO.getInstance().findById(engineId));
-        car.setTransmission(TransmissionDAO.getInstance().findById(transmissionId));
+        car.setMake(new Make(makeId));
+        car.setModel(new Model(modelId));
+        car.setBody(new Body(bodyId));
+        car.setEngine(new Engine(engineId));
+        car.setTransmission(new Transmission(transmissionId));
         car.setOwner(UserDAO.getInstance().findByLogin(login));
         car.setImage(getFileFromRequest(request));
         car.setBase64imageFile(Base64.getEncoder().encodeToString(car.getImage()));
@@ -87,7 +81,7 @@ public final class AddUpdateController extends HttpServlet {
                 int id = CarDAO.getInstance().create(car);
                 car.setId(id);
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.error(e.getStackTrace());
             }
         }
         response.sendRedirect("cars");
@@ -95,7 +89,6 @@ public final class AddUpdateController extends HttpServlet {
 
     @Override
     public void init() {
-        this.log = LogManager.getLogger(this.getClass());
     }
 
     @Override
@@ -114,9 +107,9 @@ public final class AddUpdateController extends HttpServlet {
             InputStream fileContent = filePart.getInputStream();
             image = IOUtils.toByteArray(fileContent);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
         } catch (ServletException e) {
-            e.printStackTrace();
+            log.error(e.getStackTrace());
         }
         return image;
     }

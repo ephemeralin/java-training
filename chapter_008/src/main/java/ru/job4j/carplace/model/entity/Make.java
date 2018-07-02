@@ -1,11 +1,13 @@
 package ru.job4j.carplace.model.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
-import java.util.Objects;
 
 /**
  * The type Make.
  */
+@Data
 @Entity
 @Table(name = "makes", schema = "public")
 public class Make {
@@ -17,9 +19,6 @@ public class Make {
 
     @Column(name = "name")
     private String name;
-
-//    @OneToMany(mappedBy = "make")
-//    private Set<Car> cars;
 
     /**
      * Instantiates a new Make.
@@ -46,60 +45,6 @@ public class Make {
     public Make(int id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets name.
-     *
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets name.
-     *
-     * @param name the name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Make that = (Make) o;
-        return getId() == that.getId() &&
-                Objects.equals(getName(), that.getName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName());
     }
 
     @Override
