@@ -54,9 +54,10 @@
             var body = document.getElementById("body_").value;
             var transmission = document.getElementById("transmission_").value;
 
+            if(name || make || model || engine || body || transmission || city || city === 'Please, select a city') {
 
-            if (name === '' || make === '' || model === '' || engine === '' ||
-                body === '' || transmission === '' || model === 'Please, select a model') {
+            // if (name === '' || make === '' || model === '' || engine === '' ||
+            //     body === '' || transmission === '' || model === 'Please, select a model') {
                     isOk = false;
             }
             return isOk;

@@ -59,7 +59,7 @@ public class CarDAO extends DAO implements IModelDAO<Car> {
     @Override
     public List findAll() {
         return this.tx(
-                session -> session.createQuery("FROM Car").list()
+                session -> session.createQuery("FROM Car c order by c.date desc ").list()
         );
     }
 
