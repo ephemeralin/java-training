@@ -117,7 +117,7 @@ input[type=submit]:hover {
     margin: auto;
 }
 table {
-    /*width:90%*/
+    width:97%
 }
 table, th, td {
     border-collapse: collapse;
@@ -130,17 +130,17 @@ th, td {
     vertical-align: center;
 }
 
-table td:nth-child(9) {
+table td:nth-child(10) {
     text-align: center;
     width: 30px;
 }
 
-table td:nth-child(10) {
+table td:nth-child(11) {
     text-align: center;
     width: 100px;
 }
 
-table td:nth-child(11) {
+table td:nth-child(12) {
     text-align: center;
     width: 100px;
 }
@@ -150,7 +150,20 @@ p {
     color: white;
 }
 
+.tlogin, .tlogin td, .tlogin th {
+    horiz-align: center;
+    border: 0px solid;
+}
+.tlogin td:nth-child(1) {
+    width: 100px;
+}
+.tlogin td:nth-child(2) {
+    width: 300px;
+}
 
+.tfilter {
+    width: 200px;
+}
 
  * {
      box-sizing: border-box;

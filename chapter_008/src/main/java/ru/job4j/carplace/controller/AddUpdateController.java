@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Base64;
+import java.util.Calendar;
 
 /**
  * The user Create servlet.
@@ -53,7 +54,7 @@ public final class AddUpdateController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String carId = request.getParameter("carId");
         boolean sold = (request.getParameter("sold") != null
-                && request.getParameter("sold").equals("on"));
+                        && request.getParameter("sold").equals("on"));
         String carName = request.getParameter("name");
         int makeId = Integer.parseInt(request.getParameter("make"));
         int modelId = Integer.parseInt(request.getParameter("model"));
@@ -61,6 +62,7 @@ public final class AddUpdateController extends HttpServlet {
         int bodyId = Integer.parseInt(request.getParameter("body"));
         int transmissionId = Integer.parseInt(request.getParameter("transmission"));
         String login = (String) request.getSession().getAttribute("login");
+        Long date = Calendar.getInstance().getTimeInMillis();
 
         Car car = new Car();
         car.setName(carName);
@@ -73,6 +75,7 @@ public final class AddUpdateController extends HttpServlet {
         car.setOwner(UserDAO.getInstance().findByLogin(login));
         car.setImage(getFileFromRequest(request));
         car.setBase64imageFile(Base64.getEncoder().encodeToString(car.getImage()));
+        car.setDate(date);
         if (!carId.isEmpty()) {
             car.setId(Integer.parseInt(carId));
             CarDAO.getInstance().update(car);

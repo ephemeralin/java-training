@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.ToLongFunction;
 
 /**
  * The Main servlet.
@@ -23,11 +24,15 @@ import java.util.List;
 )
 public final class MainController extends HttpServlet {
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<Car> carsList = CarDAO.getInstance().findAll();
-        carsList.sort(Comparator.comparingLong(Car::getId));
+        carsList.sort(Comparator.comparingLong((ToLongFunction<Car>) car -> car.getDate()).reversed());
         request.setAttribute("carsList", carsList);
         request.setAttribute("login", request.getSession().getAttribute("login"));
         request.setAttribute("role", request.getSession().getAttribute("role"));

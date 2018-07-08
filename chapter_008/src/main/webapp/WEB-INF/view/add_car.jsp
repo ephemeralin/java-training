@@ -47,17 +47,16 @@
 
         function validate() {
             var isOk = true;
-            var name = document.getElementById("_name").value;
-            var make = document.getElementById("_make").value;
-            var model = document.getElementById("_model").value;
+            var name = document.getElementById("name_").value;
+            var make = document.getElementById("make_").value;
+            var model = document.getElementById("model_").value;
+            var engine = document.getElementById("engine_").value;
+            var body = document.getElementById("body_").value;
+            var transmission = document.getElementById("transmission_").value;
 
-            var login = document.getElementById("_make").value;
-            var role = document.getElementById("_make").value;
-            var country = document.getElementById("_make").value;
-            var city = document.getElementById("_make").value;
 
-            if (name === '' || make === '' || model === '' || login === '' ||
-                role === '' || country === '' || city === '' || city === 'Please, select a city') {
+            if (name === '' || make === '' || model === '' || engine === '' ||
+                body === '' || transmission === '' || model === 'Please, select a model') {
                     isOk = false;
             }
             return isOk;
@@ -130,10 +129,10 @@
         <br>
         <c:choose>
             <c:when test="${car != null}">
-                <input type='text' id='_name' name='name' value="${car.name}">
+                <input type='text' id='name_' name='name' value="${car.name}">
             </c:when>
             <c:otherwise>
-                <input type='text' id='_name' name='name' value=''>
+                <input type='text' id='name_' name='name' value=''>
             </c:otherwise>
         </c:choose>
         <br>
@@ -244,7 +243,7 @@
 
         <input type="file" name="file" />
         <input type='hidden' id='_login_text' value="${login}" readonly><br>
-        <input type="submit" onclick="create()"/>
+        <input type="button" value="Create" onclick="create()"/>
     </form>
 
     <form action="${requestScope.path}/cars" method='get'>

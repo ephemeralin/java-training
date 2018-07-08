@@ -26,6 +26,9 @@ public class Car {
     @Column(name = "image")
     private byte[] image;
 
+    @Column(name = "date")
+    private long date;
+
     @ManyToOne
     @JoinColumn(name = "body_id", nullable = false)
     private Body body;
