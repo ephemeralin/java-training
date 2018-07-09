@@ -53,7 +53,7 @@
             var role = document.getElementById("_role").value;
             var country = document.getElementById("country_").value;
             var city = document.getElementById("city_").value;
-            if (name || password || email || login || role || country || city || city === 'Please, select a city') {
+            if (!name || !password || !email || !login || !role || !country || !city || city === 'Please, select a city') {
                     isOk = false;
             }
             return isOk;
