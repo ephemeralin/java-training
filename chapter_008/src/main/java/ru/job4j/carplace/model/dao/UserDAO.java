@@ -98,8 +98,9 @@ public class UserDAO extends DAO implements IModelDAO<User> {
     public boolean isIdentified(String login, String password) {
         return this.tx(
                 session -> {
-                    Query query = session.createQuery("FROM User WHERE login = :login");
+                    Query query = session.createQuery("FROM User WHERE login = :login and password = :password");
                     query.setParameter("login", login);
+                    query.setParameter("password", password);
                     return !query.list().isEmpty();
                 }
         );

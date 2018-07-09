@@ -26,7 +26,7 @@ public class User {
     /**
      * The user's role.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
     /**
