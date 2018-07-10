@@ -52,6 +52,7 @@ public class CarDAOTest {
         TransmissionDAO.getInstance().create(transmission);
         Role role = new Role();
         role.setName("test role");
+        RoleDAO.getInstance().create(role);
         User user = new User();
         user.setLogin("test user");
         user.setRole(role);

@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class UserDAOTest {
 
     private final UserDAO dao = UserDAO.getInstance();
+    private final RoleDAO roleDao = RoleDAO.getInstance();
     private User entity;
     private Role role;
 
@@ -28,13 +29,14 @@ public class UserDAOTest {
      */
     @Before
     public void prepareTestData() throws SQLException {
-        this.entity = new User();
-        this.entity.setLogin("test");
-        this.entity.setPassword("pass");
-        this.role = new Role();
-        this.role.setName("role");
-        this.entity.setRole(role);
-        this.dao.create(entity);
+        entity = new User();
+        entity.setLogin("test");
+        entity.setPassword("pass");
+        role = new Role();
+        role.setName("role");
+        roleDao.create(role);
+        entity.setRole(role);
+        dao.create(entity);
     }
 
     /**
@@ -42,7 +44,8 @@ public class UserDAOTest {
      */
     @After
     public void cleanUpTestData() {
-        this.dao.delete(entity.getId());
+        dao.delete(entity.getId());
+        roleDao.delete(role.getId());
     }
 
     /**

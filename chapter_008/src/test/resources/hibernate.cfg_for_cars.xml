@@ -13,6 +13,7 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
         <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
 
         <mapping class="ru.job4j.carplace.model.entity.Car"/>
         <mapping class="ru.job4j.carplace.model.entity.Transmission"/>
