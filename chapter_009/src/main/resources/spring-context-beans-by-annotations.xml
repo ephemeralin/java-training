@@ -8,6 +8,6 @@
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="ru.job4j.ioc.beansbyannotations"/>
+    <context:component-scan base-package="ru.job4j.ioc.repos"/>
 
 </beans>

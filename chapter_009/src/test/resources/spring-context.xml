@@ -7,14 +7,15 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="memoryStorage" class="ru.job4j.ioc.beansbyxml.MemoryRepository2"/>
+    <context:annotation-config/>
+    <context:component-scan base-package="ru.job4j.ioc.repos"/>
 
-    <!--Autowired constructor-->
-    <bean id="userService2" class="ru.job4j.ioc.beansbyxml.UserService2" autowire="constructor"/>
+    <bean id="repo" class="ru.job4j.ioc.repos.MemoryRepository"/>
 
-    <!--Constructor mapped-->
-    <!--<bean id="userService2" class="ru.job4j.ioc.beansbyxml.UserService2">-->
-        <!--<constructor-arg name="repository" ref="memoryStorage"/>-->
-    <!--</bean>-->
+    <bean id="userService" class="ru.job4j.ioc.repos.UserService">
+        <property name="repository">
+            <ref bean="repo"/>
+        </property>
+    </bean>
 
 </beans>

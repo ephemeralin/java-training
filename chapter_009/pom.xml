@@ -87,6 +87,12 @@
             <version>5.0.7.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+
 
 
 
