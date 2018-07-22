@@ -46,23 +46,21 @@ public class JdbcRepository implements DAO {
     @Override
     public int create(User user) {
         int id = 0;
-        if (user != null) {
-            String sql = "INSERT INTO users (id, name) VALUES (DEFAULT, ?) RETURNING id;";
-            try (Connection conn = databaseConnector.getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
-            ) {
-                pstmt.setString(1, user.getName());
-                ResultSet rs = null;
-                    pstmt.executeUpdate();
-                    rs = pstmt.getGeneratedKeys();
-                    if (rs != null && rs.next()) {
-                        id = rs.getInt(1);
-                    } else {
-                        log.error(String.format("SQL Error to put user with name %s to the DB", user.getName()));
-                    }
-            } catch (SQLException e) {
-                log.error(String.format("SQL Error to put user with name %s to the DB", user.getName()), e);
-            }
+        String sql = "INSERT INTO users (id, name) VALUES (DEFAULT, ?) RETURNING id;";
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            pstmt.setString(1, user.getName());
+            ResultSet rs = null;
+                pstmt.executeUpdate();
+                rs = pstmt.getGeneratedKeys();
+                if (rs != null && rs.next()) {
+                    id = rs.getInt(1);
+                } else {
+                    log.error(String.format("SQL Error to put user with name %s to the DB", user.getName()));
+                }
+        } catch (SQLException e) {
+            log.error(String.format("SQL Error to put user with name %s to the DB", user.getName()), e);
         }
         return id;
     }
@@ -91,18 +89,16 @@ public class JdbcRepository implements DAO {
     @Override
     public User update(User user) {
         User newUser = null;
-        if (user != null) {
-            String sql = "UPDATE users SET name = ? WHERE id = ?";
-            try (Connection conn = databaseConnector.getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)
-            ) {
-                pstmt.setString(1, user.getName());
-                pstmt.setInt(2, user.getId());
-                pstmt.execute();
-                newUser = user;
-            } catch (SQLException e) {
-                log.error(String.format("SQL Error while updating user with name %s to the DB", user.getName()), e);
-            }
+        String sql = "UPDATE users SET name = ? WHERE id = ?";
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            pstmt.setString(1, user.getName());
+            pstmt.setInt(2, user.getId());
+            pstmt.execute();
+            newUser = user;
+        } catch (SQLException e) {
+            log.error(String.format("SQL Error while updating user with name %s to the DB", user.getName()), e);
         }
         return newUser;
     }
@@ -110,17 +106,15 @@ public class JdbcRepository implements DAO {
     @Override
     public boolean delete(User user) {
         boolean isDeleted = false;
-        if (user != null) {
-            String sql = "DELETE FROM users WHERE id = ?";
-            try (Connection conn = databaseConnector.getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)
-            ) {
-                pstmt.setInt(1, user.getId());
-                pstmt.execute();
-                isDeleted = true;
-            } catch (SQLException e) {
-                log.error(String.format("SQL Error deleting user with name %s in the DB", user.getName()), e);
-            }
+        String sql = "DELETE FROM users WHERE id = ?";
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            pstmt.setInt(1, user.getId());
+            pstmt.execute();
+            isDeleted = true;
+        } catch (SQLException e) {
+            log.error(String.format("SQL Error deleting user with name %s in the DB", user.getName()), e);
         }
         return isDeleted;
     }

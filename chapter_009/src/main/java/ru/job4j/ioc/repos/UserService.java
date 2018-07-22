@@ -12,29 +12,61 @@ import org.springframework.stereotype.Component;
 @Component
 @Log4j2
 @Data
-public class UserService implements DAO {
+public class UserService {
 
     @Autowired
     @Qualifier("jdbcRepository")
     private DAO repository;
 
-    @Override
+    /**
+     * Create int.
+     *
+     * @param user the user
+     * @return the int
+     */
     public int create(User user) {
-        return repository.create(user);
+        if (user != null) {
+            return repository.create(user);
+        } else {
+            return 0;
+        }
     }
 
-    @Override
+    /**
+     * Find by id user.
+     *
+     * @param id the id
+     * @return the user
+     */
     public User findById(int id) {
         return repository.findById(id);
     }
 
-    @Override
+    /**
+     * Update user.
+     *
+     * @param user the user
+     * @return the user
+     */
     public User update(User user) {
-        return repository.update(user);
+        if (user != null) {
+            return repository.update(user);
+        } else {
+            return null;
+        }
     }
 
-    @Override
+    /**
+     * Delete boolean.
+     *
+     * @param user the user
+     * @return the boolean
+     */
     public boolean delete(User user) {
-        return repository.delete(user);
+        if (user != null) {
+            return repository.delete(user);
+        } else {
+            return false;
+        }
     }
 }
