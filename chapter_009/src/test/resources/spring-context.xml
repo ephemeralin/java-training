@@ -13,9 +13,7 @@
     <bean id="repo" class="ru.job4j.ioc.repos.MemoryRepository"/>
 
     <bean id="userService" class="ru.job4j.ioc.repos.UserService">
-        <property name="repository">
-            <ref bean="repo"/>
-        </property>
+        <constructor-arg ref="repo" />
     </bean>
 
 </beans>

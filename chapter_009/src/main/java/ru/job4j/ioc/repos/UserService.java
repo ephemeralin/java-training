@@ -14,9 +14,17 @@ import org.springframework.stereotype.Component;
 @Data
 public class UserService {
 
+    private final DAO repository;
+
+    /**
+     * Instantiates a new User service.
+     *
+     * @param repository the repository
+     */
     @Autowired
-    @Qualifier("jdbcRepository")
-    private DAO repository;
+    public UserService(@Qualifier("jdbcRepository") DAO repository) {
+        this.repository = repository;
+    }
 
     /**
      * Create int.
