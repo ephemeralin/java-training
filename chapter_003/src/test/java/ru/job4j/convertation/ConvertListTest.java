@@ -32,6 +32,25 @@ public class ConvertListTest {
     }
 
     /**
+     * Test for Convert list of arrays to the list.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void convertUsingStreams() throws Exception {
+        ArrayList<Integer> expectedList = new ArrayList<>();
+        for (int i = 1; i <= 6; i++) {
+            expectedList.add(i);
+        }
+
+        ArrayList<Integer[]> list = new ArrayList<>();
+        list.add(new Integer[] {1, 2});
+        list.add(new Integer[] {3, 4, 5, 6});
+
+        assertThat(new ConvertList().convertUsingStreams(list), is(expectedList));
+    }
+
+    /**
      * Test for To array when number of rows 3.
      *
      * @throws Exception the exception

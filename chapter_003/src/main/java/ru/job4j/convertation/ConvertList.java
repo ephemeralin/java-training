@@ -1,7 +1,9 @@
 package ru.job4j.convertation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -70,5 +72,17 @@ public class ConvertList {
             }
         }
         return resultList;
+    }
+
+    /**
+     * Convert list of arrays to the list using Stream API.
+     *
+     * @param list the list of arrays
+     * @return the list
+     */
+    public List<Integer> convertUsingStreams(List<Integer[]> list) {
+        return list.stream()
+                .flatMap(x -> Arrays.asList(x).stream())
+                .collect(Collectors.toList());
     }
 }
