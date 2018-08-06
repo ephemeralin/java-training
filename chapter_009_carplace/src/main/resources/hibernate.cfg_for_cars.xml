@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/cars</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">password</property>
+        <property name="hibernate.connection.pool_size">100</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
+
+        <mapping class="com.ephemeralin.carplace.model.Car"/>
+        <mapping class="com.ephemeralin.carplace.model.Transmission"/>
+        <mapping class="com.ephemeralin.carplace.model.Body"/>
+        <mapping class="com.ephemeralin.carplace.model.Engine"/>
+        <mapping class="com.ephemeralin.carplace.model.Make"/>
+        <mapping class="com.ephemeralin.carplace.model.Model"/>
+        <mapping class="com.ephemeralin.carplace.model.Role"/>
+        <mapping class="com.ephemeralin.carplace.model.User"/>
+    </session-factory>
+</hibernate-configuration>
