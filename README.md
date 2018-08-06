@@ -1,73 +1,21 @@
-# java-training [![Build Status](https://travis-ci.org/ephemeralin/java-training.svg?branch=master)](https://travis-ci.org/ephemeralin/java-training) [![codecov](https://codecov.io/gh/ephemeralin/java-training/branch/master/graph/badge.svg)](https://codecov.io/gh/ephemeralin/java-training)
+# java-training
+[![Build Status](https://travis-ci.org/ephemeralin/java-training.svg?branch=master)](https://travis-ci.org/ephemeralin/java-training) [![codecov](https://codecov.io/gh/ephemeralin/java-training/branch/master/graph/badge.svg)](https://codecov.io/gh/ephemeralin/java-training)
 
-This is a training repository just for learning awesome Java =)
+This is a massive repository for keeping different training projects and learning awesome Java.
+
+Used stuff:
+* **Frameworks**: spring core, spring mvc, hibernate, servlets, lombok, junit, mockito, hamcrest, log4j, jstl, taglibs, commons, gson, jsoup, collections   
+* **Tools**: maven, git, jacoco, travis ci, intellij idea, command line
+* **Databases**: postgresql, hsql, mysql, sqlite
 
 ## Contents
 
-### [I. Basic syntax](#i-basic-syntax-1)
-* [1. "If ... else" statement](#1-if--else-statement)
-* [2. Cycles](#2-cycles)
-* [3. Arrays](#3-arrays)
-* [4. Exam task](#4-exam-task)
-
-### [II. Object-oriented programming](ii-object-oriented-programming-1)
-* [1. Classes and objects](#1-classes-and-objects)
-* [2. Inheritance](#2-inheritance)
-* [3. Encapsulation](#3-encapsulation)
-* [4. Polymorphism](#4-polymorphism)
-* [5. Inner classes](#5-inner-classes)
-* [6. Exceptions](#6-exceptions)
-* [7. Abstract and anonymous classes](#7-abstract-and-anonymous-classes)
-* [8. Exam task](#8-exam-task)
-
-### [III. Collections Lite](iii-collections-lite-1)
-* [1. Collections Framework](#1-collections-framework)
-* [2. Generics Lite](#2-generics-lite)
-* [3. Sorting](#3-sorting)
-* [4. Exam task](#4-exam-task-1)
-
-### [IV. Collections Pro](iv-collections-pro-1)
-* [1. Iterator](#1-iterator)
-* [2. Generic](#2-generic)
-* [3. List](#3-list)
-* [4. Set](#4-set)
-* [5. Map](#5-map)
-* [6. Tree](#6-tree)
-* [7. Exam task](#7-exam-task)
-
-### I. Basic Syntax
-[Up](#java-training)
-#### 1. "If ... else" statement
-1.  [Test link on Spring framework](https://github.com/spring-projects/spring-framework) The Spring. 
-2.  Just test string.
-#### 2. Cycles
-#### 3. Arrays
-#### 4. Exam task
-
-### II. Object-Oriented Programming
-[Up](#java-training)
-#### 1. Classes and objects
-#### 2. Inheritance
-#### 3. Encapsulation
-#### 4. Polymorphism
-#### 5. Inner classes
-#### 6. Exceptions
-#### 7. Abstract and anonymous classes
-#### 8. Exam task
-
-### III. Collections Lite
-[Up](#java-training)
-#### 1. Collections Framework
-#### 2. Generics Lite
-#### 3. Sorting
-#### 4. Exam task
-
-### IV. Collections Pro
-[Up](#java-training)
-#### 1. Iterator
-#### 2. Generic
-#### 3. List
-#### 4. Set
-#### 5. Map
-#### 6. Tree
-#### 7. Exam task
+#### [Level 0](#level-0)
+* [**1. Basic syntax** (conditionals, cycles, primitive types, arrays)](#0-1-basic-syntax)
+* [**2. Object-oriented programming** (classes inheritance, encapsulation, polymorphism, inner classes, _exceptions_, abstract and anonymous classes)](#0-2-object-oriented-programming)
+* [**3. Collections. Lite** (lists, maps, sorting, *generics*)](#0-3-collections-lite)
+#### [Level 1](#1-level)
+* [**1. Collections. Pro** (advanced lists and maps, trees, sets, *generics pro*)](#1-1-collections-pro)
+* [**2. Multithreading** (threads, concurrency, synchronize, monitor, deadlock, non blocking algorithm, producer-consumer pattern, locks, thead pools)](#1-2-multithreading)
+* [**3. SQL, JDBC** (sql language, pure jdbc, xml, xstl)](#1-3-sql-jdbc)
+* [**4. Servlets, JSP** (servlets, jsp, web app, crud, filters, security, mockito, *html, ajax, css*)](#1-3-sql-jdbc)
