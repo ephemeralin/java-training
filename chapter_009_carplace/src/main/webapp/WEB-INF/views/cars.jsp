@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -42,23 +43,24 @@
     }
 
     function showEditDeleteButtons(car, curLogin, curRole) {
-        var pathUpdate = "'<%=pageContext.getServletContext().getContextPath()%>" + "/update_car'";
-        var pathDelete = "'<%=pageContext.getServletContext().getContextPath()%>" + "/delete_car'";
+        <%--var pathUpdate = "'<%=pageContext.getServletContext().getContextPath()%>" + "/update_car'";--%>
+        <%--var pathDelete = "'<%=pageContext.getServletContext().getContextPath()%>" + "/delete_car'";--%>
         var str = "";
-        if (curLogin === car.owner.login || curRole === "admin") {
+        // if (curLogin === car.owner.login || curRole === "admin") {
             str ="<td>" +
-                    "<form action="+ pathUpdate +" method='get'><input type='submit' value='Edit'>" +
-                        "<input type='hidden' name='id' value='" +car.id+ "'>" +
-                    "</form>" +
+                    "<form:form action='update_car.do' method='get'>" +
+                        "<input type='submit' value='Edit'> " +
+                        "<input type='hidden' name='car_id' value='"+car.id+"'> "+
+                    "</form:form>" +
                 "</td>" +
                 "<td>" +
-                    "<form action="+ pathDelete +" method='get'><input type='submit' value='Delete'>" +
-                        "<input type='hidden' name='id' value='" +car.id+ "'>" +
-                    "</form>" +
+                    "<form:form action='delete_car.do' method='get'><input type='submit' value='Delete'>" +
+                        "<input type='hidden' name='car_id' value='" +car.id+ "'>" +
+                    "</form:form>" +
                 "</td>";
-        } else {
-            str = "<td></td><td></td>";
-        }
+        // } else {
+        //     str = "<td></td><td></td>";
+        // }
         return str;
     }
 
@@ -105,15 +107,6 @@
 <h1>Car Place</h1>
 <table class="tlogin">
     <tr>
-        <td>
-            <%--<form action='${requestScope.path}/login' method='post'><input type='submit'value='Logoff' style="width: auto">--%>
-                <%--<input type='hidden' name='logoff' value="logoff">--%>
-            <%--</form>--%>
-        </td>
-        <td>
-            <%--Login: <c:out value="${login}"></c:out><br>--%>
-            <%--Role: <c:out value="${role.name}"></c:out>--%>
-        </td>
         <td>
             Filter:
             <br>
@@ -176,39 +169,33 @@
                        <c:if test="${car.sold == 'true'}">checked="checked"</c:if>/>
             </td>
 
-            <td><form action='${requestScope.path}/update_car' method='get'><input type='submit' value='Edit'>
-                <input type='hidden' name='id' value="${car.id}">
-            </form>
+            <td>
+                <form:form action='update_car.do' method='get'>
+                    <input type='submit' value='Edit'>
+                    <input type='hidden' name='car_id' value='${car.id}'>
+                </form:form>
+
+
+                <%--<form action='${requestScope.path}/update_car' method='get'><input type='submit' value='Edit'>--%>
+                    <%--<input type='hidden' name='id' value="${car.id}">--%>
+                <%--</form>--%>
             </td>
             <td><form action='${requestScope.path}/delete_car' method='post'><input type='submit' value='Delete'>
                 <input type='hidden' name='id' value="${car.id}">
             </form>
             </td>
 
-            <%--<c:choose>--%>
-                <%--<c:when test="${(car.owner.login == login) || role == 'admin'}">--%>
-                    <%--<td><form action='${requestScope.path}/update_car' method='get'><input type='submit' value='Edit'>--%>
-                        <%--<input type='hidden' name='id' value="${car.id}">--%>
-                    <%--</form>--%>
-                    <%--</td>--%>
-                    <%--<td><form action='${requestScope.path}/delete_car' method='post'><input type='submit' value='Delete'>--%>
-                        <%--<input type='hidden' name='id' value="${car.id}">--%>
-                    <%--</form>--%>
-                    <%--</td>--%>
-                <%--</c:when>--%>
-                <%--<c:otherwise>--%>
-                    <%--<td></td>--%>
-                    <%--<td></td>--%>
-                <%--</c:otherwise>--%>
-            <%--</c:choose>--%>
         </tr>
     </c:forEach>
     </tbody>
 </table>
+
 <br>
-<%--<form action='${requestScope.path}/add_car' method='get'>--%>
-    <%--<input type='hidden' name='filterName' value="All">--%>
-    <%--<input type='submit' value='Add car' style="width: auto">--%>
-</form>
+<form:form action='add_car.do' method='get'>
+    <input type='hidden' name='filter_name' value="All">
+    <%--<button type="submit">Add car</button>--%>
+    <input type='submit' value='Add car' style="width: auto">
+</form:form>
+
 </body>
 </html>

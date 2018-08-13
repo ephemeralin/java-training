@@ -14,7 +14,12 @@ import java.util.List;
  */
 @Repository
 @Log4j2
-public class BodyDAO implements IDAO<Body> {
+public class BodyDAO extends DAO<Body> implements IDAO<Body> {
+
+    @Override
+    public Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
+    }
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -46,13 +51,7 @@ public class BodyDAO implements IDAO<Body> {
 
     @Override
     public boolean delete(int id) {
-        Session session = sessionFactory.openSession();
         Body entity = findById(id);
-        boolean success = false;
-        if (entity != null) {
-            session.delete(entity);
-            success = true;
-        }
-        return success;
+        return super.delete(sessionFactory, entity);
     }
 }

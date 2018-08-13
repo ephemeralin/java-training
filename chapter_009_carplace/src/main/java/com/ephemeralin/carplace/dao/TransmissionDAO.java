@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -14,9 +15,15 @@ import java.util.List;
  */
 @Repository
 @Log4j2
-public class TransmissionDAO implements IDAO<Transmission> {
+public class TransmissionDAO extends DAO<Transmission> implements IDAO<Transmission> {
+
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Override
+    public Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
+    }
 
     @Override
     public int create(Transmission entity) {
@@ -45,13 +52,11 @@ public class TransmissionDAO implements IDAO<Transmission> {
 
     @Override
     public boolean delete(int id) {
-        Session session = sessionFactory.openSession();
         Transmission entity = findById(id);
-        boolean success = false;
-        if (entity != null) {
-            session.delete(entity);
-            success = true;
-        }
-        return success;
+        return super.delete(sessionFactory, entity);
+    }
+
+    public List findByCriteria(HashMap<String, Object> criterias) {
+        return super.findByCriteria(sessionFactory, criterias);
     }
 }

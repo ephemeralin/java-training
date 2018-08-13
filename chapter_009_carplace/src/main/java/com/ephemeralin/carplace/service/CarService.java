@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
 
 @Service("carService")
@@ -38,5 +39,10 @@ public class CarService implements IService<Car> {
     @Override
     public boolean delete(int id) {
         return this.carDAO.delete(id);
+    }
+
+    @Override
+    public List<Car> findByCriteria(HashMap<String, Object> criterias) {
+        return null;
     }
 }

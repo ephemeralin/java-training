@@ -1,36 +1,54 @@
 package com.ephemeralin.carplace.dao;
 
-import com.ephemeralin.utils.HibernateUtility;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
+import org.hibernate.SessionFactory;
 
-import java.util.function.Function;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The type Dao.
  */
-public class DAO {
-    /**
-     * Wrapper for typical transactions.
-     *
-     * @param <T>     T
-     * @param command command
-     * @return result t
-     */
-    public  <T> T tx(final Function<Session, T> command) {
-        final Session session = HibernateUtility.getSessionFactory("hibernate.cfg_for_cars.xml").openSession();
-        final Transaction tx = session.beginTransaction();
-        try {
-            return command.apply(session);
-        } catch (final Exception e) {
-            session.getTransaction().rollback();
-            throw e;
-        } finally {
-            if (tx.getStatus().equals(TransactionStatus.ACTIVE)) {
-                tx.commit();
-            }
-            session.close();
+public abstract class DAO<T> {
+
+    private Class<T> type;
+
+    public DAO() {
+        this.type = (Class<T>)
+                ((ParameterizedType)getClass()
+                        .getGenericSuperclass())
+                        .getActualTypeArguments()[0];
+    }
+
+    public boolean delete(SessionFactory sf, T entity) {
+        Session session = sf.openSession();
+        boolean success = false;
+        if (entity != null) {
+            session.delete(entity);
+            success = true;
         }
+        return success;
+    }
+
+    public List findByCriteria (SessionFactory sf, HashMap<String, Object> criterias) {
+        Session session = sf.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<T> query = builder.createQuery(type);
+        Root<T> root = query.from(type);
+        List<Predicate> predicates = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : criterias.entrySet()) {
+            String parName = entry.getKey();
+            Object parValue = entry.getValue();
+            predicates.add(builder.equal(root.get(parName), parValue));
+        }
+        query.select(root).where(predicates.toArray(new Predicate[]{}));
+        return session.createQuery(query).getResultList();
     }
 }

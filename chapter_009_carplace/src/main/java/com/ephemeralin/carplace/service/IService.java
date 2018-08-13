@@ -1,5 +1,6 @@
 package com.ephemeralin.carplace.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface IService<T> {
@@ -8,4 +9,5 @@ public interface IService<T> {
     List<T> findAll();
     T update(T entity);
     boolean delete(int id);
+    List<T>findByCriteria(HashMap<String, Object> criterias);
 }

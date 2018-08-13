@@ -1,5 +1,7 @@
 package com.ephemeralin.carplace.dao;
 
+import org.hibernate.Session;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -9,6 +11,9 @@ import java.util.List;
  * @param <T> the type parameter
  */
 public interface IDAO<T> {
+
+    Session getCurrentSession();
+
     /**
      * Create int.
      *

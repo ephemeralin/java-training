@@ -1,5 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 
 <html>
 <head>
@@ -15,7 +19,7 @@
             var make_id = e.options[e.selectedIndex].value;
             $.ajax({
                 type: "POST",
-                url: "models",
+                url: "models.do",
                 data: "make_id="+make_id,
                 cache: false,
                 dataType:"json",
@@ -33,16 +37,16 @@
         }
 
         function create() {
-            if (validate()) {
-                document.getElementById('_title').innerText = "Please, fill all fields and submit...";
-                document.getElementById('_title').style.color = "#949494";
-                console.log("validated!")
+            // if (validate()) {
+            //     document.getElementById('_title').innerText = "Please, fill all fields and submit...";
+            //     document.getElementById('_title').style.color = "#949494";
+            //     console.log("validated!")
                 document.getElementById("create_form").submit();
-            } else {
-                document.getElementById('_title').innerText = "Some fields are empty!";
-                document.getElementById('_title').style.color = "red";
-                console.log("NOT validated!")
-            }
+            // } else {
+            //     document.getElementById('_title').innerText = "Some fields are empty!";
+            //     document.getElementById('_title').style.color = "red";
+            //     console.log("NOT validated!")
+            // }
         }
 
         function validate() {
@@ -64,69 +68,64 @@
 </head>
 
 <body>
-<c:set var="path" value="${pageContext.servletContext.contextPath}" scope="request"></c:set>
-
 <h1 id="_title" class="_title">Add car...</h1>
 <div class="div1">
 
-    <form id='create_form' action="${requestScope.path}/add_car" method="post" enctype="multipart/form-data">
-
+    <form:form id='create_form' action="add_car.do" method="post" enctype="multipart/form-data" modelAttribute="car">
         Make:
         <br>
-        <c:choose>
-            <c:when test="${car != null}">
-                <select id="make_" class="make_" name="make" onchange="make_change()">
+        <form:select id="make_" class="make_" path="make" onchange="make_change()">
+            <c:choose>
+                <c:when test="${car.id != ''}">
                     <c:forEach items="${makesList}" var="makeFromList">
                         <c:choose>
                             <c:when test="${makeFromList.id == car.make.id}">
-                                <option value="${makeFromList.id}" selected>${makeFromList.name}</option>
+                                <form:option value='${makeFromList.id}' label="${makeFromList.name}" selected='true'> </form:option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${makeFromList.id}">${makeFromList.name}</option>
+                                <form:option value='${makeFromList.id}' label="${makeFromList.name}"/>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
-                </select>
-            </c:when>
-            <c:otherwise>
-                <select id="make_" class="make_" name="make" onchange="make_change()">
+                </c:when>
+                <c:otherwise>
                     <c:forEach items="${makesList}" var="makeFromList">
-                        <option value="${makeFromList.id}">${makeFromList.name}</option>
+                        <form:option value='${makeFromList.id}' label="${makeFromList.name}"/>
                     </c:forEach>
-                </select>
-            </c:otherwise>
-        </c:choose>
+                </c:otherwise>
+            </c:choose>
+        </form:select>
         <br>
 
         Model:
         <br>
-        <c:choose>
-            <c:when test="${car != null}">
-                <select id="model_" class="model_" name="model">
+        <form:select id="model_" class="model_" path="model">
+            <c:choose>
+                <c:when test="${car.id != ''}">
                     <c:forEach items="${modelsList}" var="modelFromList">
                         <c:choose>
                             <c:when test="${modelFromList.id == car.model.id}">
-                                <option value="${modelFromList.id}" selected>${modelFromList.name}</option>
+                                <form:option value='${modelFromList.id}' label="${modelFromList.name}" selected='true'> </form:option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${modelFromList.id}">${modelFromList.name}</option>
+                                <form:option value='${modelFromList.id}' label="${modelFromList.name}"/>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
-                </select>
-            </c:when>
-            <c:otherwise>
-                <select id = "model_" class="model_" name="model">
-                    <option value="">Please, select a model</option>
-                </select>
-            </c:otherwise>
-        </c:choose>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach items="${modelsList}" var="modelFromList">
+                        <form:option value='${modelFromList.id}' label="${modelFromList.name}"/>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+        </form:select>
         <br>
 
         Name:
         <br>
         <c:choose>
-            <c:when test="${car != null}">
+            <c:when test="${car.id != ''}">
                 <input type='text' id='name_' name='name' value="${car.name}">
             </c:when>
             <c:otherwise>
@@ -137,100 +136,94 @@
 
         Engine:
         <br>
-        <c:choose>
-            <c:when test="${car != null}">
-                <select id="engine_" class="engine_" name="engine">
+        <form:select id="engine_" class="engine_" path="engine">
+            <c:choose>
+                <c:when test="${car.id != ''}">
                     <c:forEach items="${enginesList}" var="engineFromList">
                         <c:choose>
                             <c:when test="${engineFromList.id == car.engine.id}">
-                                <option value="${engineFromList.id}" selected>${engineFromList.name}</option>
+                                <form:option value='${engineFromList.id}' label="${engineFromList.name}" selected='true'> </form:option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${engineFromList.id}">${engineFromList.name}</option>
+                                <form:option value='${engineFromList.id}' label="${engineFromList.name}"/>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
-                </select>
-            </c:when>
-            <c:otherwise>
-                <select id="engine_" class="engine_" name="engine">
+                </c:when>
+                <c:otherwise>
                     <c:forEach items="${enginesList}" var="engineFromList">
-                        <option value="${engineFromList.id}">${engineFromList.name}</option>
+                        <form:option value='${engineFromList.id}' label="${engineFromList.name}"/>
                     </c:forEach>
-                </select>
-            </c:otherwise>
-        </c:choose>
+                </c:otherwise>
+            </c:choose>
+        </form:select>
         <br>
 
         Body:
         <br>
-        <c:choose>
-            <c:when test="${car != null}">
-                <select id="body_" class="body_" name="body">
+        <form:select id="body_" class="body_" path="body">
+            <c:choose>
+                <c:when test="${car.id != ''}">
                     <c:forEach items="${bodiesList}" var="bodyFromList">
                         <c:choose>
                             <c:when test="${bodyFromList.id == car.body.id}">
-                                <option value="${bodyFromList.id}" selected>${bodyFromList.name}</option>
+                                <form:option value='${bodyFromList.id}' label="${bodyFromList.name}" selected='true'> </form:option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${bodyFromList.id}">${bodyFromList.name}</option>
+                                <form:option value='${bodyFromList.id}' label="${bodyFromList.name}"/>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
-                </select>
-            </c:when>
-            <c:otherwise>
-                <select id="body_" class="body_" name="body">
+                </c:when>
+                <c:otherwise>
                     <c:forEach items="${bodiesList}" var="bodyFromList">
-                        <option value="${bodyFromList.id}">${bodyFromList.name}</option>
+                        <form:option value='${bodyFromList.id}' label="${bodyFromList.name}"/>
                     </c:forEach>
-                </select>
-            </c:otherwise>
-        </c:choose>
+                </c:otherwise>
+            </c:choose>
+        </form:select>
         <br>
 
         Transmission:
         <br>
-        <c:choose>
-            <c:when test="${car != null}">
-                <select id="transmission_" class="transmission_" name="transmission">
+        <form:select id="transmission_" class="transmission_" path="transmission">
+            <c:choose>
+                <c:when test="${car.id != ''}">
                     <c:forEach items="${transmissionsList}" var="transmissionFromList">
                         <c:choose>
                             <c:when test="${transmissionFromList.id == car.transmission.id}">
-                                <option value="${transmissionFromList.id}" selected>${transmissionFromList.name}</option>
+                                <form:option value='${transmissionFromList.id}' label="${transmissionFromList.name}" selected='true'> </form:option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${transmissionFromList.id}">${transmissionFromList.name}</option>
+                                <form:option value='${transmissionFromList.id}' label="${transmissionFromList.name}"/>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
-                </select>
-            </c:when>
-            <c:otherwise>
-                <select id="transmission_" class="transmission_" name="transmission">
+                </c:when>
+                <c:otherwise>
                     <c:forEach items="${transmissionsList}" var="transmissionFromList">
-                        <option value="${transmissionFromList.id}">${transmissionFromList.name}</option>
+                        <form:option value='${transmissionFromList.id}' label="${transmissionFromList.name}"/>
                     </c:forEach>
-                </select>
-            </c:otherwise>
-        </c:choose>
+                </c:otherwise>
+            </c:choose>
+        </form:select>
         <br>
 
         Sold:
         <br>
         <c:choose>
-            <c:when test="${car != null}">
+            <c:when test="${car.id != ''}">
                 <input type="checkbox" id="<c:out value="${car.id}"></c:out>" name="sold"
                        <c:if test="${car.sold == 'true'}">checked="checked"</c:if>/>
             </c:when>
             <c:otherwise>
-                <input type="checkbox" id="_sold"/>
+                <input type="checkbox" id="_sold" name="sold"/>
             </c:otherwise>
         </c:choose>
         <br>
 
         <c:choose>
-            <c:when test="${car != null}">
+            <c:when test="${car.id != ''}">
                 <input type='hidden' id='_id' name='carId' value="${car.id}" ><br>
             </c:when>
             <c:otherwise>
@@ -238,13 +231,13 @@
             </c:otherwise>
         </c:choose>
 
+        <input type="file" name="file"/>
+        <%--<input type='hidden' id='_login_text' value="${login}" readonly><br>--%>
 
-        <input type="file" name="file" />
-        <input type='hidden' id='_login_text' value="${login}" readonly><br>
         <input type="button" value="Create" onclick="create()"/>
-    </form>
+    </form:form>
 
-    <form action="${requestScope.path}/cars" method='get'>
+    <form action="cars.do" method='get'>
         <input class="cancelButton" type='submit' value='Cancel'>
     </form>
 </div>

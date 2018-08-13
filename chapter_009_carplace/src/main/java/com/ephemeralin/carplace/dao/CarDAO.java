@@ -19,10 +19,15 @@ import java.util.List;
  */
 @Repository
 @Log4j2
-public class CarDAO implements IDAO<Car> {
+public class CarDAO extends DAO<Car> implements IDAO<Car> {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Override
+    public Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
+    }
 
     @Override
     public int create(Car car) {
@@ -37,8 +42,8 @@ public class CarDAO implements IDAO<Car> {
 
     @Override
     public List findAll() {
-        Session session = sessionFactory.openSession();
-        return session.createQuery("FROM Car c order by c.date desc ").list();
+//        return getCurrentSession().createQuery("FROM Car c order by c.date desc ").list();
+        return sessionFactory.openSession().createQuery("FROM Car c order by c.date desc ").list();
     }
 
     /**
@@ -86,14 +91,8 @@ public class CarDAO implements IDAO<Car> {
 
     @Override
     public boolean delete(int id) {
-        Session session = sessionFactory.openSession();
-        Car car = findById(id);
-        boolean success = false;
-        if (car != null) {
-            session.delete(car);
-            success = true;
-        }
-        return success;
+        Car entity = findById(id);
+        return super.delete(sessionFactory, entity);
     }
 
     /**

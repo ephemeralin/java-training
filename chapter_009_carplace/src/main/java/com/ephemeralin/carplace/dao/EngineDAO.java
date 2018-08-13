@@ -14,9 +14,14 @@ import java.util.List;
  */
 @Repository
 @Log4j2
-public class EngineDAO implements IDAO<Engine> {
+public class EngineDAO extends DAO<Engine> implements IDAO<Engine> {
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Override
+    public Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
+    }
 
     @Override
     public int create(Engine entity) {
@@ -45,13 +50,7 @@ public class EngineDAO implements IDAO<Engine> {
 
     @Override
     public boolean delete(int id) {
-        Session session = sessionFactory.openSession();
         Engine entity = findById(id);
-        boolean success = false;
-        if (entity != null) {
-            session.delete(entity);
-            success = true;
-        }
-        return success;
+        return super.delete(sessionFactory, entity);
     }
 }
