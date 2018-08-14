@@ -26,25 +26,23 @@ public class RoleDAO extends DAO<Role> implements IDAO<Role> {
 
     @Override
     public int create(Role entity) {
-        sessionFactory.openSession().save(entity);
+        getCurrentSession().save(entity);
         return entity.getId();
     }
 
     @Override
     public Role findById(int id) {
-        return sessionFactory.openSession().get(Role.class, id);
+        return getCurrentSession().get(Role.class, id);
     }
 
     @Override
     public List findAll() {
-        Session session = sessionFactory.openSession();
-        return session.createQuery("FROM Role ").list();
+        return getCurrentSession().createQuery("FROM Role ").list();
     }
 
     @Override
     public Role update(Role entity) {
-        Session session = sessionFactory.openSession();
-        Role entityUpdate = session.load(Role.class, entity.getId());
+        Role entityUpdate = getCurrentSession().load(Role.class, entity.getId());
         entityUpdate.setName(entity.getName());
         return entityUpdate;
     }

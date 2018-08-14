@@ -3,21 +3,19 @@ package com.ephemeralin.carplace.controller;
 import com.ephemeralin.carplace.model.*;
 import com.ephemeralin.carplace.service.IService;
 import com.ephemeralin.utils.FileUtility;
+import com.ephemeralin.utils.HibernateProxyTypeAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Base64;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.function.ToLongFunction;
 
 @Controller
 @Log4j2
@@ -42,7 +40,30 @@ public class CarController {
     public String showAll(ModelMap model) {
         List<Car> carsList = carService.findAll();
         model.addAttribute("carsList", carsList);
+        model.addAttribute("filter", "All");
         return "cars";
+    }
+
+    @PostMapping(value = "/filterCars", params = {"filter_name"})
+    @ResponseBody
+    public String filterCars(@RequestParam(name = "filter_name") String filterName) {
+        List<Car> carsList = new ArrayList<>();
+        if (filterName == null || filterName.equals("All")) {
+            carsList = carService.findAll();
+        } else if (filterName.equals("Only with photo")) {
+            HashMap<String, Object> criteria = new HashMap<>();
+            criteria.put("findWithPhotoOnly", null);
+            carsList = carService.findByCriteria(criteria);
+        } else if (filterName.equals("Only today")) {
+            HashMap<String, Object> criteria = new HashMap<>();
+            criteria.put("findToday", null);
+            carsList = carService.findByCriteria(criteria);
+        }
+        carsList.sort(Comparator.comparingLong((ToLongFunction<Car>) car -> car.getDate()).reversed());
+        GsonBuilder gb = new GsonBuilder();
+        gb.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+        Gson gson = gb.create();
+        return gson.toJson(carsList);
     }
 
     @GetMapping(value = "/add_car", params = {"filter_name"})
@@ -60,15 +81,15 @@ public class CarController {
 
     @PostMapping(value = "/add_car")
     public ModelAndView addCar(org.springframework.ui.Model model,
-                         @RequestPart("file") MultipartFile file,
-                         @RequestParam("carId") String carId,
-                         @RequestParam("model") String modelId,
-                         @RequestParam("make") String makeId,
-                         @RequestParam("name") String carName,
-                         @RequestParam("engine") String engineId,
-                         @RequestParam("body") String bodyId,
-                         @RequestParam("transmission") String transmissionId,
-                         @RequestParam(name = "sold", required = false, defaultValue = "false") String sold
+                               @RequestPart("file") MultipartFile file,
+                               @RequestParam("carId") String carId,
+                               @RequestParam("model") String modelId,
+                               @RequestParam("make") String makeId,
+                               @RequestParam("name") String carName,
+                               @RequestParam("engine") String engineId,
+                               @RequestParam("body") String bodyId,
+                               @RequestParam("transmission") String transmissionId,
+                               @RequestParam(name = "sold", required = false, defaultValue = "false") String sold
     ) {
 
         Long date = Calendar.getInstance().getTimeInMillis();
@@ -98,6 +119,20 @@ public class CarController {
         }
 
         ModelAndView mv = new ModelAndView("cars");
+        mv.addObject("filter", "All");
+        List<Car> carsList = carService.findAll();
+        mv.addObject("carsList", carsList);
+        return mv;
+    }
+
+    @PostMapping(value = "/delete_car")
+    public ModelAndView addCar(org.springframework.ui.Model model,
+                               @RequestParam("carId") String carId
+    ) {
+        carService.delete(Integer.parseInt(carId));
+
+        ModelAndView mv = new ModelAndView("cars");
+        mv.addObject("filter", "All");
         List<Car> carsList = carService.findAll();
         mv.addObject("carsList", carsList);
         return mv;
@@ -108,6 +143,7 @@ public class CarController {
     public ModelAndView updateCar(
             @RequestParam String car_id) {
         ModelAndView mv = new ModelAndView();
+        mv.addObject("filter", "All");
         if (!car_id.isEmpty()) {
             Car car = carService.findById(Integer.parseInt(car_id));
             mv.addObject("car", car);

@@ -29,25 +29,23 @@ public class UserDAO extends DAO<User> implements IDAO<User> {
 
     @Override
     public int create(User entity) {
-        sessionFactory.openSession().save(entity);
+        getCurrentSession().save(entity);
         return entity.getId();
     }
 
     @Override
     public User findById(int id) {
-        return sessionFactory.openSession().get(User.class, id);
+        return getCurrentSession().get(User.class, id);
     }
 
     @Override
     public List findAll() {
-        Session session = sessionFactory.openSession();
-        return session.createQuery("FROM User ").list();
+        return getCurrentSession().createQuery("FROM User u JOIN FETCH u.role").list();
     }
 
     @Override
     public User update(User entity) {
-        Session session = sessionFactory.openSession();
-        User entityUpdate = session.load(User.class, entity.getId());
+        User entityUpdate = getCurrentSession().load(User.class, entity.getId());
         entityUpdate.setLogin(entity.getLogin());
         return entityUpdate;
     }
@@ -66,8 +64,7 @@ public class UserDAO extends DAO<User> implements IDAO<User> {
      * @return the boolean
      */
     public boolean isIdentified(String login, String password) {
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery("FROM User WHERE login = :login and password = :password");
+        Query query = getCurrentSession().createQuery("FROM User u JOIN FETCH u.role WHERE u.login = :login AND u.password = :password");
         query.setParameter("login", login);
         query.setParameter("password", password);
         return !query.list().isEmpty();
@@ -80,8 +77,7 @@ public class UserDAO extends DAO<User> implements IDAO<User> {
      * @return the role by login
      */
     public Role getRoleByLogin(String login) {
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery("select role FROM User WHERE login = :login");
+        Query query = getCurrentSession().createQuery("SELECT role FROM User WHERE login = :login");
         query.setParameter("login", login);
         return (Role) query.getSingleResult();
     }
@@ -93,8 +89,7 @@ public class UserDAO extends DAO<User> implements IDAO<User> {
      * @return the user
      */
     public User findByLogin(String login) {
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery("FROM User WHERE login = :login");
+        Query query = getCurrentSession().createQuery("FROM User u u JOIN FETCH u.role WHERE u.login = :login");
         query.setParameter("login", login);
         return (User) query.getSingleResult();
     }

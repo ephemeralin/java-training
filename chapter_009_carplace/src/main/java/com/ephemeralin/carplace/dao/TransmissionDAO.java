@@ -27,25 +27,23 @@ public class TransmissionDAO extends DAO<Transmission> implements IDAO<Transmiss
 
     @Override
     public int create(Transmission entity) {
-        sessionFactory.openSession().save(entity);
+        getCurrentSession().save(entity);
         return entity.getId();
     }
 
     @Override
     public Transmission findById(int id) {
-        return sessionFactory.openSession().get(Transmission.class, id);
+        return getCurrentSession().get(Transmission.class, id);
     }
 
     @Override
     public List findAll() {
-        Session session = sessionFactory.openSession();
-        return session.createQuery("FROM Transmission ").list();
+        return getCurrentSession().createQuery("FROM Transmission ").list();
     }
 
     @Override
     public Transmission update(Transmission entity) {
-        Session session = sessionFactory.openSession();
-        Transmission entityUpdate = session.load(Transmission.class, entity.getId());
+        Transmission entityUpdate = getCurrentSession().load(Transmission.class, entity.getId());
         entityUpdate.setName(entity.getName());
         return entityUpdate;
     }

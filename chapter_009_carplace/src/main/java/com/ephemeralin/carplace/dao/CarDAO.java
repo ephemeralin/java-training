@@ -30,20 +30,41 @@ public class CarDAO extends DAO<Car> implements IDAO<Car> {
     }
 
     @Override
+    public List findAll() {
+        return getCurrentSession()
+                .createQuery(
+                         "FROM Car c " +
+                                 "JOIN FETCH c.make mk " +
+                                 "JOIN FETCH c.model ml " +
+                                 "JOIN FETCH c.body " +
+                                 "JOIN FETCH c.engine " +
+                                 "JOIN FETCH c.transmission " +
+                                 "JOIN FETCH c.owner " +
+                                 "ORDER BY c.date DESC ")
+                .list();
+
+    }
+
+    @Override
     public int create(Car car) {
-        sessionFactory.openSession().save(car);
+        getCurrentSession().save(car);
         return car.getId();
     }
 
     @Override
     public Car findById(int id) {
-        return sessionFactory.openSession().get(Car.class, id);
-    }
-
-    @Override
-    public List findAll() {
-//        return getCurrentSession().createQuery("FROM Car c order by c.date desc ").list();
-        return sessionFactory.openSession().createQuery("FROM Car c order by c.date desc ").list();
+        Query query = getCurrentSession()
+                .createQuery(
+                        "FROM Car c " +
+                                "JOIN FETCH c.make mk " +
+                                "JOIN FETCH c.model ml " +
+                                "JOIN FETCH c.body " +
+                                "JOIN FETCH c.engine " +
+                                "JOIN FETCH c.transmission " +
+                                "JOIN FETCH c.owner " +
+                                "WHERE c.id = :id");
+        query.setParameter("id", id);
+        return (Car) query.getSingleResult();
     }
 
     /**
@@ -52,8 +73,16 @@ public class CarDAO extends DAO<Car> implements IDAO<Car> {
      * @return the list
      */
     public List findToday() {
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery("FROM Car where date between :startDate and :endDate");
+        Query query = getCurrentSession()
+                .createQuery(
+                        "FROM Car c " +
+                                "JOIN FETCH c.make mk " +
+                                "JOIN FETCH c.model ml " +
+                                "JOIN FETCH c.body " +
+                                "JOIN FETCH c.engine " +
+                                "JOIN FETCH c.transmission " +
+                                "JOIN FETCH c.owner " +
+                                "WHERE c.date BETWEEN :startDate AND :endDate");
         query.setParameter("startDate", getTodayPeriodInMillis().get("startDate"));
         query.setParameter("endDate", getTodayPeriodInMillis().get("endDate"));
         return query.list();
@@ -65,15 +94,22 @@ public class CarDAO extends DAO<Car> implements IDAO<Car> {
      * @return the list
      */
     public List findWithPhotoOnly() {
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery("FROM Car where base64imageFile != null and base64imageFile != ''");
+        Query query = getCurrentSession()
+                .createQuery(
+                        "FROM Car c " +
+                                "JOIN FETCH c.make mk " +
+                                "JOIN FETCH c.model ml " +
+                                "JOIN FETCH c.body " +
+                                "JOIN FETCH c.engine " +
+                                "JOIN FETCH c.transmission " +
+                                "JOIN FETCH c.owner " +
+                                "WHERE c.base64imageFile != NULL AND c.base64imageFile != ''");
         return query.list();
     }
 
     @Override
     public Car update(Car car) {
-        Session session = sessionFactory.openSession();
-        Car carUpdate = session.load(Car.class, car.getId());
+        Car carUpdate = getCurrentSession().load(Car.class, car.getId());
         carUpdate.setName(car.getName());
         carUpdate.setSold(car.isSold());
         carUpdate.setMake(car.getMake());
@@ -110,5 +146,15 @@ public class CarDAO extends DAO<Car> implements IDAO<Car> {
         period.put("startDate", zdtStart.toInstant().toEpochMilli());
         period.put("endDate", zdtTomorrowStart.toInstant().toEpochMilli());
         return period;
+    }
+
+    public List findByCriteria(HashMap<String, Object> criterias) {
+        if (criterias.containsKey("findWithPhotoOnly")) {
+            return findWithPhotoOnly();
+        } else if (criterias.containsKey("findToday")) {
+            return findToday();
+        } else {
+            return super.findByCriteria(sessionFactory, criterias);
+        }
     }
 }

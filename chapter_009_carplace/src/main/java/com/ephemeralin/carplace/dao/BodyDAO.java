@@ -26,25 +26,23 @@ public class BodyDAO extends DAO<Body> implements IDAO<Body> {
 
     @Override
     public int create(Body entity) {
-        sessionFactory.openSession().save(entity);
+        getCurrentSession().save(entity);
         return entity.getId();
     }
 
     @Override
     public Body findById(int id) {
-        return sessionFactory.openSession().get(Body.class, id);
+        return getCurrentSession().get(Body.class, id);
     }
 
     @Override
     public List findAll() {
-        Session session = sessionFactory.openSession();
-        return session.createQuery("FROM Body ").list();
+        return getCurrentSession().createQuery("FROM Body ").list();
     }
 
     @Override
     public Body update(Body entity) {
-        Session session = sessionFactory.openSession();
-        Body entityUpdate = session.load(Body.class, entity.getId());
+        Body entityUpdate = getCurrentSession().load(Body.class, entity.getId());
         entityUpdate.setName(entity.getName());
         return entityUpdate;
     }

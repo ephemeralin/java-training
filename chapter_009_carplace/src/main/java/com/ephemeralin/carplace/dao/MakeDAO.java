@@ -26,25 +26,23 @@ public class MakeDAO extends DAO<Make> implements IDAO<Make> {
 
     @Override
     public int create(Make entity) {
-        sessionFactory.openSession().save(entity);
+        getCurrentSession().save(entity);
         return entity.getId();
     }
 
     @Override
     public Make findById(int id) {
-        return sessionFactory.openSession().get(Make.class, id);
+        return getCurrentSession().get(Make.class, id);
     }
 
     @Override
     public List findAll() {
-        Session session = sessionFactory.openSession();
-        return session.createQuery("FROM Make ").list();
+        return getCurrentSession().createQuery("FROM Make ").list();
     }
 
     @Override
     public Make update(Make entity) {
-        Session session = sessionFactory.openSession();
-        Make entityUpdate = session.load(Make.class, entity.getId());
+        Make entityUpdate = getCurrentSession().load(Make.class, entity.getId());
         entityUpdate.setName(entity.getName());
         return entityUpdate;
     }

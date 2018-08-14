@@ -29,6 +29,7 @@ public class ModelController {
     public String getModels(
             @RequestParam String make_id) {
         HashMap<String, Object> criterias = new HashMap<>();
+        criterias.put("findAllWithMake", null);
         criterias.put("make", makeService.findById(Integer.parseInt(make_id)));
         List<com.ephemeralin.carplace.model.Model> modelsList = modelService.findByCriteria(criterias);
 

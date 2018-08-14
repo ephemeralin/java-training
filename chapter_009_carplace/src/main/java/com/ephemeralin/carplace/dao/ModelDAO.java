@@ -1,11 +1,14 @@
 package com.ephemeralin.carplace.dao;
 
+import com.ephemeralin.carplace.model.Make;
 import com.ephemeralin.carplace.model.Model;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,25 +30,29 @@ public class ModelDAO extends DAO<Model> implements IDAO<Model> {
 
     @Override
     public int create(Model entity) {
-        sessionFactory.openSession().save(entity);
+        getCurrentSession().save(entity);
         return entity.getId();
     }
 
     @Override
     public Model findById(int id) {
-        return sessionFactory.openSession().get(Model.class, id);
+        Query query = getCurrentSession()
+                .createQuery(
+                        "FROM Model m " +
+                                "JOIN FETCH m.make mk " +
+                                "WHERE mk.id = :id");
+        query.setParameter("id", id);
+        return (Model) query.getSingleResult();
     }
 
     @Override
     public List findAll() {
-        Session session = sessionFactory.openSession();
-        return session.createQuery("FROM Model ").list();
+        return getCurrentSession().createQuery("FROM Model ml JOIN FETCH ml.make").list();
     }
 
     @Override
     public Model update(Model entity) {
-        Session session = sessionFactory.openSession();
-        Model entityUpdate = session.load(Model.class, entity.getId());
+        Model entityUpdate = getCurrentSession().load(Model.class, entity.getId());
         entityUpdate.setName(entity.getName());
         return entityUpdate;
     }
@@ -57,6 +64,20 @@ public class ModelDAO extends DAO<Model> implements IDAO<Model> {
     }
 
     public List findByCriteria(HashMap<String, Object> criterias) {
-        return super.findByCriteria(sessionFactory, criterias);
+        if (criterias.containsKey("findAllWithMake")) {
+            return findAllWithMake((Make) criterias.get("make"));
+        } else {
+            return super.findByCriteria(sessionFactory, criterias);
+        }
+    }
+
+    public List findAllWithMake(Make make) {
+        Query query = getCurrentSession()
+                .createQuery(
+                        "FROM Model md " +
+                                "JOIN FETCH md.make mk " +
+                                "WHERE md.make = :make");
+        query.setParameter("make", make);
+        return query.list();
     }
 }

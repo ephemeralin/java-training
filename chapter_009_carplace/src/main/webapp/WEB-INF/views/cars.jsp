@@ -66,11 +66,11 @@
 
     function filterData(element) {
         var dataObject = {
-            "filterName": element.options[element.selectedIndex].text
+            "filter_name": element.options[element.selectedIndex].text
         };
         $.ajax({
             type: "POST",
-            url: "filtercars",
+            url: "filterCars.do",
             data: dataObject,
             cache: false,
             dataType:"json",
@@ -110,11 +110,11 @@
         <td>
             Filter:
             <br>
-                <select name="filter" class="tfilter" onchange="filterData(this)">
-                    <option value="All">All</option>
-                    <option value="OnlyWithPhoto">Only with photo</option>
-                    <option value="OnlyToday">Only today</option>
-                </select>
+                <form:select name='filter_' class='tfilter' path='filter' onchange="filterData(this)">
+                    <form:option value="All">All</form:option>
+                    <form:option value="OnlyWithPhoto">Only with photo</form:option>
+                    <form:option value="OnlyToday">Only today</form:option>
+                </form:select>
             <br>
         </td>
     </tr>
@@ -175,14 +175,14 @@
                     <input type='hidden' name='car_id' value='${car.id}'>
                 </form:form>
 
-
                 <%--<form action='${requestScope.path}/update_car' method='get'><input type='submit' value='Edit'>--%>
                     <%--<input type='hidden' name='id' value="${car.id}">--%>
                 <%--</form>--%>
             </td>
-            <td><form action='${requestScope.path}/delete_car' method='post'><input type='submit' value='Delete'>
-                <input type='hidden' name='id' value="${car.id}">
-            </form>
+            <td><form:form action='delete_car.do' method='post'>
+                <input type='submit' value='Delete'>
+                <input type='hidden' name='carId' value="${car.id}">
+            </form:form>
             </td>
 
         </tr>

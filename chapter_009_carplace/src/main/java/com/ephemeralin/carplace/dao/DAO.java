@@ -28,7 +28,7 @@ public abstract class DAO<T> {
     }
 
     public boolean delete(SessionFactory sf, T entity) {
-        Session session = sf.openSession();
+        Session session = sf.getCurrentSession();
         boolean success = false;
         if (entity != null) {
             session.delete(entity);
@@ -38,7 +38,7 @@ public abstract class DAO<T> {
     }
 
     public List findByCriteria (SessionFactory sf, HashMap<String, Object> criterias) {
-        Session session = sf.openSession();
+        Session session = sf.getCurrentSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<T> query = builder.createQuery(type);
         Root<T> root = query.from(type);

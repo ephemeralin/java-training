@@ -25,25 +25,23 @@ public class EngineDAO extends DAO<Engine> implements IDAO<Engine> {
 
     @Override
     public int create(Engine entity) {
-        sessionFactory.openSession().save(entity);
+        getCurrentSession().save(entity);
         return entity.getId();
     }
 
     @Override
     public Engine findById(int id) {
-        return sessionFactory.openSession().get(Engine.class, id);
+        return getCurrentSession().get(Engine.class, id);
     }
 
     @Override
     public List findAll() {
-        Session session = sessionFactory.openSession();
-        return session.createQuery("FROM Engine ").list();
+        return getCurrentSession().createQuery("FROM Engine ").list();
     }
 
     @Override
     public Engine update(Engine entity) {
-        Session session = sessionFactory.openSession();
-        Engine entityUpdate = session.load(Engine.class, entity.getId());
+        Engine entityUpdate = getCurrentSession().load(Engine.class, entity.getId());
         entityUpdate.setName(entity.getName());
         return entityUpdate;
     }
