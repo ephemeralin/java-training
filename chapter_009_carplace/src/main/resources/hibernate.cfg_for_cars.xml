@@ -9,17 +9,17 @@
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">password</property>
         <property name="hibernate.connection.pool_size">100</property>
-        <property name="hibernate.enable_lazy_load_no_trans">true</property>
+        <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
 
-        <mapping class="ru.job4j.carplace.model.entity.Car"/>
-        <mapping class="ru.job4j.carplace.model.entity.Transmission"/>
-        <mapping class="ru.job4j.carplace.model.entity.Body"/>
-        <mapping class="ru.job4j.carplace.model.entity.Engine"/>
-        <mapping class="ru.job4j.carplace.model.entity.Make"/>
-        <mapping class="ru.job4j.carplace.model.entity.Model"/>
-        <mapping class="ru.job4j.carplace.model.entity.Role"/>
-        <mapping class="ru.job4j.carplace.model.entity.User"/>
+        <mapping class="com.ephemeralin.carplace.model.Car"/>
+        <mapping class="com.ephemeralin.carplace.model.Transmission"/>
+        <mapping class="com.ephemeralin.carplace.model.Body"/>
+        <mapping class="com.ephemeralin.carplace.model.Engine"/>
+        <mapping class="com.ephemeralin.carplace.model.Make"/>
+        <mapping class="com.ephemeralin.carplace.model.Model"/>
+        <mapping class="com.ephemeralin.carplace.model.Role"/>
+        <mapping class="com.ephemeralin.carplace.model.User"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,16 +1,15 @@
-package ru.job4j.carplace.model.entity;
+package com.ephemeralin.carplace.model;
 
 import lombok.Data;
-
 import javax.persistence.*;
 
 /**
- * The type Model.
+ * The type Transmission.
  */
 @Data
 @Entity
-@Table(name = "models", schema = "public")
-public class Model {
+@Table(name = "transmissions", schema = "public")
+public class Transmission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,33 +19,29 @@ public class Model {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "make_id", nullable = false)
-    private Make make;
-
     /**
-     * Instantiates a new Model.
+     * Instantiates a new Transmission.
      */
-    public Model() {
+    public Transmission() {
     }
 
     /**
-     * Instantiates a new Model.
+     * Instantiates a new Transmission.
      *
      * @param id the id
      */
-    public Model(int id) {
+    public Transmission(int id) {
         this.id = id;
     }
 
 
     /**
-     * Instantiates a new Model.
+     * Instantiates a new Transmission.
      *
      * @param id   the id
      * @param name the name
      */
-    public Model(int id, String name) {
+    public Transmission(int id, String name) {
         this.id = id;
         this.name = name;
     }

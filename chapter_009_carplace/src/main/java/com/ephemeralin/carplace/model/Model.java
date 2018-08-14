@@ -1,7 +1,6 @@
-package ru.job4j.carplace.model.entity;
+package com.ephemeralin.carplace.model;
 
 import lombok.Data;
-
 import javax.persistence.*;
 
 /**
