@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<%@ page session="false"%>--%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -8,7 +7,6 @@
 <html>
 <head>
     <title>Car place</title>
-
     <style>
         <%@ include file="css/mainStyle.css"%>
         body {
@@ -20,97 +18,98 @@
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+        function isChecked(flag) {
+            if (flag) {
+                return "checked = 'checked'";
+            } else return "";
+        }
+
+        function showPhoto(photo) {
+            var str = "No photo"
+            if (photo != null && photo !== "") {
+                str =
+                "<div class='zoom'>" +
+                "<img src='data:image/gif;base64,"+photo+"'"+
+                " height='100' alt='Cars photo'/>" +
+                "</div>"
+            }
+            console.log(str);
+            return str;
+        }
+
+        function showEditDeleteButtons(car, curLogin, curRole) {
+            var str = "";
+            // if (curLogin === car.owner.login || curRole === "admin") {
+                str ="<td>" +
+                        "<form:form id='update_' action='update_car.do' method='get'>" +
+                            "<input type='submit' value='Edit'> " +
+                            "<input type='hidden' name='car_id' value='"+car.id+"'> "+
+                        "</form:form>" +
+                    "</td>" +
+                    "<td>" +
+                        "<form:form id='delete_' action='delete_car.do' method='get'><input type='submit' value='Delete'>" +
+                            "<input type='hidden' name='car_id' value='" +car.id+ "'>" +
+                        "</form:form>" +
+                    "</td>";
+            // } else {
+            //     str = "<td></td><td></td>";
+            // }
+            return str;
+        }
+
+        function filterData() {
+            var e = document.getElementById("tfilter");
+            var make_id = e.options[e.selectedIndex].value;
+
+            <%--var dataObject = {--%>
+                <%--// "filter_name": element.options[element.selectedIndex].text--%>
+                <%--"filter_name": e.options[e.selectedIndex].text--%>
+            <%--};--%>
+            <%--$.ajax({--%>
+                <%--type: "POST",--%>
+                <%--url: "filterCars.do",--%>
+                <%--data: dataObject,--%>
+                <%--cache: false,--%>
+                <%--dataType:"json",--%>
+                <%--success: function (data) {--%>
+                    <%--$('#tbody').empty();--%>
+                    <%--var options = {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };--%>
+                    <%--for (var i = 0; i != data.length; i++) {--%>
+                        <%--var Html =--%>
+                            <%--"<tr>" +--%>
+                            <%--"<td>"+new Date(data[i].date).toLocaleDateString("ru-RU", options)+"</td>" +--%>
+                            <%--"<td>"+data[i].name+"</td>" +--%>
+                            <%--"<td>"+data[i].make.name+"</td>" +--%>
+                            <%--"<td>"+data[i].model.name+"</td>" +--%>
+                            <%--"<td>"+data[i].body.name+"</td>" +--%>
+                            <%--"<td>"+data[i].engine.name+"</td>" +--%>
+                            <%--"<td>"+data[i].transmission.name+"</td>" +--%>
+                            <%--"<td>" + showPhoto(data[i].base64imageFile) + "</td>" +--%>
+                            <%--"<td>"+data[i].owner.login+"</td>" +--%>
+                            <%--"<td><input type='checkbox' id="+data[i].id+" onclick='return false;'" +--%>
+                            <%--isChecked(data[i].sold) +--%>
+                            <%--&lt;%&ndash;"</td>" +showEditDeleteButtons(data[i], "${login}", "${role}") +&ndash;%&gt;--%>
+                            <%--"</td>" +showEditDeleteButtons(data[i], "admin", "admin") +--%>
+                            <%--"</tr>";--%>
+                        <%--$('#tbody').append(Html);--%>
+                    <%--}--%>
+                <%--}--%>
+            <%--});--%>
+        }
+
+    </script>
 </head>
 
-<script>
-    function isChecked(flag) {
-        if (flag) {
-            return "checked = 'checked'";
-        } else return "";
-    }
-
-    function showPhoto(photo) {
-        var str = "No photo"
-        if (photo != null && photo !== "") {
-            str =
-            "<div class='zoom'>" +
-            "<img src='data:image/gif;base64,"+photo+"'"+
-            " height='100' alt='Cars photo'/>" +
-            "</div>"
-        }
-        console.log(str);
-        return str;
-    }
-
-    function showEditDeleteButtons(car, curLogin, curRole) {
-        <%--var pathUpdate = "'<%=pageContext.getServletContext().getContextPath()%>" + "/update_car'";--%>
-        <%--var pathDelete = "'<%=pageContext.getServletContext().getContextPath()%>" + "/delete_car'";--%>
-        var str = "";
-        // if (curLogin === car.owner.login || curRole === "admin") {
-            str ="<td>" +
-                    "<form:form action='update_car.do' method='get'>" +
-                        "<input type='submit' value='Edit'> " +
-                        "<input type='hidden' name='car_id' value='"+car.id+"'> "+
-                    "</form:form>" +
-                "</td>" +
-                "<td>" +
-                    "<form:form action='delete_car.do' method='get'><input type='submit' value='Delete'>" +
-                        "<input type='hidden' name='car_id' value='" +car.id+ "'>" +
-                    "</form:form>" +
-                "</td>";
-        // } else {
-        //     str = "<td></td><td></td>";
-        // }
-        return str;
-    }
-
-    function filterData(element) {
-        var dataObject = {
-            "filter_name": element.options[element.selectedIndex].text
-        };
-        $.ajax({
-            type: "POST",
-            url: "filterCars.do",
-            data: dataObject,
-            cache: false,
-            dataType:"json",
-            success: function (data) {
-                $('#tbody').empty();
-                var options = {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-                for (var i = 0; i != data.length; i++) {
-                    var Html =
-                        "<tr>" +
-                        "<td>"+new Date(data[i].date).toLocaleDateString("ru-RU", options)+"</td>" +
-                        "<td>"+data[i].name+"</td>" +
-                        "<td>"+data[i].make.name+"</td>" +
-                        "<td>"+data[i].model.name+"</td>" +
-                        "<td>"+data[i].body.name+"</td>" +
-                        "<td>"+data[i].engine.name+"</td>" +
-                        "<td>"+data[i].transmission.name+"</td>" +
-                        "<td>" + showPhoto(data[i].base64imageFile) + "</td>" +
-                        "<td>"+data[i].owner.login+"</td>" +
-                        "<td><input type='checkbox' id="+data[i].id+" onclick='return false;'" +
-                        isChecked(data[i].sold) +
-                        "</td>" +showEditDeleteButtons(data[i], "${login}", "${role}") +
-                        "</tr>";
-                    $('#tbody').append(Html);
-                }
-            }
-        });
-    }
-
-
-</script>
-
 <body>
-<%--<c:set var="path" value="${pageContext.servletContext.contextPath}" scope="request"></c:set>--%>
 <h1>Car Place</h1>
 <table class="tlogin">
     <tr>
         <td>
             Filter:
             <br>
-                <form:select name='filter_' class='tfilter' path='filter' onchange="filterData(this)">
+                <form:select id='tfilter' class='tfilter' path='filter' onchange="filterData()">
                     <form:option value="All">All</form:option>
                     <form:option value="OnlyWithPhoto">Only with photo</form:option>
                     <form:option value="OnlyToday">Only today</form:option>

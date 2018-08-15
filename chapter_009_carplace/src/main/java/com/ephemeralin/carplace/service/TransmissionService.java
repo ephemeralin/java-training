@@ -9,6 +9,9 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The type Transmission service.
+ */
 @Service("transmissionService")
 @Transactional
 public class TransmissionService implements IService<Transmission> {

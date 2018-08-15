@@ -9,6 +9,9 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The type Model service.
+ */
 @Service("modelService")
 @Transactional
 public class ModelService implements IService<Model> {

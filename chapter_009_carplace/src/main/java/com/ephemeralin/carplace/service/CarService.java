@@ -9,6 +9,9 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The type Car service.
+ */
 @Service("carService")
 @Transactional
 public class CarService implements IService<Car> {

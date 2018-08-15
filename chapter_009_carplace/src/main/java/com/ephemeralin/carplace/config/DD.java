@@ -5,6 +5,9 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
+/**
+ * Deployment Descriptor.
+ */
 public class DD extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     private static final String LOCATION = System.getProperty("java.io.tmpdir");
@@ -32,8 +35,12 @@ public class DD extends AbstractAnnotationConfigDispatcherServletInitializer {
         registration.setMultipartConfig(getMultipartConfigElement());
     }
 
+    /**
+     * Gets multipart config.
+     * @return multipart config element
+     */
     private MultipartConfigElement getMultipartConfigElement() {
-        MultipartConfigElement multipartConfigElement = new MultipartConfigElement( LOCATION, MAX_FILE_SIZE, MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
+        MultipartConfigElement multipartConfigElement = new MultipartConfigElement(LOCATION, MAX_FILE_SIZE, MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
         return multipartConfigElement;
     }
 }

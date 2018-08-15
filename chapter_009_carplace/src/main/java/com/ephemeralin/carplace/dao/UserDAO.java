@@ -94,6 +94,12 @@ public class UserDAO extends DAO<User> implements IDAO<User> {
         return (User) query.getSingleResult();
     }
 
+    /**
+     * Find by criteria list.
+     *
+     * @param criterias the criterias
+     * @return the list
+     */
     public List findByCriteria(HashMap<String, Object> criterias) {
         return super.findByCriteria(sessionFactory, criterias);
     }

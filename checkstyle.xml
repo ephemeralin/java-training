@@ -32,6 +32,8 @@
 
 <module name="Checker">
 
+    <module name="SuppressWarningsFilter" />
+
     <!--Расширение файла должно быть java, properties, xml-->
     <property name="fileExtensions" value="java, properties, xml"/>
 
@@ -63,6 +65,8 @@
     <!-- </module> -->
 
     <module name="TreeWalker">
+
+        <module name="SuppressWarningsHolder" />
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->

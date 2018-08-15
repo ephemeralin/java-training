@@ -9,6 +9,9 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The type Make service.
+ */
 @Service("makeService")
 @Transactional
 public class MakeService implements IService<Make> {

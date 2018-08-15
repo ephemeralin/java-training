@@ -9,6 +9,9 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The type User service.
+ */
 @Service("userService")
 @Transactional
 public class UserService implements IService<User> {

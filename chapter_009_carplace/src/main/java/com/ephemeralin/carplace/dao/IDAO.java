@@ -12,6 +12,11 @@ import java.util.List;
  */
 public interface IDAO<T> {
 
+    /**
+     * Gets current session.
+     *
+     * @return the current session
+     */
     Session getCurrentSession();
 
     /**
@@ -50,7 +55,7 @@ public interface IDAO<T> {
      * Delete boolean.
      *
      * @param id the entity's id
-     * @return result
+     * @return result boolean
      */
     boolean delete(int id);
 }

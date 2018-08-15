@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The type Model controller.
+ */
 @Controller
 @Log4j2
 public class ModelController {
@@ -24,13 +27,19 @@ public class ModelController {
     @Autowired
     private IService<com.ephemeralin.carplace.model.Model> modelService;
 
+    /**
+     * Gets models.
+     *
+     * @param makeId the make id
+     * @return the models
+     */
     @PostMapping(value = "/models", params = {"make_id"})
     @ResponseBody
     public String getModels(
-            @RequestParam String make_id) {
+            @RequestParam(name = "make_id") String makeId) {
         HashMap<String, Object> criterias = new HashMap<>();
         criterias.put("findAllWithMake", null);
-        criterias.put("make", makeService.findById(Integer.parseInt(make_id)));
+        criterias.put("make", makeService.findById(Integer.parseInt(makeId)));
         List<com.ephemeralin.carplace.model.Model> modelsList = modelService.findByCriteria(criterias);
 
         GsonBuilder gb = new GsonBuilder();

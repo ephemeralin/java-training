@@ -63,6 +63,12 @@ public class ModelDAO extends DAO<Model> implements IDAO<Model> {
         return super.delete(sessionFactory, entity);
     }
 
+    /**
+     * Find by criteria list.
+     *
+     * @param criterias the criterias
+     * @return the list
+     */
     public List findByCriteria(HashMap<String, Object> criterias) {
         if (criterias.containsKey("findAllWithMake")) {
             return findAllWithMake((Make) criterias.get("make"));
@@ -71,6 +77,12 @@ public class ModelDAO extends DAO<Model> implements IDAO<Model> {
         }
     }
 
+    /**
+     * Find all with make list.
+     *
+     * @param make the make
+     * @return the list
+     */
     public List findAllWithMake(Make make) {
         Query query = getCurrentSession()
                 .createQuery(

@@ -9,6 +9,9 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The type Body service.
+ */
 @Service("bodyService")
 @Transactional
 public class BodyService implements IService<Body> {

@@ -15,18 +15,30 @@ import java.util.Map;
 
 /**
  * The type Dao.
+ *
+ * @param <T> the type parameter
  */
 public abstract class DAO<T> {
 
     private Class<T> type;
 
+    /**
+     * Instantiates a new Dao.
+     */
     public DAO() {
         this.type = (Class<T>)
-                ((ParameterizedType)getClass()
+                ((ParameterizedType) getClass()
                         .getGenericSuperclass())
                         .getActualTypeArguments()[0];
     }
 
+    /**
+     * Delete boolean.
+     *
+     * @param sf     the sf
+     * @param entity the entity
+     * @return the boolean
+     */
     public boolean delete(SessionFactory sf, T entity) {
         Session session = sf.getCurrentSession();
         boolean success = false;
@@ -37,7 +49,14 @@ public abstract class DAO<T> {
         return success;
     }
 
-    public List findByCriteria (SessionFactory sf, HashMap<String, Object> criterias) {
+    /**
+     * Find by criteria list.
+     *
+     * @param sf        the sf
+     * @param criterias the criterias
+     * @return the list
+     */
+    public List findByCriteria(SessionFactory sf, HashMap<String, Object> criterias) {
         Session session = sf.getCurrentSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<T> query = builder.createQuery(type);

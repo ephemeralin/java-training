@@ -17,6 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.*;
 import java.util.function.ToLongFunction;
 
+/**
+ * The type Car controller.
+ */
 @Controller
 @Log4j2
 public class CarController {
@@ -36,6 +39,12 @@ public class CarController {
     @Autowired
     private IService<User> userService;
 
+    /**
+     * Show all string.
+     *
+     * @param model the model
+     * @return the string
+     */
     @GetMapping(value = "/cars")
     public String showAll(ModelMap model) {
         List<Car> carsList = carService.findAll();
@@ -44,6 +53,12 @@ public class CarController {
         return "cars";
     }
 
+    /**
+     * Filter cars string.
+     *
+     * @param filterName the filter name
+     * @return the string
+     */
     @PostMapping(value = "/filterCars", params = {"filter_name"})
     @ResponseBody
     public String filterCars(@RequestParam(name = "filter_name") String filterName) {
@@ -66,12 +81,18 @@ public class CarController {
         return gson.toJson(carsList);
     }
 
+    /**
+     * Add model and view.
+     *
+     * @param filterName the filter name
+     * @return the model and view
+     */
     @GetMapping(value = "/add_car", params = {"filter_name"})
     public ModelAndView add(
-            @RequestParam String filter_name) {
+            @RequestParam(name = "filter_name") String filterName) {
         ModelAndView mv = new ModelAndView("add_car");
         mv.addObject("car", new Car());
-        mv.addObject("filter_name", filter_name);
+        mv.addObject("filter_name", filterName);
         mv.addObject("makesList", makeService.findAll());
         mv.addObject("enginesList", engineService.findAll());
         mv.addObject("bodiesList", bodyService.findAll());
@@ -79,7 +100,23 @@ public class CarController {
         return mv;
     }
 
+    /**
+     * Add car model and view.
+     *
+     * @param model          the model
+     * @param file           the file
+     * @param carId          the car id
+     * @param modelId        the model id
+     * @param makeId         the make id
+     * @param carName        the car name
+     * @param engineId       the engine id
+     * @param bodyId         the body id
+     * @param transmissionId the transmission id
+     * @param sold           the sold
+     * @return the model and view
+     */
     @PostMapping(value = "/add_car")
+    @SuppressWarnings("checkstyle:parameternumber")
     public ModelAndView addCar(org.springframework.ui.Model model,
                                @RequestPart("file") MultipartFile file,
                                @RequestParam("carId") String carId,
@@ -125,6 +162,13 @@ public class CarController {
         return mv;
     }
 
+    /**
+     * Add car model and view.
+     *
+     * @param model the model
+     * @param carId the car id
+     * @return the model and view
+     */
     @PostMapping(value = "/delete_car")
     public ModelAndView addCar(org.springframework.ui.Model model,
                                @RequestParam("carId") String carId
@@ -139,13 +183,19 @@ public class CarController {
     }
 
 
+    /**
+     * Update car model and view.
+     *
+     * @param carId the car id
+     * @return the model and view
+     */
     @GetMapping(value = "/update_car", params = {"car_id"})
     public ModelAndView updateCar(
-            @RequestParam String car_id) {
+            @RequestParam(name = "car_id") String carId) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("filter", "All");
-        if (!car_id.isEmpty()) {
-            Car car = carService.findById(Integer.parseInt(car_id));
+        if (!carId.isEmpty()) {
+            Car car = carService.findById(Integer.parseInt(carId));
             mv.addObject("car", car);
             mv.addObject("makesList", makeService.findAll());
             HashMap<String, Object> criterias = new HashMap<>();

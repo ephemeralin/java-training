@@ -4,13 +4,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-
 <html>
 <head>
     <title>Add car</title>
     <style>
         <%@ include file="css/mainStyle.css"%>
     </style>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
 
@@ -37,16 +37,14 @@
         }
 
         function create() {
-            // if (validate()) {
-            //     document.getElementById('_title').innerText = "Please, fill all fields and submit...";
-            //     document.getElementById('_title').style.color = "#949494";
-            //     console.log("validated!")
+            if (validate()) {
+                document.getElementById('_title').innerText = "Please, fill all fields and submit...";
+                document.getElementById('_title').style.color = "#949494";
                 document.getElementById("create_form").submit();
-            // } else {
-            //     document.getElementById('_title').innerText = "Some fields are empty!";
-            //     document.getElementById('_title').style.color = "red";
-            //     console.log("NOT validated!")
-            // }
+            } else {
+                document.getElementById('_title').innerText = "Some fields are empty!";
+                document.getElementById('_title').style.color = "red";
+            }
         }
 
         function validate() {

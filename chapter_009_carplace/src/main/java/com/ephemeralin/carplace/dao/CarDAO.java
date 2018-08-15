@@ -148,6 +148,12 @@ public class CarDAO extends DAO<Car> implements IDAO<Car> {
         return period;
     }
 
+    /**
+     * Find by criteria list.
+     *
+     * @param criterias the criterias
+     * @return the list
+     */
     public List findByCriteria(HashMap<String, Object> criterias) {
         if (criterias.containsKey("findWithPhotoOnly")) {
             return findWithPhotoOnly();

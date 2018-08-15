@@ -54,6 +54,12 @@ public class TransmissionDAO extends DAO<Transmission> implements IDAO<Transmiss
         return super.delete(sessionFactory, entity);
     }
 
+    /**
+     * Find by criteria list.
+     *
+     * @param criterias the criterias
+     * @return the list
+     */
     public List findByCriteria(HashMap<String, Object> criterias) {
         return super.findByCriteria(sessionFactory, criterias);
     }
