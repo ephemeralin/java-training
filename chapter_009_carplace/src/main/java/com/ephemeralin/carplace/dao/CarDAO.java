@@ -72,7 +72,7 @@ public class CarDAO extends DAO<Car> implements IDAO<Car> {
      *
      * @return the list
      */
-    public List findToday() {
+    public List<Car> findToday() {
         Query query = getCurrentSession()
                 .createQuery(
                         "FROM Car c " +
@@ -85,7 +85,8 @@ public class CarDAO extends DAO<Car> implements IDAO<Car> {
                                 "WHERE c.date BETWEEN :startDate AND :endDate");
         query.setParameter("startDate", getTodayPeriodInMillis().get("startDate"));
         query.setParameter("endDate", getTodayPeriodInMillis().get("endDate"));
-        return query.list();
+        List<Car> list = query.list();
+        return list;
     }
 
     /**
@@ -93,7 +94,7 @@ public class CarDAO extends DAO<Car> implements IDAO<Car> {
      *
      * @return the list
      */
-    public List findWithPhotoOnly() {
+    public List<Car> findWithPhotoOnly() {
         Query query = getCurrentSession()
                 .createQuery(
                         "FROM Car c " +
@@ -104,7 +105,8 @@ public class CarDAO extends DAO<Car> implements IDAO<Car> {
                                 "JOIN FETCH c.transmission " +
                                 "JOIN FETCH c.owner " +
                                 "WHERE c.base64imageFile != NULL AND c.base64imageFile != ''");
-        return query.list();
+        List<Car> list = query.list();
+        return list;
     }
 
     @Override

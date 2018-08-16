@@ -30,73 +30,71 @@
             var str = "No photo"
             if (photo != null && photo !== "") {
                 str =
-                "<div class='zoom'>" +
-                "<img src='data:image/gif;base64,"+photo+"'"+
-                " height='100' alt='Cars photo'/>" +
-                "</div>"
+                    "<div class='zoom'>" +
+                    "<img src='data:image/gif;base64,"+photo+"'"+
+                    " height='100' alt='Cars photo'/>" +
+                    "</div>"
             }
             console.log(str);
             return str;
         }
 
         function showEditDeleteButtons(car, curLogin, curRole) {
-            var str = "";
-            // if (curLogin === car.owner.login || curRole === "admin") {
+            // var str = "";
+           // if (curLogin === car.owner.login || curRole === "admin") {
                 str ="<td>" +
-                        "<form:form id='update_' action='update_car.do' method='get'>" +
-                            "<input type='submit' value='Edit'> " +
-                            "<input type='hidden' name='car_id' value='"+car.id+"'> "+
-                        "</form:form>" +
+                    "<form action='update_car.do' method='get'>" +
+                        "<input type='submit' value='Edit'>" +
+                        "<input type='hidden' name='car_id' value='" +car.id+ "'>" +
+                    "</form>" +
                     "</td>" +
                     "<td>" +
-                        "<form:form id='delete_' action='delete_car.do' method='get'><input type='submit' value='Delete'>" +
-                            "<input type='hidden' name='car_id' value='" +car.id+ "'>" +
-                        "</form:form>" +
+                    "<form action='delete_car.do' method='post'>" +
+                        "<input type='submit' value='Delete'>" +
+                        "<input type='hidden' name='car_id' value='" +car.id+ "'>" +
+                    "</form>" +
                     "</td>";
-            // } else {
-            //     str = "<td></td><td></td>";
-            // }
+            //} else {
+            //    str = "<td></td><td></td>";
+            //}
             return str;
         }
 
         function filterData() {
             var e = document.getElementById("tfilter");
-            var make_id = e.options[e.selectedIndex].value;
-
-            <%--var dataObject = {--%>
-                <%--// "filter_name": element.options[element.selectedIndex].text--%>
-                <%--"filter_name": e.options[e.selectedIndex].text--%>
-            <%--};--%>
-            <%--$.ajax({--%>
-                <%--type: "POST",--%>
-                <%--url: "filterCars.do",--%>
-                <%--data: dataObject,--%>
-                <%--cache: false,--%>
-                <%--dataType:"json",--%>
-                <%--success: function (data) {--%>
-                    <%--$('#tbody').empty();--%>
-                    <%--var options = {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };--%>
-                    <%--for (var i = 0; i != data.length; i++) {--%>
-                        <%--var Html =--%>
-                            <%--"<tr>" +--%>
-                            <%--"<td>"+new Date(data[i].date).toLocaleDateString("ru-RU", options)+"</td>" +--%>
-                            <%--"<td>"+data[i].name+"</td>" +--%>
-                            <%--"<td>"+data[i].make.name+"</td>" +--%>
-                            <%--"<td>"+data[i].model.name+"</td>" +--%>
-                            <%--"<td>"+data[i].body.name+"</td>" +--%>
-                            <%--"<td>"+data[i].engine.name+"</td>" +--%>
-                            <%--"<td>"+data[i].transmission.name+"</td>" +--%>
-                            <%--"<td>" + showPhoto(data[i].base64imageFile) + "</td>" +--%>
-                            <%--"<td>"+data[i].owner.login+"</td>" +--%>
-                            <%--"<td><input type='checkbox' id="+data[i].id+" onclick='return false;'" +--%>
-                            <%--isChecked(data[i].sold) +--%>
-                            <%--&lt;%&ndash;"</td>" +showEditDeleteButtons(data[i], "${login}", "${role}") +&ndash;%&gt;--%>
-                            <%--"</td>" +showEditDeleteButtons(data[i], "admin", "admin") +--%>
-                            <%--"</tr>";--%>
-                        <%--$('#tbody').append(Html);--%>
-                    <%--}--%>
-                <%--}--%>
-            <%--});--%>
+            var dataObject = {
+                "filter_name": e.options[e.selectedIndex].text
+            };
+            $.ajax({
+                type: "POST",
+                url: "filterCars.do",
+                data: dataObject,
+                cache: false,
+                dataType:"json",
+                success: function (data) {
+                    $('#tbody').empty();
+                    var options = {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                    for (var i = 0; i != data.length; i++) {
+                        var Html =
+                            "<tr>" +
+                            "<td>"+new Date(data[i].date).toLocaleDateString("ru-RU", options)+"</td>" +
+                            "<td>"+data[i].name+"</td>" +
+                            "<td>"+data[i].make.name+"</td>" +
+                            "<td>"+data[i].model.name+"</td>" +
+                            "<td>"+data[i].body.name+"</td>" +
+                            "<td>"+data[i].engine.name+"</td>" +
+                            "<td>"+data[i].transmission.name+"</td>" +
+                            "<td>" + showPhoto(data[i].base64imageFile) + "</td>" +
+                            "<td>"+data[i].owner.login+"</td>" +
+                            "<td><input type='checkbox' id="+data[i].id+" onclick='return false;'" +
+                            isChecked(data[i].sold) +
+                            <%--"</td>" +showEditDeleteButtons(data[i], "${login}", "${role}") +--%>
+                            "</td>" +showEditDeleteButtons(data[i], "admin", "admin") +
+                            "</tr>";
+                        $('#tbody').append(Html);
+                    }
+                }
+            });
         }
 
     </script>
@@ -180,7 +178,7 @@
             </td>
             <td><form:form action='delete_car.do' method='post'>
                 <input type='submit' value='Delete'>
-                <input type='hidden' name='carId' value="${car.id}">
+                <input type='hidden' name='car_id' value="${car.id}">
             </form:form>
             </td>
 

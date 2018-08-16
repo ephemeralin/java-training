@@ -89,7 +89,7 @@ public class UserDAO extends DAO<User> implements IDAO<User> {
      * @return the user
      */
     public User findByLogin(String login) {
-        Query query = getCurrentSession().createQuery("FROM User u u JOIN FETCH u.role WHERE u.login = :login");
+        Query query = getCurrentSession().createQuery("FROM User u JOIN FETCH u.role WHERE u.login = :login");
         query.setParameter("login", login);
         return (User) query.getSingleResult();
     }

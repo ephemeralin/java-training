@@ -46,6 +46,6 @@ public class CarService implements IService<Car> {
 
     @Override
     public List<Car> findByCriteria(HashMap<String, Object> criterias) {
-        return null;
+        return this.carDAO.findByCriteria(criterias);
     }
 }

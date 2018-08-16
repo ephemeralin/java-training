@@ -63,9 +63,7 @@ public class CarController {
     @ResponseBody
     public String filterCars(@RequestParam(name = "filter_name") String filterName) {
         List<Car> carsList = new ArrayList<>();
-        if (filterName == null || filterName.equals("All")) {
-            carsList = carService.findAll();
-        } else if (filterName.equals("Only with photo")) {
+        if (filterName.equals("Only with photo")) {
             HashMap<String, Object> criteria = new HashMap<>();
             criteria.put("findWithPhotoOnly", null);
             carsList = carService.findByCriteria(criteria);
@@ -73,12 +71,15 @@ public class CarController {
             HashMap<String, Object> criteria = new HashMap<>();
             criteria.put("findToday", null);
             carsList = carService.findByCriteria(criteria);
+        } else if (filterName == null || filterName.equals("All")) {
+            carsList = carService.findAll();
         }
         carsList.sort(Comparator.comparingLong((ToLongFunction<Car>) car -> car.getDate()).reversed());
         GsonBuilder gb = new GsonBuilder();
         gb.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
         Gson gson = gb.create();
-        return gson.toJson(carsList);
+        String s = gson.toJson(carsList);
+        return s;
     }
 
     /**
@@ -171,7 +172,7 @@ public class CarController {
      */
     @PostMapping(value = "/delete_car")
     public ModelAndView addCar(org.springframework.ui.Model model,
-                               @RequestParam("carId") String carId
+                               @RequestParam(name = "car_id") String carId
     ) {
         carService.delete(Integer.parseInt(carId));
 
