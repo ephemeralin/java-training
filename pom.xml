@@ -24,6 +24,7 @@
         <module>chapter_008</module>
         <module>chapter_009</module>
         <module>chapter_009_carplace</module>
+        <module>chapter_009_carplace_3</module>
     </modules>
 
     <dependencies>
