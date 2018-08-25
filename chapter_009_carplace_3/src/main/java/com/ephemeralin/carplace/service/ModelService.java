@@ -6,9 +6,7 @@ import com.ephemeralin.carplace.repository.ModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -20,13 +18,10 @@ import java.util.List;
 public class ModelService implements IModelService {
 
     /**
-     * The Repository.
+     * Model repository.
      */
     @Autowired
     private ModelRepository repository;
-
-    @PersistenceContext
-    private EntityManager em;
 
     @Override
     public int create(Model m) {
@@ -35,21 +30,12 @@ public class ModelService implements IModelService {
 
     @Override
     public Model findById(int id) {
-        TypedQuery query = em.createQuery(
-                "FROM Model m " +
-                        "JOIN FETCH m.make mk " +
-                        "WHERE mk.id = :id",
-                Model.class);
-        query.setParameter("id", id);
-        return (Model) query.getSingleResult();
+        return this.repository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public List<Model> findAll() {
-        TypedQuery query = em.createQuery(
-                "FROM Model ml JOIN FETCH ml.make",
-                Model.class);
-        return query.getResultList();
+        return this.repository.findAll();
     }
 
     @Override
@@ -64,12 +50,6 @@ public class ModelService implements IModelService {
 
     @Override
     public List<Model> findByMake(Make make) {
-        TypedQuery query = em.createQuery(
-                "FROM Model md " +
-                        "JOIN FETCH md.make mk " +
-                        "WHERE md.make = :make",
-                Model.class);
-        query.setParameter("make", make);
-        return query.getResultList();
+        return this.repository.findByMake(make);
     }
 }

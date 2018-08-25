@@ -5,6 +5,7 @@ import com.ephemeralin.carplace.repository.MakeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class MakeService implements IMakeService {
 
     @Override
     public Make findById(int id) {
-        return this.repository.findById(id).get();
+        return this.repository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override

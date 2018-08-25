@@ -5,6 +5,7 @@ import com.ephemeralin.carplace.repository.BodyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class BodyService implements IBodyService {
 
     @Override
     public Body findById(int id) {
-        return this.repository.findById(id).get();
+        return this.repository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override

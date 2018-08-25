@@ -5,9 +5,7 @@ import com.ephemeralin.carplace.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -24,9 +22,6 @@ public class UserService implements IUserService {
     @Autowired
     private UserRepository repository;
 
-    @PersistenceContext
-    private EntityManager em;
-
     @Override
     public int create(User e) {
         return this.repository.save(e).getId();
@@ -34,7 +29,7 @@ public class UserService implements IUserService {
 
     @Override
     public User findById(int id) {
-        return this.repository.findById(id).get();
+        return this.repository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
@@ -54,12 +49,6 @@ public class UserService implements IUserService {
 
     @Override
     public User findByLogin(String login) {
-        TypedQuery query = em.createQuery(
-                "FROM User u " +
-                        "JOIN FETCH u.role " +
-                        "WHERE u.login = :login",
-                User.class);
-        query.setParameter("login", login);
-        return (User) query.getSingleResult();
+        return this.repository.findByLogin(login).orElseThrow(EntityNotFoundException::new);
     }
 }
