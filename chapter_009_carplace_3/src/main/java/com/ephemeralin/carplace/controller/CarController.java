@@ -9,11 +9,14 @@ import com.google.gson.GsonBuilder;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.security.Principal;
 import java.util.*;
 import java.util.function.ToLongFunction;
 
@@ -39,18 +42,30 @@ public class CarController {
     @Autowired
     private IUserService userService;
 
+
     /**
-     * Show all string.
+     * Show all cars.
      *
-     * @param model the model
-     * @return the string
+     * @param request the request
+     * @return the model and view
      */
     @GetMapping(value = "/cars")
-    public String showAll(ModelMap model) {
+    public ModelAndView showAll(HttpServletRequest request) {
         List<Car> carsList = carService.findAll();
-        model.addAttribute("carsList", carsList);
-        model.addAttribute("filter", "All");
-        return "cars";
+        ModelAndView mv = new ModelAndView("cars");
+        mv.addObject("carsList", carsList);
+        mv.addObject("filter", "All");
+
+        String userName = "";
+        Principal principal = request.getUserPrincipal();
+        if (principal != null) {
+            userName = principal.getName();
+        }
+        boolean isAdminValue = request.isUserInRole("ROLE_ADMIN");
+
+        mv.addObject("loginValue", userName);
+        mv.addObject("isAdminValue", isAdminValue);
+        return mv;
     }
 
     /**
@@ -114,7 +129,7 @@ public class CarController {
      */
     @PostMapping(value = "/add_car")
     @SuppressWarnings("checkstyle:parameternumber")
-    public ModelAndView addCar(org.springframework.ui.Model model,
+    public String addCar(org.springframework.ui.Model model,
                                @RequestPart("file") MultipartFile file,
                                @RequestParam("carId") String carId,
                                @RequestParam("model") String modelId,
@@ -150,36 +165,26 @@ public class CarController {
             carService.update(car);
         }
 
-        ModelAndView mv = new ModelAndView("cars");
-        mv.addObject("filter", "All");
-        List<Car> carsList = carService.findAll();
-        mv.addObject("carsList", carsList);
-        return mv;
+        return "redirect:/cars.do";
     }
 
     /**
-     * Add car model and view.
+     * Delete car.
      *
-     * @param model the model
-     * @param carId the car id
-     * @return the model and view
+     * @param request  the request
+     * @param response the response
+     * @param carId    the car id
+     * @return the string
+     * @throws IOException the io exception
      */
     @PostMapping(value = "/delete_car")
-    public ModelAndView addCar(org.springframework.ui.Model model,
-                               @RequestParam(name = "car_id") String carId
-    ) {
+    public String deleteCar(HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "car_id") String carId) throws IOException {
         carService.delete(Integer.parseInt(carId));
-
-        ModelAndView mv = new ModelAndView("cars");
-        mv.addObject("filter", "All");
-        List<Car> carsList = carService.findAll();
-        mv.addObject("carsList", carsList);
-        return mv;
+        return "redirect:/cars.do";
     }
 
-
     /**
-     * Update car model and view.
+     * Update car.
      *
      * @param carId the car id
      * @return the model and view

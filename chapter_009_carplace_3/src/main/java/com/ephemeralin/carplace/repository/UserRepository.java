@@ -1,7 +1,6 @@
 package com.ephemeralin.carplace.repository;
 
 import com.ephemeralin.carplace.model.User;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,12 +12,13 @@ import java.util.Optional;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
+
     /**
-     * Find by login optional.
+     * Find user by username.
      *
-     * @param login the login
+     * @param userName the user name
      * @return the optional
      */
-    @EntityGraph(attributePaths = {"role"})
-    Optional<User> findByLogin(String login);
+    Optional<User> findByUsername(String userName);
+
 }

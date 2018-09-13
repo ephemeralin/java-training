@@ -48,7 +48,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User findByLogin(String login) {
-        return this.repository.findByLogin(login).orElseThrow(EntityNotFoundException::new);
+    public User findByLogin(String userName) {
+        return this.repository.findByUsername(userName).orElseThrow(EntityNotFoundException::new);
     }
 }

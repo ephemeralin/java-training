@@ -1,11 +1,12 @@
 package com.ephemeralin.carplace.config;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -15,24 +16,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.beans.PropertyVetoException;
 import java.util.Properties;
 
 /**
- * The type App config.
+ * The Application config.
  */
 @Configuration
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.ephemeralin.carplace.repository")
-@ComponentScans(value = {
-        @ComponentScan("com.ephemeralin.carplace.model"),
-        @ComponentScan("com.ephemeralin.carplace.service"),
-        @ComponentScan("com.ephemeralin.carplace.controller")
-})
+@ComponentScan(basePackages = "com.ephemeralin.carplace")
+@Log4j2
 public class AppConfig {
     @Autowired
     private Environment env;
-
 
     /**
      * Entity manager factory local container entity manager factory bean.
@@ -56,23 +54,32 @@ public class AppConfig {
     }
 
     /**
-     * Data source data source.
+     * Data source.
      *
      * @return the data source
      */
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("db.driver"));
-        dataSource.setUrl(env.getProperty("db.url"));
-        dataSource.setUsername(env.getProperty("db.user"));
+        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        try {
+            dataSource.setDriverClass(env.getProperty("db.driver"));
+        } catch (PropertyVetoException e) {
+            log.error(e.getStackTrace());
+        }
+        dataSource.setJdbcUrl(env.getProperty("db.url"));
+        dataSource.setUser(env.getProperty("db.user"));
         dataSource.setPassword(env.getProperty("db.password"));
+
+        dataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
+        dataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
+        dataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
+        dataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
 
         return dataSource;
     }
 
     /**
-     * Transaction manager platform transaction manager.
+     * Transaction manager platform.
      *
      * @param emf the emf
      * @return the platform transaction manager
@@ -96,7 +103,7 @@ public class AppConfig {
     }
 
     /**
-     * Additional properties properties.
+     * Additional properties.
      *
      * @return the properties
      */
@@ -109,4 +116,12 @@ public class AppConfig {
         return properties;
     }
 
+    /**
+     * Get int property.
+     * @param name the name
+     * @return the int property
+     */
+    private int getIntProperty(String name) {
+        return Integer.parseInt(env.getProperty(name));
+    }
 }

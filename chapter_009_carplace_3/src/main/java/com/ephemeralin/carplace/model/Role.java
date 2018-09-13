@@ -8,7 +8,7 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@Table(name = "roles", schema = "public")
+@Table(name = "roles_old", schema = "public")
 public class Role {
     /**
      * Id.

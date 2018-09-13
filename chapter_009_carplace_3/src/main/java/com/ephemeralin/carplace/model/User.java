@@ -1,7 +1,9 @@
 package com.ephemeralin.carplace.model;
 
 import lombok.Data;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * The type User.
@@ -9,7 +11,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "users", schema = "public")
-public class User {
+public class User implements Serializable {
     /**
      * The user's ID.
      */
@@ -17,17 +19,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
     /**
      * The user's name.
      */
-    @Column(name = "login")
-    private String login;
-    /**
-     * The user's role.
-     */
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    @Column(name = "username")
+    private String username;
+
     /**
      * The users's password.
      */
@@ -36,6 +34,6 @@ public class User {
 
     @Override
     public String toString() {
-        return login;
+        return username;
     }
 }

@@ -1,8 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 <head>
@@ -11,16 +12,29 @@
         <%@ include file="css/mainStyle.css"%>
     </style>
 
+    <security:csrfMetaTags/>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
 
         function make_change() {
+            var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+            var csrfToken = $("meta[name='_csrf']").attr("content");
+            var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
             var e = document.getElementById("make_");
-            var make_id = e.options[e.selectedIndex].value;
+            var data = {};
+            var headers = {};
+            data[csrfParameter] = csrfToken;
+            data["make_id"] = e.options[e.selectedIndex].value;
+            headers[csrfHeader] = csrfToken;
+
+            // var make_id = e.options[e.selectedIndex].value;
             $.ajax({
                 type: "POST",
                 url: "models.do",
-                data: "make_id="+make_id,
+                headers: headers,
+                data: data,
                 cache: false,
                 dataType:"json",
                 success: function (data) {
@@ -69,7 +83,7 @@
 <h1 id="_title" class="_title">Add car...</h1>
 <div class="div1">
 
-    <form:form id='create_form' action="add_car.do" method="post" enctype="multipart/form-data" modelAttribute="car">
+    <form:form id='create_form' action="${pageContext.request.contextPath}/add_car.do" method="post" enctype="multipart/form-data" modelAttribute="car">
         Make:
         <br>
         <form:select id="make_" class="make_" path="make" onchange="make_change()">
@@ -235,7 +249,7 @@
         <input type="button" value="Create" onclick="create()"/>
     </form:form>
 
-    <form action="cars.do" method='get'>
+    <form action="${pageContext.request.contextPath}/cars.do" method='get'>
         <input class="cancelButton" type='submit' value='Cancel'>
     </form>
 </div>

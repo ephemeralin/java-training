@@ -1,8 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
 
 <html>
 <head>
@@ -12,11 +14,13 @@
         body {
             text-align: left;
         }
+
         h1 {
             text-align: center;
         }
     </style>
 
+    <security:csrfMetaTags/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
 
@@ -31,65 +35,80 @@
             if (photo != null && photo !== "") {
                 str =
                     "<div class='zoom'>" +
-                    "<img src='data:image/gif;base64,"+photo+"'"+
+                    "<img src='data:image/gif;base64," + photo + "'" +
                     " height='100' alt='Cars photo'/>" +
                     "</div>"
             }
-            console.log(str);
             return str;
         }
 
-        function showEditDeleteButtons(car, curLogin, curRole) {
-            // var str = "";
-           // if (curLogin === car.owner.login || curRole === "admin") {
-                str ="<td>" +
+        function showEditDeleteButtons(car, login, isAdmin) {
+            var str = "";
+            if (login === car.owner.username || isAdmin == 'true') {
+                str = "<td>" + 
                     "<form action='update_car.do' method='get'>" +
-                        "<input type='submit' value='Edit'>" +
-                        "<input type='hidden' name='car_id' value='" +car.id+ "'>" +
+                    "<input type='submit' value='Edit'>" +
+                    "<input type='hidden' name='car_id' value='" + car.id + "'>" +
                     "</form>" +
                     "</td>" +
                     "<td>" +
                     "<form action='delete_car.do' method='post'>" +
-                        "<input type='submit' value='Delete'>" +
-                        "<input type='hidden' name='car_id' value='" +car.id+ "'>" +
+                    "<input type='submit' value='Delete'>" +
+                    "<input type='hidden' name='car_id' value='" + car.id + "'>" +
                     "</form>" +
                     "</td>";
-            //} else {
-            //    str = "<td></td><td></td>";
-            //}
+            } else {
+                str = "<td></td><td></td>";
+            }
             return str;
         }
 
         function filterData() {
+            var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+            var csrfToken = $("meta[name='_csrf']").attr("content");
+            var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
             var e = document.getElementById("tfilter");
-            var dataObject = {
-                "filter_name": e.options[e.selectedIndex].text
-            };
+            var data = {};
+            var headers = {};
+            data[csrfParameter] = csrfToken;
+            data["filter_name"] = e.options[e.selectedIndex].text;
+            headers[csrfHeader] = csrfToken;
+
+            var login = document.getElementById("loginValue").innerText;
+            var isAdmin = document.getElementById("isAdminValue").innerText;
+
             $.ajax({
                 type: "POST",
                 url: "filterCars.do",
-                data: dataObject,
+                headers: headers,
+                data: data,
                 cache: false,
-                dataType:"json",
+                dataType: "json",
                 success: function (data) {
                     $('#tbody').empty();
-                    var options = {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                    var options = {
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric'
+                    };
                     for (var i = 0; i != data.length; i++) {
                         var Html =
                             "<tr>" +
-                            "<td>"+new Date(data[i].date).toLocaleDateString("ru-RU", options)+"</td>" +
-                            "<td>"+data[i].name+"</td>" +
-                            "<td>"+data[i].make.name+"</td>" +
-                            "<td>"+data[i].model.name+"</td>" +
-                            "<td>"+data[i].body.name+"</td>" +
-                            "<td>"+data[i].engine.name+"</td>" +
-                            "<td>"+data[i].transmission.name+"</td>" +
+                            "<td>" + new Date(data[i].date).toLocaleDateString("ru-RU", options) + "</td>" +
+                            "<td>" + data[i].name + "</td>" +
+                            "<td>" + data[i].make.name + "</td>" +
+                            "<td>" + data[i].model.name + "</td>" +
+                            "<td>" + data[i].body.name + "</td>" +
+                            "<td>" + data[i].engine.name + "</td>" +
+                            "<td>" + data[i].transmission.name + "</td>" +
                             "<td>" + showPhoto(data[i].base64imageFile) + "</td>" +
-                            "<td>"+data[i].owner.login+"</td>" +
-                            "<td><input type='checkbox' id="+data[i].id+" onclick='return false;'" +
+                            "<td>" + data[i].owner.username + "</td>" +
+                            "<td><input type='checkbox' id=" + data[i].id + " onclick='return false;'" +
                             isChecked(data[i].sold) +
-                            <%--"</td>" +showEditDeleteButtons(data[i], "${login}", "${role}") +--%>
-                            "</td>" +showEditDeleteButtons(data[i], "admin", "admin") +
+                            "</td>" + showEditDeleteButtons(data[i], login, isAdmin) +
                             "</tr>";
                         $('#tbody').append(Html);
                     }
@@ -101,18 +120,28 @@
 </head>
 
 <body>
+
+<p id="loginValue" hidden>${loginValue}</p>
+<p id="isAdminValue" hidden>${isAdminValue}</p>
+
 <h1>Car Place</h1>
 <table class="tlogin">
     <tr>
         <td>
             Filter:
             <br>
-                <form:select id='tfilter' class='tfilter' path='filter' onchange="filterData()">
-                    <form:option value="All">All</form:option>
-                    <form:option value="OnlyWithPhoto">Only with photo</form:option>
-                    <form:option value="OnlyToday">Only today</form:option>
-                </form:select>
+            <form:select id='tfilter' class='tfilter' path='filter' onchange="filterData()">
+                <form:option value="All">All</form:option>
+                <form:option value="OnlyWithPhoto">Only with photo</form:option>
+                <form:option value="OnlyToday">Only today</form:option>
+            </form:select>
+        </td>
+        <td>
+        </td>
+        <td>
+            User: <security:authentication property="principal.username"/>
             <br>
+            Role(s): <security:authentication property="principal.authorities"/>
         </td>
     </tr>
 </table>
@@ -167,19 +196,25 @@
             </td>
 
             <td>
-                <form:form action='update_car.do' method='get'>
-                    <input type='submit' value='Edit'>
-                    <input type='hidden' name='car_id' value='${car.id}'>
-                </form:form>
-
-                <%--<form action='${requestScope.path}/update_car' method='get'><input type='submit' value='Edit'>--%>
-                    <%--<input type='hidden' name='id' value="${car.id}">--%>
-                <%--</form>--%>
+                <c:choose>
+                    <c:when test="${(loginValue == car.owner.username) || isAdminValue == 'true'}">
+                        <form:form action='${pageContext.request.contextPath}/update_car.do' method='get'>
+                            <input type='submit' value='Edit'>
+                            <input type='hidden' name='car_id' value='${car.id}'>
+                        </form:form>
+                    </c:when>
+                </c:choose>
             </td>
-            <td><form:form action='delete_car.do' method='post'>
-                <input type='submit' value='Delete'>
-                <input type='hidden' name='car_id' value="${car.id}">
-            </form:form>
+
+            <td>
+                <c:choose>
+                    <c:when test="${(loginValue == car.owner.username) || isAdminValue == 'true'}">
+                        <form:form action='${pageContext.request.contextPath}/delete_car.do' method='post'>
+                            <input type='submit' value='Delete'>
+                            <input type='hidden' name='car_id' value="${car.id}">
+                        </form:form>
+                    </c:when>
+                </c:choose>
             </td>
 
         </tr>
@@ -188,11 +223,21 @@
 </table>
 
 <br>
-<form:form action='add_car.do' method='get'>
-    <input type='hidden' name='filter_name' value="All">
-    <%--<button type="submit">Add car</button>--%>
-    <input type='submit' value='Add car' style="width: auto">
-</form:form>
+<table class="tlogin">
+    <tr>
+        <td>
+            <form:form action='${pageContext.request.contextPath}/add_car.do' method='get'>
+                <input type='hidden' name='filter_name' value="All">
+                <input type='submit' value='Add car' style="width: auto">
+            </form:form>
+        </td>
+        <td style="text-align: right">
+            <form:form action="${pageContext.request.contextPath}/logout" method="post">
+                <input class="cancelButton" type="submit" value="Logout" style="width: auto"/>
+            </form:form>
+        </td>
+    </tr>
+</table>
 
 </body>
 </html>

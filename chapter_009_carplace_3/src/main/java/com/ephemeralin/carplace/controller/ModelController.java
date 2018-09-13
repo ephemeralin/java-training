@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -38,10 +37,9 @@ public class ModelController {
     @ResponseBody
     public String getModels(
             @RequestParam(name = "make_id") String makeId) {
-        HashMap<String, Object> criterias = new HashMap<>();
         Make make = makeService.findById(Integer.parseInt(makeId));
         List<com.ephemeralin.carplace.model.Model> modelsList = modelService.findByMake(make);
-
+//        List<Model> modelsList = modelService.findAll();
         GsonBuilder gb = new GsonBuilder();
         gb.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
         Gson gson = gb.create();

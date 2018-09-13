@@ -52,7 +52,7 @@ public class Car {
     private String base64imageFile;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "owner", referencedColumnName = "username", nullable = false)
     private User owner;
 
     /**
