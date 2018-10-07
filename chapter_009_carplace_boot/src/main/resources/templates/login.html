@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Login - Car place</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+
+
+<body>
+<div class="container-fluid">
+    <div class="container" style="width: 20%; margin-top: 50px">
+        <form class="form-signing" th:action="@{/login}" th:method="post">
+            <h3>
+               Please, login...
+            </h3>
+            <div class="form-group">
+                <div class="col-xs-15">
+                    <div>
+                        <div th:if="${param.error}">
+                            <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                Invalid username and password.
+                            </div>
+                        </div>
+                        <div th:if="${param.logout}">
+                            <div class="alert alert-success col-xs-offset-1 col-xs-10">
+                                You have been logged out.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Login-->
+            <div style="margin-bottom: 25px" class="input-group">
+                <label for="inputLogin" class="sr-only">Email address</label>
+                <input type="text" id="inputLogin" class="form-control" style="text-align: left" placeholder="Username" name="username" required autofocus>
+            </div>
+            <!--Password-->
+            <div style="margin-bottom: 25px" class="input-group">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" class="form-control" style="text-align: left" placeholder="Password" name="password" required>
+            </div>
+            <div class="center">
+                <button class="btn btn-lg btn-dark" type="submit">Log in</button>
+            </div>
+        </form>
+
+    </div> <!-- /container -->
+</div>
+
+
+
+</body>
+</html>

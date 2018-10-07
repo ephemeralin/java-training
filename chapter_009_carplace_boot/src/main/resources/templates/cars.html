@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>List - Car place</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <style>
+        .zoom {
+            padding: 0px;
+            transition: transform .2s;
+            height: 100px;
+            margin: 0 auto;
+        }
+        .zoom:hover {
+            -ms-transform: scale(4); /* IE 9 */
+            -webkit-transform: scale(4); /* Safari 3-8 */
+            transform: scale(4);
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function isChecked(flag) {
+            if (flag) {
+                return "sold";
+            } else return "not sold";
+        }
+
+        function showPhoto(photo) {
+            var str = "No photo"
+            if (photo != null && photo !== "") {
+                str =
+                    "<div class='zoom'>" +
+                    "<img src='data:image/gif;base64," + photo + "'" +
+                    " height='100' alt='Cars photo'/>" +
+                    "</div>"
+            }
+            return str;
+        }
+
+        function showEditDeleteButtons(car, login, isAdmin) {
+            var str = "";
+            if (login === car.owner.username || isAdmin == 'true') {
+                str = "<td>" +
+                    "<form action='update_car' method='get'>" +
+                    "<button class='btn btn-sm btn-dark' type='submit'>Edit</button>" +
+                    "<input type='hidden' name='car_id' value='" + car.id + "'>" +
+                    "</form>" +
+                    "</td>" +
+                    "<td>" +
+                    "<form action='delete_car' method='post'>" +
+                    "<button class='btn btn-sm btn-danger' type='submit'>Delete</button>" +
+                    "<input type='hidden' name='car_id' value='" + car.id + "'>" +
+                    "</form>" +
+                    "</td>";
+            } else {
+                str = "<td></td><td></td>";
+            }
+            return str;
+        }
+
+        function filterData() {
+            var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+            var csrfToken = $("meta[name='_csrf']").attr("content");
+            var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+            var e = document.getElementById("tfilter");
+            var data = {};
+            var headers = {};
+            data[csrfParameter] = csrfToken;
+            data["filter_name"] = e.options[e.selectedIndex].text;
+            headers[csrfHeader] = csrfToken;
+
+            var login = document.getElementById("loginValue").value;
+            var isAdmin = document.getElementById("isAdminValue").value;
+
+            $.ajax({
+                type: "POST",
+                url: "filterCars",
+                headers: headers,
+                data: data,
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    $('#tbody').empty();
+                    var options = {
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric'
+                    };
+                    for (var i = 0; i != data.length; i++) {
+                        var Html =
+                            "<tr>" +
+                            "<td>" + new Date(data[i].date).toLocaleDateString("ru-RU", options) + "</td>" +
+                            "<td>" + data[i].name + "</td>" +
+                            "<td>" + data[i].make.name + "</td>" +
+                            "<td>" + data[i].model.name + "</td>" +
+                            "<td>" + data[i].body.name + "</td>" +
+                            "<td>" + data[i].engine.name + "</td>" +
+                            "<td>" + data[i].transmission.name + "</td>" +
+                            "<td>" + showPhoto(data[i].base64imageFile) + "</td>" +
+                            "<td>" + data[i].owner.username + "</td>" +
+                            "<td>" + isChecked(data[i].sold) +
+                            "</td>" + showEditDeleteButtons(data[i], login, isAdmin) +
+                            "</tr>";
+                        $('#tbody').append(Html);
+                    }
+                }
+            });
+        }
+    </script>
+
+</head>
+
+<body>
+
+<input type="text" th:id="loginValue" th:value="${loginValue}" hidden/>
+<input type="text" th:id="isAdminValue" th:value="${isAdminValue}" hidden />
+
+<div class="container-fluid" style="margin-top: 10px">
+    <h3> Cars list</h3>
+
+    <label for="tfilter" class="col-sm-2">Filter</label>
+    <div class="col-sm-2" style="margin-bottom: 10px">
+        <select class="form-control" type="text" id="tfilter" style="text-align: left" name="filter" th:name="filter" onchange="filterData()">
+            <option value="All">All</option>
+            <option value="OnlyWithPhoto">Only with photo</option>
+            <option value="OnlyToday">Only today</option>
+        </select>
+    </div>
+
+
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Body</th>
+            <th>Engine</th>
+            <th>Transmission</th>
+            <th>Photo</th>
+            <th>Seller</th>
+            <th>Sold out</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+
+        <tbody id="tbody">
+            <tr th:each="car : ${carsList}">
+                <td th:text="${#dates.format(car.date, 'dd.MM.yyyy')}"></td>
+                <td th:text="${car.name}">-</td>
+                <td th:text="${car.make}">-</td>
+                <td th:text="${car.model}">-</td>
+                <td th:text="${car.body}">-</td>
+                <td th:text="${car.engine}">-</td>
+                <td th:text="${car.transmission}">-</td>
+
+                <td>
+                    <div th:if="${car.base64imageFile != null and car.base64imageFile != ''}">
+                        <div class="zoom">
+                            <img th:src="@{'data:image/jpeg;base64,'+${car.base64imageFile}}" height="100" alt="Cars photo" />
+                        </div>
+                    </div>
+                    <div th:unless="${car.base64imageFile != null and car.base64imageFile != ''}">
+                        No photo
+                    </div>
+                </td>
+
+                <td th:text="${car.owner}">-</td>
+                <td th:text="${car.sold}? 'sold' : 'not sold'"></td>
+                <!--Update-->
+                <div th:if="${loginValue == car.owner.username or isAdminValue == true}">
+                    <td>
+                        <form th:action="@{/update_car}" method="get">
+                        <input type="hidden" name="car_id" th:value="${car.getId()}">
+                        <button class="btn btn-sm btn-dark" type="submit">Edit</button>
+                        </form>
+                    </td>
+                </div>
+                <div th:unless="${loginValue == car.owner.username or isAdminValue == true}">
+                    <td></td>
+                </div>
+                <!--Delete-->
+                <div th:if="${loginValue == car.owner.username or isAdminValue == true}">
+                    <td>
+                        <form th:action="@{/delete_car}" method="post">
+                            <input type="hidden" name="car_id" th:value="${car.getId()}">
+                            <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </div>
+                <div th:unless="${loginValue == car.owner.username or isAdminValue == true}">
+                    <td></td>
+                </div>
+            </tr>
+        </tbody>
+    </table>
+
+    <form th:action='@{/add_car}' th:method='get'>
+        <input type="hidden" name="filter_name" th:value="All">
+        <button style="width: 100px" class="btn btn-dark" type="submit">Add car</button>
+    </form>
+    <br>
+    <form th:action='@{/logout}' th:method='post'>
+        <button style="width: 100px" class="btn btn-dark" type="submit">Logout</button>
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>The Car - Car place</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+        function make_change() {
+            var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+            var csrfToken = $("meta[name='_csrf']").attr("content");
+            var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+            var e = document.getElementById("inputMake");
+            console.log(e);
+            var data = {};
+            var headers = {};
+            data[csrfParameter] = csrfToken;
+            data["make_id"] = e.options[e.selectedIndex].value;
+            headers[csrfHeader] = csrfToken;
+
+            $.ajax({
+                type: "POST",
+                url: "models",
+                headers: headers,
+                data: data,
+                cache: false,
+                dataType:"json",
+                success: function (data) {
+                    console.log(data);
+                    // var selectedModel = document.getElementById("inputModel");
+                    var selectedModel=$(".inputModel");
+                    option="";
+                    selectedModel.empty();
+                    option = "<option value=''>Choose...</option>";
+                    for (var i = 0; i != data.length; i++) {
+                        option = option + "<option value='"+data[i].id + "'>"+data[i].name + "</option>";
+                    }
+                    selectedModel.append(option)
+                }
+            });
+        }
+
+        function create() {
+            if (validate()) {
+                document.getElementById('_title').innerText = "Please, fill all fields and submit...";
+                document.getElementById('_title').style.color = "#949494";
+                document.getElementById("create_form").submit();
+            } else {
+                document.getElementById('_title').innerText = "Some fields are empty!";
+                document.getElementById('_title').style.color = "red";
+            }
+        }
+
+        function validate() {
+            var isOk = true;
+            var name = document.getElementById("name_").value;
+            var make = document.getElementById("make_").value;
+            var model = document.getElementById("model_").value;
+            var engine = document.getElementById("engine_").value;
+            var body = document.getElementById("body_").value;
+            var transmission = document.getElementById("transmission_").value;
+
+            if(!name || !make || !model || !engine || !body || !transmission || model === 'Please, select a model') {
+                isOk = false;
+            }
+            return isOk;
+        }
+
+    </script>
+</head>
+
+
+<body>
+<div class="container-fluid" style="margin-top: 10px">
+<div class="row">
+<div class="col-sm-4"></div>
+<div class="col-sm-4" th:align="center">
+
+    <form class="form-signing" th:action="@{/add_car}" method="post" enctype="multipart/form-data">
+        <h3>
+            The car
+        </h3>
+        <div class="form-group">
+            <div class="col-xs-15">
+                <div>
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                            Something went wrong :(
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Make-->
+        <div style="margin-bottom: 10px" class="form-group row">
+            <label for="inputMake" class="col-sm-2 col-form-label">Make</label>
+            <div class="col-sm-10">
+                <select class="form-control inputMake" type="text" id="inputMake" style="text-align: left" name="make" th:name="make" onchange="make_change()" required>
+                    <option selected>Choose...</option>
+                    <option th:each="make : ${makesList}"
+                            th:value="${make.id}"
+                            th:utext="${make.name}"
+                            th:selected="${make == car.make}">
+                    </option>
+                </select>
+            </div>
+        </div>
+        <!--Model-->
+        <div style="margin-bottom: 10px" class="form-group row">
+            <label for="inputModel" class="col-sm-2 col-form-label">Model</label>
+            <div class="col-sm-10">
+                <select class="form-control inputModel" type="text" id="inputModel"  style="text-align: left" name="model" th:name="model" required autofocus>
+                    <option selected>Choose...</option>
+                    <option th:each="model : ${modelsList}"
+                            th:value="${model.id}"
+                            th:utext="${model.name}"
+                            th:selected="${model == car.model}">
+                    </option>
+                </select>
+            </div>
+        </div>
+        <!--Name-->
+        <div style="margin-bottom: 20px" class="form-group row">
+            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text" id="inputName" class="form-control" style="text-align: left" placeholder="Tesla Model S" name="name" th:value="${car.name}" required autofocus>
+            </div>
+        </div>
+        <!--Engine-->
+        <div style="margin-bottom: 10px" class="form-group row">
+            <label for="inputEngine" class="col-sm-2 col-form-label">Engine</label>
+            <div class="col-sm-10">
+                <select class="form-control" type="text" id="inputEngine" style="text-align: left" name="engine" th:name="engine" required>
+                    <option selected>Choose...</option>
+                    <option th:each="engine : ${enginesList}"
+                            th:value="${engine.id}"
+                            th:utext="${engine.name}"
+                            th:selected="${engine == car.engine}">
+                    </option>
+                </select>
+            </div>
+        </div>
+        <!--Body-->
+        <div style="margin-bottom: 10px" class="form-group row">
+            <label for="inputBody" class="col-sm-2 col-form-label">Body</label>
+            <div class="col-sm-10">
+                <select class="form-control" type="text" id="inputBody" style="text-align: left" name="body" th:name="body" required>
+                    <option selected>Choose...</option>
+                    <option th:each="body : ${bodiesList}"
+                            th:value="${body.id}"
+                            th:utext="${body.name}"
+                            th:selected="${body == car.body}">
+                    </option>
+                </select>
+            </div>
+        </div>
+        <!--Transmission-->
+        <div style="margin-bottom: 10px" class="form-group row">
+            <label for="inputTransmission" class="col-sm-2 col-form-label">Transmission</label>
+            <div class="col-sm-10">
+                <select class="form-control" type="text" id="inputTransmission" style="text-align: left" name="transmission" th:name="transmission" required>
+                    <option selected>Choose...</option>
+                    <option th:each="transmission : ${transmissionsList}"
+                            th:value="${transmission.id}"
+                            th:utext="${transmission.name}"
+                            th:selected="${transmission == car.transmission}">
+                    </option>
+                </select>
+            </div>
+        </div>
+        <!--Sold-->
+        <div style="margin-bottom: 10px" class="form-group row">
+            <label for="inputSold" class="col-sm-2 form-check-label">Sold</label>
+            <div th:if="${car.id} == 0">
+                <input class="form-check-input" type="checkbox" id="inputSold" name="sold">
+            </div>
+            <div th:unless="${car.id} == 0">
+                <div th:switch="${car.sold}">
+                    <input class="form-check-input" type="checkbox" th:case="true" id="inputSold" name="sold" checked="checked">
+                    <input class="form-check-input" type="checkbox" th:case="*" id="inputSold" name="carId"/>
+                </div>
+            </div>
+        </div>
+        <!--File-->
+        <div style="margin-bottom: 20px" class="form-group row">
+            <label for="inputFile" class="col-sm-2 col-form-label">File</label>
+            <div class="col-sm-10">
+                <input type="file" id="inputFile" class="form-control-file" style="text-align: left" name="file">
+            </div>
+        </div>
+        <!--Car Id (HIDDEN)-->
+        <div th:switch="${car.id}">
+            <input type="text" th:case="0" name="carId" value="" hidden>
+            <input type="text" th:case="*" name="carId" th:value="${car.id}" hidden/>
+        </div>
+
+        <!--Add button-->
+        <div style="margin-bottom: 10px" class="center">
+            <div th:switch="${car.id}">
+                <button th:case="0" style="width: 100px" class="btn btn-dark w-40" type="submit">Add</button>
+                <button th:case="*" style="width: 100px" class="btn btn-dark w-40" type="submit">Update</button>
+            </div>
+        </div>
+    </form>
+
+    <!--Cancel button-->
+    <form th:action='@{/cars}' method='get'>
+        <button style="width: 100px" class="btn btn-danger" type="submit">Cancel</button>
+    </form>
+
+</div>
+
+<div class="col-sm-4"></div>
+</div> <!-- /container -->
+</div>
+
+</body>
+</html>
