@@ -11,12 +11,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "authorities", schema = "public")
 public class Authority {
-
     /**
      * The authorities ID.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authorities_id_seq")
+    @SequenceGenerator(
+            name = "authorities_id_seq",
+            sequenceName = "authorities_id_seq",
+            allocationSize = 20
+    )
     @Column(name = "id")
     private int id;
 

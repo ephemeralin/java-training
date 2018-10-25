@@ -16,7 +16,12 @@ public class User implements Serializable {
      * The user's ID.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
+    @SequenceGenerator(
+            name = "users_id_seq",
+            sequenceName = "users_id_seq",
+            allocationSize = 20
+    )
     @Column(name = "id")
     private int id;
 

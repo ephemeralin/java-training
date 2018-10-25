@@ -1,6 +1,7 @@
 package com.ephemeralin.carplace.model;
 
 import lombok.Data;
+
 import javax.persistence.*;
 
 /**
@@ -12,7 +13,12 @@ import javax.persistence.*;
 public class Car {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cars_id_seq")
+    @SequenceGenerator(
+            name = "cars_id_seq",
+            sequenceName = "cars_id_seq",
+            allocationSize = 20
+    )
     @Column(name = "id")
     private int id;
 

@@ -13,7 +13,12 @@ import javax.persistence.*;
 public class Make {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "makes_id_seq")
+    @SequenceGenerator(
+            name = "makes_id_seq",
+            sequenceName = "makes_id_seq",
+            allocationSize = 20
+    )
     @Column(name = "id")
     private int id;
 

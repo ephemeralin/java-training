@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 import java.util.function.ToLongFunction;
@@ -49,7 +48,7 @@ public class CarController {
      * @param request the request
      * @return the model and view
      */
-    @GetMapping(value =     "/cars")
+    @GetMapping(value = "/cars")
     public ModelAndView showAll(HttpServletRequest request) {
         List<Car> carsList = carService.findAll();
         ModelAndView mv = new ModelAndView("cars");
@@ -174,10 +173,9 @@ public class CarController {
      * @param response the response
      * @param carId    the car id
      * @return the string
-     * @throws IOException the io exception
      */
     @PostMapping(value = "/delete_car")
-    public String deleteCar(HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "car_id") String carId) throws IOException {
+    public String deleteCar(HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "car_id") String carId) {
         carService.delete(Integer.parseInt(carId));
         return "redirect:/cars";
     }
