@@ -49,7 +49,7 @@ public class CarController {
      * @param request the request
      * @return the model and view
      */
-    @GetMapping(value =     "/cars")
+    @GetMapping(value = "/cars")
     public ModelAndView showAll(HttpServletRequest request) {
         List<Car> carsList = carService.findAll();
         ModelAndView mv = new ModelAndView("cars");
